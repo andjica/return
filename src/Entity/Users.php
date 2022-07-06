@@ -195,4 +195,9 @@ class Users
 
         return $this;
     }
+
+    public function isUpdateSession(): ?bool
+    {
+        return $this->update_session;
+    }
 }

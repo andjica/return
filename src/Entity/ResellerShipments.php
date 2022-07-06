@@ -480,4 +480,29 @@ class ResellerShipments
 
         return $this;
     }
+
+    public function isRemoved(): ?bool
+    {
+        return $this->removed;
+    }
+
+    public function isHasLabels(): ?bool
+    {
+        return $this->has_labels;
+    }
+
+    public function isIsShipped(): ?bool
+    {
+        return $this->is_shipped;
+    }
+
+    public function isHasErrors(): ?bool
+    {
+        return $this->has_errors;
+    }
+
+    public function isIsNetwork(): ?bool
+    {
+        return $this->isNetwork;
+    }
 }
