@@ -98,12 +98,12 @@ class Payments
         return $this;
     }
 
-    public function getCategory(): ?PayCategory
+    public function getPayCategory(): ?PayCategory
     {
         return $this->category;
     }
 
-    public function setCategory(?PayCategory $category): self
+    public function setPayCategory(?PayCategory $category): self
     {
         $this->category = $category;
 
