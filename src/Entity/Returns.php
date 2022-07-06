@@ -126,7 +126,7 @@ class Returns
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="returns")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $countries;
+    private $country;
 
     /**
      * @var int
@@ -316,14 +316,14 @@ class Returns
         return $this;
     }
 
-    public function getCountries(): ?Country
+    public function getCountry(): ?Country
     {
-        return $this->countries;
+        return $this->country;
     }
 
-    public function setCountries(?Country $countries): self
+    public function setCountry(?Country $country): self
     {
-        $this->countries = $countries;
+        $this->country = $country;
 
         return $this;
     }
