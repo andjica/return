@@ -1,0 +1,144 @@
+
+{% extends "user-template.html.twig" %}
+{% block stylesheet %}
+<link href="{{asset('/')}}build/css/custom.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+
+       <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mx-auto pt-5 justify-content-center text-align-center mobile-version">
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto text-center">
+                         <img src="{{asset('/return_settings_images/')}}{{ imagelogo }}" width="130px" class='img-fluid mt-5 mobile-version-img'>
+                        </div>
+                    </div>
+                   
+                    <h1 class="h-ret mt-3 text-center">{{title}}</h1><br>
+                    <form action="{{asset('/findorder')}}" class="mt-5" id="form-return" method="POST">
+                     {% for message in app.flashes('errors')%}
+                    <div class="alert alert-dismissible bg-light-danger border border-danger border-dashed d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                             <span class="mt-3">{{message}}</span>
+                        </div>
+                        <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                        <i class="fas fa-times"></i>
+                        </button>
+                    
+                    </div>
+                    {% endfor %}
+                      {% for message in app.flashes('errors')%}
+                        <div class="alert alert-danger" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                          <div class="form-group text-center">
+                            <label for="orderID" class="lb-b">Wat is uw bestel-ID?</label>
+                            <input type="text" class="form-control " id="orderId" name="orderId">
+                            <small id="emptyorder" class="text-danger"></small>
+                        </div>
+                        <div class="form-group text-center mt-5">
+                            <label for="email" class="lb-b">Wat is jouw email adres?</label>
+                            <input type="text" class="form-control form-a shadow-sm" id="email" name="email">
+                            <small id="emptyemail" class="text-danger"></small>
+                        </div>
+                           <div class="form-group text-center mt-5">
+                                <button type="submit" id="return" class="btn btn-warning mobile-button">Proccess to return</button>
+                           </div>
+                    </form>
+                </div>
+                    <div class="col-lg-3">
+                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}'); background-position-x: 50%; background-position-y: 35%"></div>
+                    </div>
+            </div>
+          </div>
+   
+          {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            <!-- Bootstrap core JavaScript-->
+            <script src="{{asset('/')}}build/vendor/jquery.min.js"></script>
+            <script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
+            <script>
+            
+               
+            document.querySelector('input[name="orderId"]').value = localStorage.getItem("orderId");
+            document.querySelector('input[name="email"]').value = localStorage.getItem("email");
+
+              $("#email").on('keyup', function(){
+   
+                    var email = $("#email").val();
+                    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                    if (!filter.test(email)) {
+                        //alert('Please provide a valid email address');
+                        $("#emptyemail").text(email+" is geen geldig e-mailadres");
+                        
+                        email.focus;
+                        //return false;
+                    } else {
+                        $("#emptyemail").text("");
+                        document.getElementById("email").style.border = "none";
+
+                    }
+                });
+                $("#orderId").on('keyup', function(){
+                    var order = $("#orderId").val();
+
+                    if(order == "")
+                    {
+                        document.getElementById('emptyorder').innerHTML = "Order is verplicht veld";
+                        document.getElementById("orderId").style.border = "0.5px solid #e0a9a2";
+                    }
+                    else
+                    {
+                        document.getElementById('emptyorder').innerHTML = "";
+                        document.getElementById("orderId").style.border = "none";
+                    }
+                });
+
+                   
+                $('#form-return').on('submit', function(e){
+                    
+
+                    var order = $('#orderId').val();
+                    var email = $('#email').val();
+
+
+                var localorder = localStorage.setItem("orderId", order);
+                var localemail = localStorage.setItem("email", email);
+                document.getElementById('orderId').value = localStorage.getItem("orderId");
+                    
+
+                    var errors = [];
+                    //checking order
+                    if(order == "")
+                    {
+                        errors.push = "Your order is empty";
+                        document.getElementById('emptyorder').innerHTML = "Order is verplicht veld";
+                        document.getElementById("orderId").style.border = "0.5px solid #e0a9a2";
+                        e.preventDefault();
+                    }
+
+                    if(email == "")
+                    {
+                        errors.push = "Your order is empty";
+                        document.getElementById('emptyemail').innerHTML = "Email is verplicht veld";
+                        document.getElementById("email").style.border = "0.5px solid #e0a9a2";
+                        e.preventDefault();
+                    }
+
+
+                   
+
+                    if(errors.length == 0)
+                    {
+                       return true;
+                    }
+                   
+
+                   
+
+                });
+
+            </script>
+        {% endblock %}
+    {% endblock %}

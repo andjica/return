@@ -1,0 +1,148 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Create{% endblock %}
+
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div class="container-xxl mt-17 pt-5">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+            <div class="card-body">
+             {{include('/components/alert-message.html.twig')}}
+                <form action="{{asset('/create/manually')}}" method="POST" id="custom-return" enctype="multipart/form-data">
+                <input type="hidden" name="token" value="{{ csrf_token('create-manually') }}"/>
+                <div class="row mb-6">
+                    <label for="orderId" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Order id</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="orderId" name="orderId">
+                        <small class="text-danger" id="er-order"></small>
+                    </div>
+                </div>
+                 <div class="row mb-6" id="items" style="display:none">
+                    <label for="orderId" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Items for returning</label>
+                    <div class="col-lg-8">
+                       <select name="items-products" id="products" class="form-control">
+                            
+                       </select>
+                    </div>
+                </div>
+                <div class="row mb-6" id="it" style="display:none">
+                    <label for="name" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Choose items</label>
+                    <div class="col-lg-8">
+                        <select name="items" class="form-control" id="items">
+
+                        </select>
+                    </div>
+                </div>
+               
+               
+                 <div class="row">
+                    <label class="col-4 col-form-label text-right">Choose Reason</label>
+                    <div class="col-8 col-form-label  border-top">
+                        <div class="radio-list">
+                            <label class="radio radio-primary">
+                            <input type="radio" name="shablon" value="admin-r" class="sha"  checked="checked">
+                            <span></span>Admin reason</label><br>
+                            <label class="radio radio-primary">
+                            <input type="radio" name="shablon" value="user-r" class="sha">
+                            <span></span>Your reason</label>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="row" id="re1">
+                    <label class="col-4 col-form-label text-right"></label>
+                    <div class="col-8 col-form-label border-bottom mb-5">
+                        <select name="reasons-admin" class="form-control">
+                        {% for rs in reasons %}
+                            <option class="form-control" value="{{rs.id}}">{{rs.name}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+               
+                 <div class="row mb-6"  style="display:none" id="re2">
+                    <label for="company" class="col-lg-4 col-form-label required fw-bold fs-6 text-right"></label>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" id="reason" name="reason-user"></textarea>
+                        <small class="text-danger" id="er-reason"></small>
+                         <div class="form-group mt-5">
+                                <label for="uploadmedia">Choose your photos</label>
+                                <input type="file" class="form-control-file" name="photos[]" id="uploadmedia"   multiple/><br>
+                                <small class="text-danger" id="er-photos"></small>
+                                
+                            </div>
+                                <div class="form-group mt-5">
+                                <label for="uploadmedia">Choose your Videos</label>
+                                <input type="file" class="form-control-file" name="videos[]" id="uploadvideos"  multiple/><br>
+                                <small class="text-danger" id="er-videos"></small>
+                                
+                            </div>
+                    </div>
+                </div>
+               
+                <div class="row mb-6">
+                    <label for="company" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Country</label>
+                    <div class="col-lg-8">
+                        <select name="countries" class="form-control">
+                        {% for country in countries %}
+                            <option class="form-control" value="{{country.id}}">{{country.name}}</option>
+                        {% endfor %}
+                        </select>
+                     </div>
+                </div>
+                <div class="row mb-6">
+                    <label for="street" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Quantity</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="quantity" name="quantity">
+                        <small class="text-danger" id="er-quantity"></small>
+                    </div>
+                </div>
+                <div class="row mb-6">
+                    <label for="street" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Street</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="street" name="street">
+                        <small class="text-danger" id="er-street"></small>
+                    </div>
+                </div>
+                <div class="row mb-6">
+                    <label for="street" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Post code</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="postcode" name="postcode">
+                        <small class="text-danger" id="er-postcode"></small>
+                    </div>
+                </div>
+                    <div class="row mb-6">
+                    <label for="company" class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Status for return</label>
+                    <div class="col-lg-8">
+                        <select name="status" class="form-control">
+                            {% for st in status %}
+                            <option class="form-control" value="{{st.Id}}">{{st.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                   <div class="row mb-0 mt-8">
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-8 d-flex align-items-center">
+                            <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ {% block javascripts %}
+
+<script src="{{asset('/')}}build/vendor/jquery.min.js"></script>
+<script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
+<script src="{{asset('/')}}assets/js/custom/create-return-validation.js"></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+    <div class="card">
+         <div class="card-body p-2">
+                 <div class="aside-menu flex-column-fluid">
+                <!--begin::Aside Menu-->
+                <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0" style="">
+                    <!--begin::Menu-->
+                    <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
+                        
+                        <div class="menu-item">
+                            <div class="menu-content pt-8 pb-2">
+                                <span class="menu-section text-muted text-uppercase fs-8 ls-1">General</span>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                          <a class="menu-link" href="{{asset('/settings/create')}}">
+                          <span class="menu-icon">
+                            <i class="fas fa-cog text-muted"></i>
+                              <!--end::Svg Icon-->
+                          </span>
+                          <span class="menu-title">General</span>
+                        </a>
+                      </div>
+                        {% set route = (app.request.server.get("REQUEST_URI")) %}
+                        
+                        <div data-kt-menu-trigger="click" id="email" class="menu-item menu-accordion {{  asset('/email') in route ? 'show' }}">
+                
+                            <span class="menu-link">
+                                <span class="menu-icon">
+                                  <i class="fas fa-envelope text-muted"></i>
+                                </span>
+                                <span class="menu-title">Email template</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                          
+                            {% for st in status %}
+                             <div class="menu-item">
+                                    <a class="menu-link {{ st.getKeyName() in route ? 'active' }}" href="{{asset('/settings/email/')}}{{st.getKeyName() }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{st.getName()}}</span>
+                                    </a>
+                                </div>
+                               {% endfor %}
+                            </div>
+                        </div>
+                    
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion mb-1">
+                            <span class="menu-link">
+                                <span class="menu-icon">
+                                    <i class="fas fa-credit-card text-muted"></i>
+                                </span>
+                                <span class="menu-title">Payment provider</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <div class="menu-sub menu-sub-accordion">
+                              <div class="menu-item">
+                                <a class="menu-link" href="{{asset('/payment/create')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Payment</span>
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="">
+                            <span class="menu-icon">
+                              <i class="fas fa-shipping-fast text-muted"></i>
+                            </span>
+                            <span class="menu-title">Shipping options</span>
+                          </a>
+                        </div>
+                  
+                    </div>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Aside Menu-->
+            </div>                
+         </div>
+    </div>
+
+    <script>
+       {# var active = document.getElementsByClassName('active');
+            if (active.length > 0) {
+                 let show = document.getElementById('email');
+                show.classList.add("show");
+            } #}
+
+    </script>

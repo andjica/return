@@ -1,0 +1,36 @@
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=developersforanymarket
+MAIL_PASSWORD=xncdnxhlpdpdwkuo
+MAIL_ENCRYPTION=SSL
+
+50D3Xdt(O3Nfv]
+
+   return $this->from(request()->email)
+        ->subject(request()->firstname.request()->lastname.' for '.request()->jobname)
+        ->view('emails.pages.apply-jobemail')->with('job', $this->job)
+        ->attach((request()->pdffile)->getRealPath(), array(
+            'as' => (request()->pdffile)->getClientOriginalExtension(),
+            'mime' => (request()->pdffile)->getMimeType()
+        ));
+/* return $this->from(request()->email)
+        ->subject(request()->firstname.request()->lastname.' for '.request()->jobname)
+        ->view('emails.pages.apply-jobemail')->with('job', $this->job)
+        ->attachData((request()->pdffile), request()->firstname.request()->lastname.'document.pdf', [
+            'mime' => 'application/pdf',
+        ]);*/
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=e8e4c2c9b3cf61
+MAIL_PASSWORD=42cd39ed96e07b
+MAIL_ENCRYPTION=null
+
+
+//za gmail sto je andjela napravila
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=infohoop4eu@gmail.com
+MAIL_PASSWORD=kknmxwmyiupvqcnb
+MAIL_ENCRYPTION=SSL

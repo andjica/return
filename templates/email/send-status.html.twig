@@ -1,0 +1,7 @@
+ {% if imagelogo is empty %}
+
+{% else %}
+ <p><img  src="https://127.0.0.1:8000/return_settings_images/{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
+{% endif %}<h2 style="text-align: center;">There is a new message from system return</h2>
+<h3>Dear, {{name}}</h3>
+<p>Your order nummber {{webshop_order_id}} with return id: {{return_id}} is in {{status}} status.</p>
