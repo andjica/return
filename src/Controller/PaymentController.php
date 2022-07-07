@@ -5,6 +5,7 @@ namespace App\Controller;
 use Exception;
 use App\Entity\Status;
 use App\Entity\Payments;
+use App\Entity\PayCategory;
 use Psr\Log\LoggerInterface;
 use Webmozart\Assert\Assert;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,14 +20,49 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class PaymentController extends AbstractController
 {
+    public $data = [];
+    public $payments = [];
+
     public function __construct(ManagerRegistry $doctrine)
     {
 
         //everybody will extends status for vertical sidebar -- for email template customization
         $this->data = $doctrine->getRepository(Status::class)->findAll();
-  
+        $this->payments = $doctrine->getRepository(PayCategory::class)->findAll();
     }
 
+     /**
+     * @Route("/settings/payment/{name}", name="configure_payment", methods={"GET"})
+     */
+    public function getpayment(ManagerRegistry $doctrine, $name): Response
+    {
+       $requestName = $name;
+       $paycategory = $doctrine->getRepository(PayCategory::class)->findOneBy(['name' => $requestName]);
+       
+       if(!$paycategory)
+       {
+            $res = [];
+            return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
+       }
+
+
+       if($paycategory->getName() == "Stripe")
+       {
+            return dd("da stripe");
+       }
+       else if($paycategory->getName() == "Mollie")
+       {
+            return dd("da mollie");
+       }
+       else
+       {
+        $res = [];
+            return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
+       }
+      
+       
+       
+    }
     /**
      * @Route("/payment/create", methods={"GET", "POST"}, name="payment_create")
      */
@@ -175,7 +211,8 @@ class PaymentController extends AbstractController
 
         return $this->render('payment/edit.html.twig', [
             'payment' => $payment,
-            'status' => $this->data
+            'status' => $this->data,
+            'payments' => $this->payments
         ]);
 
     }
