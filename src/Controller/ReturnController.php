@@ -150,7 +150,7 @@ class ReturnController extends AbstractController
         
         $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>147]);
         
-        $return->setCountries($country);
+        $return->setCountry($country);
 
         if($userReasons != "")
         {
@@ -448,18 +448,18 @@ class ReturnController extends AbstractController
         $countryId = $request->request->get('countries');
         if($countryId == 0)
         {
-            $return->setCountries($return->getCountries());
+            $return->setCountry($return->getCountries());
         }
         
         else if($countryId == NULL)
         {
-            $return->setCountries($return->getCountries());
+            $return->setCountry($return->getCountries());
         }
         else
         {
             //because of the relation one to many :)
             $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
-            $return->setCountries($country);
+            $return->setCountry($country);
         }
         
         $street = $request->request->get('street');
@@ -603,6 +603,7 @@ class ReturnController extends AbstractController
     
         $customerId = $order->getCustomerId();
         $customer = $doctrine->getRepository(Users::class)->findOneBy(['id' => $customerId]);
+        
         $customeremail = $customer->getUsername();
 
 
@@ -654,7 +655,7 @@ class ReturnController extends AbstractController
         {
             $countries = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$country]);
             
-            $newReturn->setCountries($countries);
+            $newReturn->setCountry($countries);
         }
 
         $street = $request->request->get('street');

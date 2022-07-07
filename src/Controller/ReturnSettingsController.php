@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Returns;
+use App\Entity\PayCategory;
 use App\Entity\Status;
+use App\Entity\Returns;
+use App\Entity\Payments;
 use App\Entity\ReturnSettings;
 use App\Form\ReturnSettingsType;
 use Symfony\Component\Form\FormEvent;
@@ -23,12 +25,15 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class ReturnSettingsController extends AbstractController
 {
     private $data = [];
+    private $payments = [];
 
     public function __construct(ManagerRegistry $doctrine)
     {
 
         //everybody will extends status for vertical sidebar -- for email template customization
         $this->data = $doctrine->getRepository(Status::class)->findAll();
+        $this->payments = $doctrine->getRepository(PayCategory::class)->findAll();
+
   
     }
 
@@ -112,7 +117,8 @@ class ReturnSettingsController extends AbstractController
         return $this->renderForm('return_settings/new.html.twig', [
             'return_setting' => $returnSetting,
             'form' => $form,
-            'status' => $this->data
+            'status' => $this->data,
+            'payments' => $this->payments
         ]);
     }
 
@@ -214,7 +220,8 @@ class ReturnSettingsController extends AbstractController
         return $this->renderForm('return_settings/edit.html.twig', [
             'return_setting' => $returnSetting,
             'form' => $form,
-            'status' => $this->data
+            'status' => $this->data,
+            'payments' => $this->payments
         ]);
     }
 

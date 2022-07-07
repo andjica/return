@@ -45,26 +45,30 @@
                                {% endfor %}
                             </div>
                         </div>
-                    
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion mb-1">
+                      <div data-kt-menu-trigger="click" id="payment" class="menu-item menu-accordion {{  asset('/payment') in route ? 'show' }}">
+                
                             <span class="menu-link">
                                 <span class="menu-icon">
-                                    <i class="fas fa-credit-card text-muted"></i>
+                                  <i class="fas fa-envelope text-muted"></i>
                                 </span>
-                                <span class="menu-title">Payment provider</span>
+                                <span class="menu-title">Payment</span>
                                 <span class="menu-arrow"></span>
                             </span>
-                            <div class="menu-sub menu-sub-accordion">
-                              <div class="menu-item">
-                                <a class="menu-link" href="{{asset('/payment/create')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Payment</span>
-                                </a>
-                            </div>
+                            <div class="menu-sub menu-sub-accordion menu-active-bg">
+                          
+                            {% for payment in payments %}
+                             <div class="menu-item">
+                                    <a class="menu-link {{ payment.getName() in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{payment.getName()}}</span>
+                                    </a>
+                                </div>
+                               {% endfor %}
                             </div>
                         </div>
+                    
                         <div class="menu-item">
                             <a class="menu-link" href="">
                             <span class="menu-icon">
