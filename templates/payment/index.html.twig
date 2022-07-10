@@ -1,82 +1,43 @@
-{% extends 'main-metronic.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Payment | Create{% endblock %}
+{% block title %}Payments index{% endblock %}
 
-{% block stylesheet %}
-   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% block body %}
+    <h1>Payments index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Public_key</th>
+                <th>Secret_key</th>
+                <th>Image</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment in payments %}
+            <tr>
+                <td>{{ payment.id }}</td>
+                <td>{{ payment.publicKey }}</td>
+                <td>{{ payment.secretKey }}</td>
+                <td>{{ payment.image }}</td>
+                <td>{{ payment.createdAt ? payment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ payment.updatedAt ? payment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_payment_show', {'id': payment.id}) }}">show</a>
+                    <a href="{{ path('app_payment_edit', {'id': payment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_payment_new') }}">Create new</a>
 {% endblock %}
-
-{% block content %}
-
-{{include('components/return-settings/toolbar.html.twig')}}
-
-<div class="container-xxl mt-17 pt-5">
-<div class="row pl-2">
-
-    <div class="col-lg-3 col-xl-2">
-    {{include('/components/vertical-sidebar.html.twig')}}
-</div>
-<div class="col-lg-9">
-    <div class="card">
-     <div class="row">
-        <div class="card-body border-top p-9">
-
-            {{include('/components/alert-message.html.twig')}}
-
-            <form action="{{asset('/payment/insert')}}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="token" value="{{ csrf_token('insert-return') }}"/>
-            <div class="row mb-6 mt-10">
-                <label class="col-lg-4 col-form-label fw-bold fs-6 text-right">Payment image</label>
-                    <div class="col-lg-8">
-                        <div class="image-input image-input-outline image-input-changed" data-kt-image-input="true" style="background-image: url('')">
-                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url(')"></div>
-                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="" data-bs-original-title="Change avatar">
-                            <i class="fas fa-pen  text-muted"></i>
-                                <input type="file" name="image" accept=".png, .jpg, .jpeg">
-                            </label>
-                        </div>
-                        <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                    </div>
-                </div>
-                 <div class="row mt-10">
-                    <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Public key</label>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="pkey" name="pkey" value="">
-                       {% for message in app.session.flashbag.get('erpublickey')%}
-                           <div class="text-danger mt-2">{{message}}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-                 <div class="row mt-10">
-                    <label class="col-lg-4 col-form-label  fw-bold fs-6 text-right">Secret key</label>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="skey" name="skey" value="">
-                         {% for message in app.session.flashbag.get('ersecretkey')%}
-                           <div class="text-danger mt-2">{{message}}</div>
-                        {% endfor %}
-                       
-                    </div>
-                </div>
-                
-             
-                 <div class="row mb-0 mt-8">
-                    <div class="col-lg-4">
-                    </div>
-                    <div class="col-lg-8 d-flex align-items-center">
-                      <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
-                    </div>
-                </div>
-                
-                </div>
-                     
-            </div>
-        </div>
-        
-        </div>
-             </form>
-        </div>
-    </div>        
-           
-           
-{% endblock %}
-

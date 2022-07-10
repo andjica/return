@@ -1,95 +1,13 @@
-{% extends 'main-metronic.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Payment | Create{% endblock %}
+{% block title %}Edit Payments{% endblock %}
 
-{% block stylesheet %}
-   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% block body %}
+    <h1>Edit Payments</h1>
+
+    {{ include('payment/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_payment_index') }}">back to list</a>
+
+    {{ include('payment/_delete_form.html.twig') }}
 {% endblock %}
-
-{% block content %}
-
-{{include('components/return-settings/toolbar.html.twig')}}
-
-<div class="container-xxl mt-17 pt-5">
-<div class="row pl-2">
-
-    <div class="col-lg-3 col-xl-2">
-    {{include('/components/vertical-sidebar.html.twig')}}
-</div>
-<div class="col-lg-9">
-    <div class="card">
-    
-     <div class="row">
-        <div class="card-body border-top p-9">
-
-            {{include('/components/alert-message.html.twig')}}
-
-            <form action="{{asset('/payment/update')}}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="token" value="{{ csrf_token('update-payment') }}"/>
-            <div class="row mb-6 mt-10">
-                <label class="col-lg-4 col-form-label  fw-bold fs-6 text-right">Payment image</label>
-                    <div class="col-lg-8">
-                    {% if payment.getImage() is null %}
-                        <div class="image-input image-input-outline image-input-changed" data-kt-image-input="true" style="background-image: url('')">
-                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url('')"></div>
-                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="" data-bs-original-title="Change avatar">
-                                <i class="fas fa-pen  text-muted"></i>
-                                <input type="file" name="image" accept=".png, .jpg, .jpeg">
-                            </label>
-                        </div>
-                    {% else %}
-                         <div class="image-input image-input-outline image-input-changed" data-kt-image-input="true" style="background-image: url('{{asset('/return_payment_images/')}}{{payment.getImage()}}')">
-                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{asset('/return_payment_images/')}}{{payment.getImage()}}')"></div>
-                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="" data-bs-original-title="Change avatar">
-                                <i class="fas fa-pen  text-muted"></i>
-                                <input type="file" name="image" accept=".png, .jpg, .jpeg">
-                            </label>
-                        </div>
-                    {% endif %}
-                    
-                        <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                         {% for message in app.session.flashbag.get('image')%}
-                            <div class="text-danger mt-2">{{message}}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-                 <div class="row mt-10">
-                    <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Public key</label>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="pkey" name="pkey" value="{{payment.getPublicKey()}}">
-                       {% for message in app.session.flashbag.get('erpublickey')%}
-                           <div class="text-danger mt-2">{{message}}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-                 <div class="row mt-10">
-                    <label class="col-lg-4 col-form-label fw-bold fs-6 text-right">Secret key</label>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="skey" name="skey" value="{{payment.getSecretkey()}}">
-                         {% for message in app.session.flashbag.get('ersecretkey')%}
-                           <div class="text-danger mt-2">{{message}}</div>
-                        {% endfor %}
-                       
-                    </div>
-                </div>
-                 <div class="row mb-0 mt-8">
-                    <div class="col-lg-4">
-                    </div>
-                    <div class="col-lg-8 d-flex align-items-center">
-                      <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
-                    </div>
-                </div>
-                
-                </div>
-                     
-            </div>
-        </div>
-        
-        </div>
-             </form>
-        </div>
-    </div>        
-           
-           
-{% endblock %}
-
