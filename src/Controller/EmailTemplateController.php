@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Email;
 use App\Entity\Status;
+use App\Entity\PayCategory;
 use Psr\Log\LoggerInterface;
 use App\Entity\EmailTemplate;
 use App\Entity\ReturnSettings;
@@ -17,6 +18,7 @@ class EmailTemplateController extends AbstractController
 {
     private $data = [];
     private $imagelogo = [];
+    public $payments = [];
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -28,6 +30,9 @@ class EmailTemplateController extends AbstractController
         $rs = $doctrine->getRepository(ReturnSettings::class)->findLastInserted();
     
         $this->imagelogo = $rs->getImageLogo();
+
+        $this->payments = $doctrine->getRepository(PayCategory::class)->findAll();
+
   
     }
 
@@ -47,7 +52,8 @@ class EmailTemplateController extends AbstractController
                 'name' => $name,
                 'status' => $this->data,
                 'imagelogo' => $this->imagelogo,
-                'findstatus' => $findstatus
+                'findstatus' => $findstatus,
+                'payments' => $this->payments
             ];
             
             return $this->render('email/index.html.twig', $data);
@@ -144,7 +150,8 @@ class EmailTemplateController extends AbstractController
             'email' => $email,
             'status' => $this->data,
             'imagelogo' => $this->imagelogo,
-            'findstatus' => $findstatus
+            'findstatus' => $findstatus,
+            'payments' => $this->payments
         ];
         return $this->render('/email/edit-email.html.twig',$data);
     }
