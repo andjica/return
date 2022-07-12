@@ -30,71 +30,100 @@ class PaymentController extends AbstractController
      /**
      * @Route("/{name}", name="configure_payment", methods={"GET"})
      */
-    public function getpayment(ManagerRegistry $doctrine, $name): Response
-    {
+    // public function getpayment(ManagerRegistry $doctrine, $name): Response
+    // {
     
-       $requestName = $name;
-       $paycategory = $doctrine->getRepository(PayCategory::class)->findOneBy(['name' => $requestName]);
+    //    $requestName = $name;
+    //    $paycategory = $doctrine->getRepository(PayCategory::class)->findOneBy(['name' => $requestName]);
        
-       if(!$paycategory)
-       {
-            $res = [];
-            return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
-       }
+    //    if(!$paycategory)
+    //    {
+    //         $res = [];
+    //         return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
+    //    }
 
 
-       if($paycategory->getName() == "Stripe")
-       {
+    //    if($paycategory->getName() == "Stripe")
+    //    {
         
-            $stripe = $doctrine->getRepository(Payments::class)->findOneBy(['category'=> $paycategory->getId()]);
+    //         $stripe = $doctrine->getRepository(Payments::class)->findOneBy(['category'=> $paycategory->getId()]);
             
-            if($stripe)
-            {
-                //edit stripe
-                return dd("Postoji");
-            }
-            else
-            {
-                //create stripe
-               
-                return $this->redirect('stripe/create');
-            }
-       }
-       else if($paycategory->getName() == "Mollie")
-       {
-            return dd("da mollie");
-       }
-       else
-       {
-        $res = [];
-            return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
-       }
+    //         if($stripe)
+    //         {
+    //             //edit stripe
+    //             return dd("Postoji");
+    //         }
+    //         else
+    //         {
+    //             //create stripe
+    //             $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Stripe']);
+    //             return $this->redirect(strtolower($category->getName()).'/create/');
+    //         }
+    //    }
+    //    else if($paycategory->getName() == "Mollie")
+    //    {
+    //         $mollie = $doctrine->getRepository(Payments::class)->findOneBy(['category'=> $paycategory->getId()]);
+    //         if($mollie)
+    //         {
+    //             //edit stripe
+    //             return dd("Postoji");
+    //         }
+    //         else
+    //         {
+    //             $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Mollie']);
+    //             return $this->redirect(strtolower($category->getName().'/create/'));
+    //         }
+    //    }
+    //    else
+    //    {
+    //     $res = [];
+    //         return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
+    //    }
       
        
        
-    }
+    // }
 
     /**
-     * @Route("/stripe/create", name="RouteName")
+     * @Route("/{name}/create/", name="RouteName")
      */
-    public function createstripe(Request $request, PaymentsRepository $paymentsRepository): Response
+    public function createstripe(Request $request, PaymentsRepository $paymentsRepository, ManagerRegistry $doctrine, $name): Response
     {
+
+        $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
+        
+        $payment = $doctrine->getRepository(Payments::class)->findOneBy(['category'=>$category]);
+        
+        if($payment)
+        {
+            return dd("Treba ruta edit");
+        }
+        
         $payment = new Payments();
         $form = $this->createForm(PaymentsType::class, $payment);
         $form->handleRequest($request);
       
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            
+           
+            $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Stripe']);
+           
+            $payment->setPayCategory($category);
+            $payment->setCreatedAt(new \DateTime());
             $paymentsRepository->add($payment, true);
 
             return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        //put category in hidden field
+       
+                
         return $this->renderForm('payment/stripe/new.html.twig', [
             'payment' => $payment,
             'form' => $form,
             'status' => $this->data,
-            'payments' => $this->payments
+            'payments' => $this->payments,
+            'category' => $category
         ]);
     }
 

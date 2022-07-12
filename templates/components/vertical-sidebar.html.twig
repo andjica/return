@@ -45,7 +45,7 @@
                                {% endfor %}
                             </div>
                         </div>
-                      <div data-kt-menu-trigger="click" id="payment" class="menu-item menu-accordion {{  asset('/payment') in route ? 'show' }}">
+                      <div data-kt-menu-trigger="click" id="payment" class="menu-item menu-accordion {{  asset('/settings/payment/') in route ? 'show' }}">
                 
                             <span class="menu-link">
                                 <span class="menu-icon">
@@ -58,7 +58,7 @@
                           
                             {% for payment in payments %}
                              <div class="menu-item">
-                                    <a class="menu-link {{ payment.getName() in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() }}">
+                                    <a class="menu-link {{ payment.getName() | lower in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() |lower }}{{asset('/create')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
