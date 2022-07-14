@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Payments;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +15,21 @@ class PaymentsType extends AbstractType
 {
     public $image;
 
-    public function __construct()
+    public function __construct(ManagerRegistry $doctrine)
     {
-         $this->image = "blank.png";
+        $payment = $doctrine->getRepository(Payments::class)->findOneBy([]);
+        
+        if($payment)
+        {
+            $this->image = $payment->getImage();
+           
+        }
+        else
+        {
+
+            $this->image = "blank.png";
+           
+        }
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options): void

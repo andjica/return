@@ -29,62 +29,6 @@ class PaymentController extends AbstractController
         $this->payments = $doctrine->getRepository(PayCategory::class)->findAll();
     }
 
-     /**
-     * @Route("/{name}", name="configure_payment", methods={"GET"})
-     */
-    // public function getpayment(ManagerRegistry $doctrine, $name): Response
-    // {
-    
-    //    $requestName = $name;
-    //    $paycategory = $doctrine->getRepository(PayCategory::class)->findOneBy(['name' => $requestName]);
-       
-    //    if(!$paycategory)
-    //    {
-    //         $res = [];
-    //         return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
-    //    }
-
-
-    //    if($paycategory->getName() == "Stripe")
-    //    {
-        
-    //         $stripe = $doctrine->getRepository(Payments::class)->findOneBy(['category'=> $paycategory->getId()]);
-            
-    //         if($stripe)
-    //         {
-    //             //edit stripe
-    //             return dd("Postoji");
-    //         }
-    //         else
-    //         {
-    //             //create stripe
-    //             $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Stripe']);
-    //             return $this->redirect(strtolower($category->getName()).'/create/');
-    //         }
-    //    }
-    //    else if($paycategory->getName() == "Mollie")
-    //    {
-    //         $mollie = $doctrine->getRepository(Payments::class)->findOneBy(['category'=> $paycategory->getId()]);
-    //         if($mollie)
-    //         {
-    //             //edit stripe
-    //             return dd("Postoji");
-    //         }
-    //         else
-    //         {
-    //             $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Mollie']);
-    //             return $this->redirect(strtolower($category->getName().'/create/'));
-    //         }
-    //    }
-    //    else
-    //    {
-    //     $res = [];
-    //         return $this->render('errors/404.html.twig', $res,  new Response('There is no result, payment doesnt exist', 404));
-    //    }
-      
-       
-       
-    // }
 
     /**
      * @Route("/{name}/create/", name="create_payment")
@@ -107,7 +51,7 @@ class PaymentController extends AbstractController
         
          if ($form->isSubmitted()) {
            
-            $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Stripe']);
+            $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
            
             $payment->setPayCategory($category);
             $payment->setCreatedAt(new \DateTime());
@@ -137,7 +81,7 @@ class PaymentController extends AbstractController
             
             $paymentsRepository->add($payment, true);
             
-            return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('edit_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
         }
 
         //put category in hidden field
@@ -152,34 +96,6 @@ class PaymentController extends AbstractController
         ]);
     }
 
-
- 
-    #[Route('/new', name: 'app_payment_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PaymentsRepository $paymentsRepository): Response
-    {
-        $payment = new Payments();
-        $form = $this->createForm(PaymentsType::class, $payment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $paymentsRepository->add($payment, true);
-
-            return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('payment/new.html.twig', [
-            'payment' => $payment,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_payment_show', methods: ['GET'])]
-    public function show(Payments $payment): Response
-    {
-        return $this->render('payment/show.html.twig', [
-            'payment' => $payment,
-        ]);
-    }
 
     /**
      * @Route("/{name}/edit/", name="edit_payment", methods={"GET", "POST"})
@@ -205,7 +121,8 @@ class PaymentController extends AbstractController
            
             $payment->setPayCategory($category);
             $payment->setCreatedAt(new \DateTime());
-            $image = $form->get('image')->getData();
+            $images = $request->files->all();
+            $image = $images['payments']['image'];
             
             if($image)
             {
@@ -231,7 +148,7 @@ class PaymentController extends AbstractController
             
             $paymentsRepository->add($payment, true);
             
-            return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('edit_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
         }
 
         //put category in hidden field
@@ -242,17 +159,10 @@ class PaymentController extends AbstractController
             'form' => $form,
             'status' => $this->data,
             'payments' => $this->payments,
-            'category' => $category
+            'category' => $category,
+            'payment' => $payment
         ]);
     }
 
-    #[Route('/{id}', name: 'app_payment_delete', methods: ['POST'])]
-    public function delete(Request $request, Payments $payment, PaymentsRepository $paymentsRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$payment->getId(), $request->request->get('_token'))) {
-            $paymentsRepository->remove($payment, true);
-        }
-
-        return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
-    }
+   
 }
