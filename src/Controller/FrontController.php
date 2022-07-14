@@ -30,11 +30,24 @@ class FrontController extends AbstractController
         
         $rs = $doctrine->getRepository(ReturnSettings::class)->findLastInserted();
     
+        if(!$rs)
+        {
+             return $this->redirect('/return/notfound');
+        }
         $this->data['imagelogo'] = $rs->getImageLogo();
         $this->data['imagebackground'] = $rs->getImageBackground();
         $this->data['title'] = $rs->getTitle();
         
         
+    }
+    /**
+     * @Route("/return/notfound", name="RouteName")
+     */
+    public function notfound(): Response
+    {
+        $contents = $this->renderView('errors/404.html.twig', []);
+        
+        return new Response($contents, 404);
     }
     //Welcome to frontcontroller for customers :)
     /**
