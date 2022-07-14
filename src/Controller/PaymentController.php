@@ -109,7 +109,7 @@ class PaymentController extends AbstractController
         
         if(!$payment)
         {
-            return dd("Treba ruta create");
+            return $this->redirectToRoute('create_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
         }
        
         $form = $this->createForm(PaymentsType::class, $payment);
