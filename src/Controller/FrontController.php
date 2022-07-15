@@ -51,7 +51,7 @@ class FrontController extends AbstractController
     }
     //Welcome to frontcontroller for customers :)
     /**
-     * @Route("return", methods={"GET", "POST"}, name="app_front")
+     * @Route("/return", methods={"GET", "POST"}, name="app_front")
      */
     public function index(ManagerRegistry $doctrine): Response
     {

@@ -17,28 +17,28 @@
 
                 {{include('/components/alert-message.html.twig')}}
                 
-                {{ form_start(form) }}
-                   <div class="row mb-6 mt-2">
-                    <div class="col-lg-4 text-right">
-                            {{ form_label(form.user_email) }}
-                        </div>
-                        <div class="col-lg-8">
-                            {{ form_widget(form.user_email) }}
-                            <small>{{ form_help(form.user_email) }}</small>
-                            <div class="form-error">
-                                {{ form_errors(form.user_email) }}
-                            </div>
-                        </div>
-                    </div>
-                     <div class="row mb-6 mt-2">
+                {{ form_start(form, {'method': 'POST'}) }}
+                    <div class="row mb-6 mt-2">
                     <div class="col-lg-4 text-right">
                             {{ form_label(form.webshop_order_id) }}
                         </div>
                         <div class="col-lg-8">
                             {{ form_widget(form.webshop_order_id) }}
                             <small>{{ form_help(form.webshop_order_id) }}</small>
-                            <div class="form-error">
+                            <div class="form-error text-danger">
                                 {{ form_errors(form.webshop_order_id) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-6 mt-2">
+                    <div class="col-lg-4 text-right">
+                            {{ form_label(form.user_email) }}
+                        </div>
+                        <div class="col-lg-8">
+                            {{ form_widget(form.user_email) }}
+                            <small>{{ form_help(form.user_email) }}</small>
+                            <div class="form-error text-danger">
+                                {{ form_errors(form.user_email) }}
                             </div>
                         </div>
                     </div>
