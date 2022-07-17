@@ -9,6 +9,7 @@ use App\Entity\ReturnStatus;
 use App\Entity\ReturnSettings;
 use App\Form\SearchReturnType;
 use App\Entity\ResellerShipments;
+use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\CountryRepository;
 use App\Repository\ReturnsRepository;
 use Symfony\Component\Form\FormError;
@@ -20,14 +21,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\Expr\Func;
 
 class ClientController extends AbstractController
 {
 
+   
+    private $requestStack;
+    private $doctrine;
+
+    public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine)
+    {
+        $this->requestStack = $requestStack;
+        $this->doctrine = $doctrine;
+    }
     /**
      * @Route("/returns", methods={"GET", "POST"}, name="app_client")
      */
@@ -86,17 +96,39 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted()) {
-            // $userEmail = $request->get('user_email')->getData();
-            // $webshopOrderId =  $form->get('webshop_order_id')->getData();
-            // $order = $doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
-          
-           
+
+            $all = $request->request->all();
             
-            //pause here
+            $email = $all['search_return']['user_email'];
+            $webshopOrderId = $all['search_return']['webshop_order_id'];
+            $session = $this->requestStack->getSession();
+
+                // stores an attribute in the session for later reuse
+            $session->set('webshop_order_id', $webshopOrderId);
+            $session->set('user_email', $email);
+            // gets an attribute by name
+           
+            return $this->redirectToRoute('create_return');
+        
             
         }
         // $return->add($findreturn);
         return $this->renderForm('return/find.html.twig', ['form' => $form]);
+    }
+
+    /**
+     * @Route("/return/create/bla", name="create_return", methods={"GET"})
+     */
+    public function createreturn(): Response
+    {
+        $session = $this->requestStack->getSession();
+        $webshopOrderId = $session->get('webshop_order_id');
+        $email = $session->get('user_email');
+        
+        $order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
+           
+        
+        return $this->render('$0.html.twig', []);
     }
 
     /**
