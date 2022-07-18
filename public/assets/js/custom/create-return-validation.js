@@ -1,18 +1,19 @@
     
 //by andjica
 $(".sha").on('click', function(){
-    let shablon = $('input[name="shablon"]:checked').val();
+    let shablon = $('input[name="return[shablon]"]:checked').val();
     
     if(shablon == "admin-r")
-    {
+    {   
         if(document.getElementById("re1").style.display="none")
         {
+          
             document.getElementById("re1").style.display="";
             document.getElementById("re2").style.display="none";
         }
     }
     else
-    {
+    {  
         document.getElementById("re1").style.display="none";
         document.getElementById("re2").style.display="";
         

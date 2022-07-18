@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Status;
 use App\Entity\Country;
 use App\Entity\Returns;
+use App\Form\ReturnType;
 use App\Entity\ReturnStatus;
 use App\Entity\ReturnSettings;
 use App\Form\SearchReturnType;
+use App\Entity\ResellerAddress;
 use App\Entity\ResellerShipments;
 use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\CountryRepository;
@@ -90,9 +92,6 @@ class ClientController extends AbstractController
         
 
         $form = $this->createForm(SearchReturnType::class);
-        
-   
-        
         $form->handleRequest($request);
         
         if ($form->isSubmitted()) {
@@ -119,16 +118,15 @@ class ClientController extends AbstractController
     /**
      * @Route("/return/create/bla", name="create_return", methods={"GET"})
      */
-    public function createreturn(): Response
+    public function createreturn(Request $request): Response
     {
-        $session = $this->requestStack->getSession();
-        $webshopOrderId = $session->get('webshop_order_id');
-        $email = $session->get('user_email');
         
-        $order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
-           
         
-        return $this->render('$0.html.twig', []);
+        $form = $this->createForm(ReturnType::class);
+        $form->handleRequest($request);
+
+        
+        return $this->renderForm('return/new.html.twig', ['form' => $form]);
     }
 
     /**
