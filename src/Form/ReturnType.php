@@ -8,9 +8,8 @@ use App\Entity\Country;
 use App\Entity\Returns;
 use App\Entity\ReasonSettings;
 use App\Entity\ResellerAddress;
-use App\Entity\ResellerShipmentItems;
 use App\Entity\ResellerShipments;
-use App\Repository\ResellerShipmentItemsRepository;
+use App\Entity\ResellerShipmentItems;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -20,8 +19,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\ResellerShipmentItemsRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,8 +52,10 @@ class ReturnType extends AbstractType
         
 
     }   
-    
 
+
+    
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('order_id', TextType::class, [
@@ -68,10 +71,18 @@ class ReturnType extends AbstractType
             'attr' => ['class' => 'form-control']
             ])
             //pause here
-            ->add('items', EntityType::class, [
-                'class'=> ResellerShipmentItems::class,
-                'choice_label' => function ($items) {
+            ->add('items', ChoiceType::class, [
+                'choices'=>  $items = $this->shipmentsItems,
+                'choice_label' => function($items, $key, $index) {
+                  
                     return $items->getTitle();
+                    
+                },
+                'choice_value' => function($items) {
+                  
+                    return $items ? $items->getId() : '';
+
+                    
                 },
                 'attr' => ['class' => 'form-control']
             ])
