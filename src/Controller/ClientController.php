@@ -6,7 +6,9 @@ use App\Entity\Status;
 use App\Entity\Country;
 use App\Entity\Returns;
 use App\Form\ReturnType;
+use App\Entity\ReturnImages;
 use App\Entity\ReturnStatus;
+use App\Entity\ReasonSettings;
 use App\Entity\ReturnSettings;
 use App\Form\SearchReturnType;
 use App\Entity\ResellerAddress;
@@ -25,7 +27,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class ClientController extends AbstractController
@@ -116,15 +120,18 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/return/create/bla", name="create_return", methods={"GET"})
+     * @Route("/return/create/bla", name="create_return", methods={"GET", "POST"})
      */
-    public function createreturn(Request $request): Response
+    public function createreturn(Request $request,ReturnsRepository $returnsRepository,  SluggerInterface $slugger): Response
     {
         
-        
+        $returnsRepository = new Returns();
         $form = $this->createForm(ReturnType::class);
         $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
 
+        }
         
         return $this->renderForm('return/new.html.twig', ['form' => $form]);
     }
