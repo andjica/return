@@ -139,7 +139,9 @@ class ReturnSettingsController extends AbstractController
         // $logo = $returnSetting->getImageLogo();
         // $background = $returnSetting->getImageBackground();
 
-       
+        $lastimagelogo = $returnSetting->getImageLogo();
+        $lastimagebackground = $returnSetting->getImageBackground();
+        
         $form = $this->createForm(ReturnSettingsType::class, $returnSetting);
         $form->handleRequest($request);
         
@@ -150,8 +152,8 @@ class ReturnSettingsController extends AbstractController
            
             $logoimage = $images['return_settings']['image_logo'];
             $backgroundimage =  $images['return_settings']['image_background'];
-          
-            if($logoimage)
+           
+            if($logoimage != null)
             {
                
                 $originalFilename = pathinfo($logoimage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -162,9 +164,10 @@ class ReturnSettingsController extends AbstractController
                 
                 try {
 
-                    $lastimage = $returnSetting->getImageLogo();
+                    
                     $fs = new Filesystem();
-                    $fs->remove($this->getParameter('return_settings_images').'/'.$lastimage);
+                   
+                    $fs->remove($this->getParameter('return_settings_images').'/'.$lastimagelogo);
                 
                     $logoimage->move(
                         $this->getParameter('return_settings_images'),
@@ -181,12 +184,16 @@ class ReturnSettingsController extends AbstractController
 
                 
             }
+            else
+            {
+                $returnSetting->setImageLogo($returnSetting->getImageLogo());
+            }
             
             
             
 
           
-            if($backgroundimage)
+            if($backgroundimage != null)
             {
                 $originalFilename = pathinfo($backgroundimage->getClientOriginalName(), PATHINFO_FILENAME);
                     
@@ -194,6 +201,10 @@ class ReturnSettingsController extends AbstractController
                 $newBackground = $safeFilename.'-'.uniqid().'.'.$backgroundimage->guessExtension();
                
                 try {
+                    
+                    $fs = new Filesystem();
+                    $fs->remove($this->getParameter('return_settings_images').'/'.$lastimagebackground);
+
                     $backgroundimage->move(
                         $this->getParameter('return_settings_images'),
                         $newBackground
@@ -205,6 +216,10 @@ class ReturnSettingsController extends AbstractController
                     $e = $this->renderView('errors/500.html.twig', []);
                     return new Response($e, 500);
                 }
+            }
+            else
+            {
+                $returnSetting->setImageBackground($returnSetting->getImageBackground());
             }
            
             
