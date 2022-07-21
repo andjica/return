@@ -1,4 +1,5 @@
     <div class="card">
+     {% set route = (app.request.server.get("REQUEST_URI")) %}
          <div class="card-body p-2">
                  <div class="aside-menu flex-column-fluid">
                 <!--begin::Aside Menu-->
@@ -12,7 +13,7 @@
                             </div>
                         </div>
                         <div class="menu-item">
-                          <a class="menu-link" href="{{asset('/settings/create')}}">
+                          <a class="menu-link {{asset('/settings/edit') or asset('/settings/create') in route ? 'active' }}" href="{{asset('/settings/create')}}">
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -20,7 +21,7 @@
                           <span class="menu-title">General</span>
                         </a>
                       </div>
-                        {% set route = (app.request.server.get("REQUEST_URI")) %}
+                       
                         
                         <div data-kt-menu-trigger="click" id="email" class="menu-item menu-accordion {{  asset('/email') in route ? 'show' }}">
                 
