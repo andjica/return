@@ -7,11 +7,12 @@ use App\Entity\Status;
 use App\Entity\Country;
 use App\Entity\Returns;
 use App\Entity\ReturnImages;
+use App\Entity\ReturnVideos;
+use App\Entity\EmailTemplate;
 use App\Entity\ReasonSettings;
 use App\Entity\ResellerAddress;
 use App\Entity\ResellerShipments;
 use App\Entity\ResellerShipmentItems;
-use App\Entity\ReturnVideos;
 use App\Repository\ReturnsRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,12 +29,15 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\ResellerShipmentItemsRepository;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ReturnType extends AbstractType
@@ -47,21 +52,26 @@ class ReturnType extends AbstractType
     public $userEmail;
     public $slugger;
     public $params;
+    public $session;
+    public $email;
+    public $webshopOrderId;
+    
 
     public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine,ReturnsRepository $returnsRepository, SluggerInterface $slugger, ParameterBagInterface $params) {
         $this->requestStack = $requestStack;
         $this->doctrine = $doctrine;
         
-        $session = $this->requestStack->getSession();
-        $webshopOrderId = $session->get('webshop_order_id');
-        $email = $session->get('user_email');
-        
-        $this->order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
+        $this->session = $this->requestStack->getSession();
+       
+        $this->webshopOrderId = $this->session->get('webshop_order_id');
+        $this->email = $this->session->get('user_email');
+       
+        $this->order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$this->webshopOrderId]);
         $this->resellerAddress = $this->doctrine->getRepository(ResellerAddress::class)->findOneBy(['id'=>$this->order->getDeliveryAddressId()]);
         $this->shipmentsItems = $this->doctrine->getRepository(ResellerShipmentItems::class)->findBy(['shipment_id'=> $this->order->getId()]);
         
-        $this->orderId = $webshopOrderId;
-        $this->userEmail = $email;
+        $this->orderId = $this->webshopOrderId;
+        $this->userEmail = $this->email;
         $this->returnsRepository = $returnsRepository;
         $this->slugger = $slugger;
         $this->params = $params;
@@ -355,9 +365,31 @@ class ReturnType extends AbstractType
                 }
 
              
-         
-                
+                // - returns and -returnstatus send email
 
+                $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
+
+                $servername = $_SERVER['SERVER_NAME'];
+                
+                $search = array('[webshop_name]','[webshop_order_id]', '[status]', '[name]', '[address]', '[phone]', '[postal_code]', '[country]');
+                $replace = array($servername, $return->getWebshopOrderId(), $status->getName(), $return->getClientName(), $return->getStreet(), '[phone]', $return->getPostCode(), $country->getName());
+                    
+                $template = $emailT->getBody();
+                
+                $newtemplate = (str_ireplace($search, $replace, $template, $count));
+                
+                $emailT = (new TemplatedEmail())
+                ->from('admin@example.com')
+                ->to($return->getUserEmail())
+                ->subject($emailT->getSubject())
+                ->htmlTemplate('email/status.html.twig')
+                ->context([
+                    'emailtemplate' => $newtemplate,
+                ]);
+                
+               
+               
+                $this->session->clear();
             })
            
         ;
