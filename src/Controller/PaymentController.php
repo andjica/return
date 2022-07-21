@@ -8,6 +8,7 @@ use App\Form\PaymentsType;
 use App\Entity\PayCategory;
 use App\Repository\PaymentsRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -106,7 +107,8 @@ class PaymentController extends AbstractController
         $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
         
         $payment = $doctrine->getRepository(Payments::class)->findOneBy(['category'=>$category]);
-        
+        $lastimage = $payment->getImage();
+
         if(!$payment)
         {
             return $this->redirectToRoute('create_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
@@ -134,6 +136,9 @@ class PaymentController extends AbstractController
 
                 
                 try {
+                    $fs = new Filesystem();
+                    $fs->remove($this->getParameter('return_payment_images').'/'.$lastimage);
+
                     $image->move(
                         $this->getParameter('return_payment_images'),
                         $newImage
