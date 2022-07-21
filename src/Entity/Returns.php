@@ -67,13 +67,13 @@ class Returns
      *
      * @ORM\Column(type="integer")
      */
-    private $status_id;
+    // private $status_id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=155, nullable=true)
-     */
+    // /**
+    //  * @var string
+    //  *
+    //  * @ORM\Column(type="string", length=155, nullable=true)
+    //  */
     private $action;
 
     /**
@@ -219,17 +219,17 @@ class Returns
         return $this;
     }
 
-    public function getStatusId(): ?int
-    {
-        return $this->status_id;
-    }
+    // public function getStatusId(): ?int
+    // {
+    //     return $this->status_id;
+    // }
 
-    public function setStatusId(int $status_id): self
-    {
-        $this->status_id = $status_id;
+    // public function setStatusId(int $status_id): self
+    // {
+    //     $this->status_id = $status_id;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getAction(): ?string
     {
