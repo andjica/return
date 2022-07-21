@@ -11,6 +11,7 @@ use App\Entity\ReasonSettings;
 use App\Entity\ResellerAddress;
 use App\Entity\ResellerShipments;
 use App\Entity\ResellerShipmentItems;
+use App\Repository\ReturnsRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -25,12 +26,13 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Repository\ResellerShipmentItemsRepository;
-use App\Repository\ReturnsRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ReturnType extends AbstractType
 {
@@ -42,8 +44,10 @@ class ReturnType extends AbstractType
     public $returnsRepository;
     public $orderId;
     public $userEmail;
+    public $slugger;
+    public $params;
 
-    public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine,ReturnsRepository $returnsRepository) {
+    public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine,ReturnsRepository $returnsRepository, SluggerInterface $slugger, ParameterBagInterface $params) {
         $this->requestStack = $requestStack;
         $this->doctrine = $doctrine;
         
@@ -57,6 +61,10 @@ class ReturnType extends AbstractType
         
         $this->orderId = $webshopOrderId;
         $this->userEmail = $email;
+        $this->returnsRepository = $returnsRepository;
+        $this->slugger = $slugger;
+        $this->params = $params;
+
     }   
 
 
@@ -152,87 +160,140 @@ class ReturnType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'data' => $this->resellerAddress->getPostalCode()
             ])
+            ->add('photos', FileType::class, [
+                'multiple' => true,
+                'data_class' => null,
+                'required' => false,
+                'empty_data' =>  "",
+                'attr' => ['class' => 'form-control', 'multiple' => 'multiple'],
+                'label' => 'Your image background',
+                'label_attr' => ['class'=> 'required'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '3000k',
+                        'mimeTypes' => [
+                            'image/*',
+                            
+                        ],
+                        'mimeTypesMessage' => 'Please upload Image, image must be in jpg, jpeg, png format',
+                    ])
+                ],
+            ])
           
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
 
                 $request = $this->requestStack->getCurrentRequest();
                 $form = $event->getForm();
-                $this->returnsRepository = new Returns();
+                $return = new Returns();
 
                
-                $all =  $all = $request->request->all();
-                return dd($all);
+                $all  = $request->request->all();
+                // return dd($all);
                 $shablon = $all['return']['shablon'];
 
                 //find status
                 $statusId = $all['return']['status'];
                 $status = $this->doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
                
+
+                //find country
+                $countryId = $this->resellerAddress->getCountryId();
+                $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
+              
                 $clientEmail = $all['return']['client_email'];
                 $clientName = $all['return']['client_name'];
                 $companyName = $all['return']['company_name'];
                 $street = $all['return']['street'];
                 $postalCode = $all['return']['postal_code'];
+                $itemId = $all['return']['items'];
 
-                $this->returnsRepository->setReference($this->order->getReference());
-                $this->returnsRepository->setWebshopOrderId($this->orderId);
-                $this->returnsRepository->setStatus($status);
-                $this->returnsRepository->setUserEmail($this->userEmail);
-                $this->returnsRepository->setClientEmail($clientEmail);
-                $this->returnsRepository->setClientName($clientName);
-                $this->returnsRepository->setCompanyName($companyName);
-                $this->returnsRepository->setStreet($street);
-                $this->returnsRepository->setPostCode($postalCode);
+                $return->setReference($this->order->getReference());
+                $return->setWebshopOrderId($this->orderId);
+                $return->setStatus($status);
+                $return->setUserEmail($this->userEmail);
+                $return->setClientEmail($clientEmail);
+                $return->setClientName($clientName);
+                $return->setCompanyName($companyName);
+                $return->setStreet($street);
+                $return->setPostCode($postalCode);
+                $return->setItemsId($itemId);
+                $return->setStatus($status);
+                $return->setCountry($country);
+                $return->setCreatedAt(new \DateTime());
+                //quantity check
+                $quantity = $all['return']['quantity'];
+                $findOrder = $this->doctrine->getRepository(ResellerShipmentItems::class)->findOneBy(['id'=>$itemId]);
+               
+                if($quantity > $findOrder->getQty())
+                {
+                    $form->get('quantity')->addError(new FormError('The quantity must not be greater than the existing one'));              
+                }
+                else
+                {
+                    $return->setReturnQuantity($quantity);
+                }
+
+
                 
                 if($shablon == "admin-r")
                 {
                     $reasonId = $all['return']['reasons'];
                     $reasons = $this->doctrine->getRepository(ReasonSettings::class)->findOneBy(['id'=>$reasonId]);
                     
-                    $this->returnsRepository->setReason($reasons->getName());
+                    $return->setReason($reasons->getName());
+                    
+                    $this->returnsRepository->add($return);
                 }
                 else
                 {
                     $reasonUser = $request->request->get('reason-user');
+                    $return->setReason($reasonUser);
+
+                    $this->returnsRepository->add($return);
+
                     
-                    $photos = $request->request->all('photos');
+                    $files = $request->files->all();
                     
-                    if($photos)
+                    $photos = $files['return']['photos'];
+                    
+                    if($photos != null)
                     {
+                        
                         foreach ($photos as $photo) {
 
-
+                           
                             $savephoto = new ReturnImages();
-                            $savephoto->setReturnId($this->returnsRepository->getId());
+                            $savephoto->setReturnId($return->getId());
                             
                             $savephoto->setCreatedAt(new \DateTime());
-                            $entityManagerPhoto = $this->doctrine->getManager();
-                            $entityManagerPhoto->persist($savephoto); 
-        
-                            
                             $originalname = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
                             $sname = $this->slugger->slug($originalname);
             
                             $newName = $sname.'-'.uniqid().'.'.$photo->guessExtension();
                         
                                 $photo->move(
-                                    $this->getParameter('return_images'),
+                                    $this->params->get('return_images'),
                                     $newName
                                 );
                         
                             $savephoto->setUrl($newName);
+                            
+                            $entityManagerPhoto = $this->doctrine->getManager();
+                           
+                            $entityManagerPhoto->persist($savephoto); 
+                            try{
+                                $entityManagerPhoto->flush();
+                                
+                            }
+                            catch (FileException $e) {
+    
+                                $contents = $this->renderView('errors/500.html.twig', []);
+                        
+                                return new Response($contents, 500);
+                            }
                         }
         
-                        try{
-                            $entityManagerPhoto->flush();
-                            
-                        }
-                        catch (FileException $e) {
-
-                            $contents = $this->renderView('errors/500.html.twig', []);
-                    
-                            return new Response($contents, 500);
-                        }
+                        
                     }
                 }
 
