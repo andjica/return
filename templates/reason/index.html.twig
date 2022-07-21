@@ -1,0 +1,81 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Reason settings{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+     <div class="col-lg-8">
+            <div class="card">
+               
+               <div class="card body p-2">
+                    <form action="{{asset('/reason/settings/add')}}" method="POST">
+                    
+                    <div id="andjica">
+                     {% for i in 0..5 %}
+                        <div class="input-group group-list" name="andjica[{{i}}]">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="">Reason {{i+1}}</span>
+                            </div>
+                            <input type="text" class="form-control" name="reasons[]" placeholder="">
+                            <div class="form-check ml-5">
+                                <input class="form-check-input" type="checkbox" value="1" name="active[]" id="active" checked>
+                            </div>
+                        </div><br>
+                      {% endfor %}
+                        <div id="brrandjica">
+                        
+                       </div>
+                       <div id="reason10" style="display:none">
+                         <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="">Reason 10</span>
+                            </div>
+                            <input type="text" class="form-control" name="" placeholder="Description field - standard option" disabled>
+                            <div class="form-check ml-5">
+                                <input class="form-check-input" type="checkbox" value="" name="" id="active" checked>
+                            </div>
+                        </div><br>
+                        </div>
+                      <a class="btn btn-block btn-sm btn-success mb-2" onClick="addInput();">Add new reasons</a>
+                      <input type="submit" class="btn btn-success"  value="Save">
+                    </form>
+                </div>
+             </div>
+          </div>
+    </div>
+    </div>
+</div>
+<!-- And new reason with JS -->
+<script>
+   function addInput()
+   {
+       var count = document.getElementsByClassName("group-list").length;
+      
+       if(count <= 8)
+       {
+           count = count + 1;
+            var text=` <div class="input-group group-list" name="">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="">Reason `+count+` </span>
+                            </div>
+                            <input type="text" class="form-control" name="reasons[]" placeholder="">
+                            <div class="form-check ml-5">
+                                <input class="form-check-input" type="checkbox" value="1" name="active[]" id="active" checked>
+                            </div>
+                        </div><br>`;
+
+            document.getElementById('brrandjica').innerHTML+=text;
+            
+          
+       }
+       else
+       {
+           document.getElementById('reason10').style.display="block";
+       }
+   }
+</script>
+{% endblock %}
+
+
+  

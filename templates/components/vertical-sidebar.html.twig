@@ -69,7 +69,15 @@
                                {% endfor %}
                             </div>
                         </div>
-                    
+                       <div class="menu-item">
+                          <a class="menu-link {{asset('/settings/reason/edit') or asset('/settings/reason/create')  in route ? 'active' }}" href="{{asset('/settings/reason/create')}}">
+                          <span class="menu-icon">
+                            <i class="fas fa-cog text-muted"></i>
+                              <!--end::Svg Icon-->
+                          </span>
+                          <span class="menu-title">Reason</span>
+                        </a>
+                      </div>
                         <div class="menu-item">
                             <a class="menu-link" href="">
                             <span class="menu-icon">
