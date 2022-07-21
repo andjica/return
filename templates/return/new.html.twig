@@ -55,6 +55,18 @@
             </div>
              <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
+                    {{ form_label(form.quantity) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.quantity) }}
+                    <small>{{ form_help(form.quantity) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.quantity) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
                   
                 </div>
                 <div class="col-lg-8">
@@ -85,7 +97,7 @@
                         <small class="text-danger" id="er-reason"></small>
                          <div class="form-group mt-5">
                                 <label for="uploadmedia">Choose your photos</label>
-                                <input type="file" class="form-control-file" name="photos[]" id="uploadmedia"   multiple/><br>
+                                 {{ form_widget(form.photos) }}
                                 <small class="text-danger" id="er-photos"></small>
                                 
                             </div>
