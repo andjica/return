@@ -266,7 +266,7 @@ class ReturnController extends AbstractController
                 }
             }
             
-           return $this->redirectToRoute('app_client');
+           return $this->redirectToRoute('returns');
         }
         else
         {
@@ -286,7 +286,7 @@ class ReturnController extends AbstractController
            try{
                 $entityManager->flush();
 
-               return $this->redirectToRoute('app_client');
+               return $this->redirectToRoute('returns');
            }
            catch(\Exception $e)
            {
@@ -305,13 +305,16 @@ class ReturnController extends AbstractController
      */
     public function create(Request $request,ReturnsRepository $returnsRepository,  SluggerInterface $slugger): Response
     {
-        
+       
         $returnsRepository = new Returns();
         $form = $this->createForm(ReturnType::class);
         $form->handleRequest($request);
         
         if ($form->isSubmitted()) {
+
             
+            return $this->redirectToRoute('returns');
+        
         }
         
         return $this->renderForm('return/new.html.twig', ['form' => $form]);
