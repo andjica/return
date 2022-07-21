@@ -733,6 +733,7 @@ class ReturnController extends AbstractController
                 //uradi to
                 foreach ($photos as $photo) {
 
+                    
                         $savephoto = new ReturnImages();
                         $savephoto->setReturnId($newReturn->getId());
                         
