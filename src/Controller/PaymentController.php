@@ -33,7 +33,7 @@ class PaymentController extends AbstractController
     /**
      * @Route("/{name}/create/", name="create_payment")
      */
-    public function createstripe(Request $request, PaymentsRepository $paymentsRepository, ManagerRegistry $doctrine, $name, SluggerInterface $slugger): Response
+    public function creates(Request $request, PaymentsRepository $paymentsRepository, ManagerRegistry $doctrine, $name, SluggerInterface $slugger): Response
     {   
        
         $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
@@ -117,7 +117,7 @@ class PaymentController extends AbstractController
         
          if ($form->isSubmitted()) {
            
-            $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>'Stripe']);
+            $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
            
             $payment->setPayCategory($category);
             $payment->setCreatedAt(new \DateTime());
