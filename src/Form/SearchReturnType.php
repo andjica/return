@@ -55,7 +55,7 @@ class SearchReturnType extends AbstractType
                 // return dd($request);
                 $webshopOrderId = $all['search_return']['webshop_order_id'];
                 $order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
-                
+
                 if(!$order)
                 {
                     $form->get('webshop_order_id')->addError(new FormError('There is no order with id: '.$webshopOrderId));              
@@ -63,16 +63,23 @@ class SearchReturnType extends AbstractType
                 else
                 {
                     $customerId = $order->getCustomerId();
-                    
                     $customer = $this->doctrine->getRepository(Users::class)->findOneBy(['id' => $customerId]);
-                    
                     $customeremail = $customer->getUsername();
                     
+                   
+                    // if($email != $customeremail)
+                    // {
+                    //     $form->get('user_email')->addError(new FormError('There user with email : '.$email));              
+                    // }
 
-                    if($email != $customeremail)
+                    if($customeremail != $email)
                     {
+                        
                         $form->get('user_email')->addError(new FormError('There user with email : '.$email));              
+                        
+                        
                     }
+                    
 
                 }
                 
