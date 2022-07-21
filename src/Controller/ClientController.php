@@ -27,10 +27,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class ClientController extends AbstractController
 {
@@ -45,7 +48,7 @@ class ClientController extends AbstractController
         $this->doctrine = $doctrine;
     }
     /**
-     * @Route("/returns", methods={"GET", "POST"}, name="app_client")
+     * @Route("/returns", methods={"GET", "POST"}, name="returns")
      */
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -101,16 +104,19 @@ class ClientController extends AbstractController
         if ($form->isSubmitted()) {
 
             $all = $request->request->all();
+            $session = new Session(new NativeSessionStorage(), new AttributeBag());
+
+            $session->clear();
             
             $email = $all['search_return']['user_email'];
             $webshopOrderId = $all['search_return']['webshop_order_id'];
-            $session = $this->requestStack->getSession();
 
-                // stores an attribute in the session for later reuse
+           
+             // stores an attribute in the session for later reuse
             $session->set('webshop_order_id', $webshopOrderId);
             $session->set('user_email', $email);
-            // gets an attribute by name
-           
+
+            
             return $this->redirectToRoute('create_return');
         
             
