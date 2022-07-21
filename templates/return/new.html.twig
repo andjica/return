@@ -16,7 +16,7 @@
 
         {{include('/components/alert-message.html.twig')}}
 
-        {{ form_start(form) }}
+        {{ form_start(form,{ 'attr' : { 'id': 'custom-return' }}) }}
              <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
                     {{ form_label(form.reference) }}
@@ -103,13 +103,13 @@
                             </div>
                                 <div class="form-group mt-5">
                                 <label for="uploadmedia">Choose your Videos</label>
-                                <input type="file" class="form-control-file" name="videos[]" id="uploadvideos"  multiple/><br>
+                                 {{ form_widget(form.videos) }}
                                 <small class="text-danger" id="er-videos"></small>
                                 
                             </div>
                     </div>
                 </div>
-            <div class="row mb-6 mt-2">
+            {# <div class="row mb-6 mt-2">
                 <div class="col-lg-4 text-right">
                     {{ form_label(form.countries) }}
                 </div>
@@ -120,7 +120,7 @@
                         {{ form_errors(form.countries) }}
                     </div>
                 </div>
-            </div>
+            </div> #}
               <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
                     {{ form_label(form.client_name) }}

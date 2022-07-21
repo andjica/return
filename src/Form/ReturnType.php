@@ -11,6 +11,7 @@ use App\Entity\ReasonSettings;
 use App\Entity\ResellerAddress;
 use App\Entity\ResellerShipments;
 use App\Entity\ResellerShipmentItems;
+use App\Entity\ReturnVideos;
 use App\Repository\ReturnsRepository;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -98,13 +99,13 @@ class ReturnType extends AbstractType
                 },
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('countries', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => function ($country) {
-                    return $country->getName();
-            },
-                'attr' => ['class' => 'form-control']
-            ])
+            // ->add('countries', EntityType::class, [
+            //     'class' => Country::class,
+            //     'choice_label' => function ($country) {
+            //         return $country->getName();
+            // },
+            //     'attr' => ['class' => 'form-control']
+            // ])
             ->add(
                 'shablon', ChoiceType::class, 
                 [
@@ -166,7 +167,7 @@ class ReturnType extends AbstractType
                 'required' => false,
                 'empty_data' =>  "",
                 'attr' => ['class' => 'form-control', 'multiple' => 'multiple'],
-                'label' => 'Your image background',
+                'label' => 'Your images',
                 'label_attr' => ['class'=> 'required'],
                 'constraints' => [
                     new File([
@@ -179,7 +180,25 @@ class ReturnType extends AbstractType
                     ])
                 ],
             ])
-          
+            ->add('videos', FileType::class, [
+                'multiple' => true,
+                'data_class' => null,
+                'required' => false,
+                'empty_data' =>  "",
+                'attr' => ['class' => 'form-control', 'multiple' => 'multiple'],
+                'label' => 'Your videos',
+                'label_attr' => ['class'=> 'required'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '3000k',
+                        'mimeTypes' => [
+                            'video/.flv',
+                            'video/.mp4',
+                        ],
+                        'mimeTypesMessage' => 'Please upload Image, image must be in jpg, jpeg, png format',
+                    ])
+                ],
+            ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
 
                 $request = $this->requestStack->getCurrentRequest();
@@ -255,6 +274,7 @@ class ReturnType extends AbstractType
                     $files = $request->files->all();
                     
                     $photos = $files['return']['photos'];
+                    $videos = $files['return']['videos'];
                     
                     if($photos != null)
                     {
@@ -294,6 +314,43 @@ class ReturnType extends AbstractType
                         }
         
                         
+                    }
+
+                    if($videos != null)
+                    {
+                        foreach ($videos as $video) {
+
+                           
+                            $savevideo = new ReturnVideos();
+                            $savevideo->setReturnId($return->getId());
+                            
+                            $savevideo ->setCreatedAt(new \DateTime());
+                            $originalname = pathinfo($video->getClientOriginalName(), PATHINFO_FILENAME);
+                            $sname = $this->slugger->slug($originalname);
+            
+                            $newName = $sname.'-'.uniqid().'.'.$video->guessExtension();
+                        
+                                $video->move(
+                                    $this->params->get('return_videos'),
+                                    $newName
+                                );
+                        
+                            $savevideo ->setUrl($newName);
+                            
+                            $entityManagerVideo = $this->doctrine->getManager();
+                           
+                            $entityManagerVideo->persist($savevideo); 
+                            try{
+                                $entityManagerVideo->flush();
+                                
+                            }
+                            catch (FileException $e) {
+    
+                                $contents = $this->renderView('errors/500.html.twig', []);
+                        
+                                return new Response($contents, 500);
+                            }
+                        }
                     }
                 }
 

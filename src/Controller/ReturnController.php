@@ -5,6 +5,7 @@ use App\Entity\Users;
 use App\Entity\Status;
 use App\Entity\Country;
 use App\Entity\Returns;
+use App\Form\ReturnType;
 use App\Entity\ReturnImages;
 use App\Entity\ReturnStatus;
 use App\Entity\ReturnVideos;
@@ -19,6 +20,7 @@ use App\Repository\StatusRepository;
 use Proxies\__CG__\App\Entity\Retur;
 use Symfony\Component\Mailer\Mailer;
 use App\Entity\ResellerShipmentItems;
+use App\Repository\ReturnsRepository;
 use Symfony\Component\Mailer\Transport;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -299,46 +301,20 @@ class ReturnController extends AbstractController
 
     //page
     /**
-     * @Route("/return/create", methods={"GET", "POST"}, name="add_return-reason")
+     * @Route("/return/create/", name="create_return", methods={"GET", "POST"})
      */
-    public function addreturn(ManagerRegistry $doctrine, Request $request): Response
+    public function create(Request $request,ReturnsRepository $returnsRepository,  SluggerInterface $slugger): Response
     {
-       
-        $countries = $doctrine->getRepository(Country::class)->findAll();
-        $status = $doctrine->getRepository(Status::class)->findAll();
-        $reasons = $doctrine->getRepository(ReasonSettings::class)->findAll();
-
-        $data = [
-            'countries'=>$countries,
-            'status'=>$status,
-            'reasons' => $reasons
-        ];
-        $orderId = $request->request->get('orderId');
         
-        if($orderId)
-        {
-            $order = $doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$orderId]);       
-       
-
-            $products = $doctrine->getRepository(ResellerShipmentItems::class)->findBy(['shipment_id' => $order->getId()]);
-    
-            if($products)
-            {
-               return $this->json(['products'=>$products],200);
-                
-            }
-            else
-            {
-                $error = "There is no orderId with id: ".$orderId;
-                return new JsonResponse(['error'=> $error]);
-            }
+        $returnsRepository = new Returns();
+        $form = $this->createForm(ReturnType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            
         }
         
-        
-
-        return $this->render('return/add-return.html.twig', $data);
-        
-       
+        return $this->renderForm('return/new.html.twig', ['form' => $form]);
     }
 
 
