@@ -159,7 +159,8 @@ class FrontController extends AbstractController
        
         //find order & email - because of the security reasons find it again
 
-        $order = $doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId' => $orderId]);
+        $order = $doctrine->getRepository(
+        Shipments::class)->findOneBy(['webshopOrderId' => $orderId]);
         $user = $doctrine->getRepository(Users::class)->findOneBy(['username'=>$email]);
         
         if($order && $user)
