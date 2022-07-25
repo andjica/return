@@ -246,7 +246,7 @@ class ReturnType extends AbstractType
                 $return->setStreet($street);
                 $return->setPostCode($postalCode);
                 $return->setItemsId($itemId);
-                $return->setStatus($status);
+                // $return->setStatus($status);
                 $return->setCountry($country);
                 $return->setCreatedAt(new \DateTime());
                 //quantity check
@@ -255,7 +255,7 @@ class ReturnType extends AbstractType
                
                 if($quantity > $findOrder->getQty())
                 {
-                    $form->get('quantity')->addError(new FormError('The quantity must not be greater than the existing one'));              
+                    return $form->get('quantity')->addError(new FormError('The quantity must not be greater than the existing one'));              
                 }
                 else
                 {
@@ -293,8 +293,8 @@ class ReturnType extends AbstractType
 
                            
                             $savephoto = new ReturnImages();
-                            $savephoto->setReturnId($return->getId());
-                            
+                            $savephoto->setReturns($return);
+                           
                             $savephoto->setCreatedAt(new \DateTime());
                             $originalname = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
                             $sname = $this->slugger->slug($originalname);
@@ -332,7 +332,7 @@ class ReturnType extends AbstractType
 
                            
                             $savevideo = new ReturnVideos();
-                            $savevideo->setReturnId($return->getId());
+                            $savevideo->setReturns($return);
                             
                             $savevideo ->setCreatedAt(new \DateTime());
                             $originalname = pathinfo($video->getClientOriginalName(), PATHINFO_FILENAME);
