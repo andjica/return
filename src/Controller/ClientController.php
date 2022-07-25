@@ -117,7 +117,7 @@ class ClientController extends AbstractController
             $session->set('user_email', $email);
 
             
-            return $this->redirectToRoute('create_return');
+            
         
             
         }
