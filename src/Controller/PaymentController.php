@@ -108,7 +108,7 @@ class PaymentController extends AbstractController
         
         $payment = $doctrine->getRepository(Payments::class)->findOneBy(['category'=>$category]);
         $lastimage = $payment->getImage();
-
+        
         if(!$payment)
         {
             return $this->redirectToRoute('create_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
@@ -122,7 +122,7 @@ class PaymentController extends AbstractController
             $category = $doctrine->getRepository(PayCategory::class)->findOneBy(['name'=>$name]);
            
             $payment->setPayCategory($category);
-            $payment->setCreatedAt(new \DateTime());
+            $payment->setUpdatedAt(new \DateTime());
             $images = $request->files->all();
             $image = $images['payments']['image'];
             
