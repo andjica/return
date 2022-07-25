@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Status;
 
+use App\Form\ReasonType;
 use App\Entity\PayCategory;
 use App\Entity\ReasonSettings;
 use App\Entity\ReturnSettings;
@@ -41,12 +42,19 @@ class ReasonController extends AbstractController
     /**
      * @Route("/settings/reason/create", name="create_reason")
      */
-    public function create(): Response
+    public function create(ManagerRegistry $doctrine, Request $request): Response
     {
+        $form = $this->createForm(ReasonType::class);
+        $form->handleRequest($request);
+       
+        if($form->isSubmitted())
+        {
+           
+        }
 
         return $this->renderForm('reason/new.html.twig', [
             
-            // 'form' => $form,
+            'form' => $form,
             'status' => $this->data,
             'payments' => $this->payments
         ]);
