@@ -29,7 +29,7 @@ class ReturnStatusController extends AbstractController
        
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId]);
         $status = $doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
-
+        
         if(!$return || (!$status))
         {
             $response = new Response();
@@ -41,16 +41,16 @@ class ReturnStatusController extends AbstractController
         else
         {
            
-            $return->setStatusId($status->getId());
-
+            
+            $return->setStatus($status);
+            
             $entityManager = $doctrine->getManager();
             $entityManager->persist($return);
             $entityManager->flush();
 
             $returnstatus = new ReturnStatus();
             
-            $returnstatus->setReturnId($return->getId());
-            $returnstatus->setStatusId($status->getId());
+            $returnstatus->setReturns($return);
 
             $returnstatus->setStatus($status);
             $returnstatus->setCreatedAt(new \DateTime());
@@ -109,7 +109,7 @@ class ReturnStatusController extends AbstractController
 
                 $mailer->send($email);
                 $this->addFlash('success', 'You made changes successfully :)');
-                return $this->redirectToRoute('app_client');
+                return $this->redirectToRoute('returns');
             }
             catch(\Exception $e)
             {

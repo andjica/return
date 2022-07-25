@@ -129,7 +129,7 @@ class ReturnController extends AbstractController
         $return->setClientName($clientname);
         $return->setCompanyName($companyname);
         $return->setStreet($street);
-        $return->setStatusId($statusId);
+        // $return->setStatusId($statusId);
         $return->setCreatedAt(new \DateTime());
         $return->setReturnQuantity($quantity);
         $return->setItemsId($itemsId);
@@ -140,7 +140,7 @@ class ReturnController extends AbstractController
 
         $returnstatus = new ReturnStatus();
        
-        $returnstatus->setStatusId(1);
+        // $returnstatus->setStatusId(1);
        
         $returnstatus->setStatus($status);
         $returnstatus->setCreatedAt(new \DateTime());
@@ -165,7 +165,7 @@ class ReturnController extends AbstractController
 
             try{
                 $entityManager->flush();
-                $returnstatus->setReturnId($return->getId());
+                $returnstatus->setReturns($return);
                 $entityManager->persist($returnstatus);
                 $entityManager->flush();
             }
@@ -191,7 +191,7 @@ class ReturnController extends AbstractController
                 foreach ($photos as $photo) {
 
                         $savephoto = new ReturnImages();
-                        $savephoto->setReturnId($return->getId());
+                        $savephoto->setReturns($return);
                         
                         $savephoto->setCreatedAt(new \DateTime());
                         $entityManagerPhoto = $doctrine->getManager();
@@ -236,7 +236,7 @@ class ReturnController extends AbstractController
                 foreach ($videos as $video) {
 
                     $savevideo = new ReturnVideos();
-                    $savevideo->setReturnId($return->getId());
+                    $savevideo->setReturns($return);
                     
                     $savevideo->setCreatedAt(new \DateTime());
                     $entityManagerVideo = $doctrine->getManager();
@@ -280,7 +280,7 @@ class ReturnController extends AbstractController
            
          
             
-           $returnstatus->setReturnId($return->getId());
+           $returnstatus->setReturns($return);
            $entityManager->persist($returnstatus);
            
            try{
@@ -479,7 +479,8 @@ class ReturnController extends AbstractController
     
         if($statusId == $return->getStatusId())
         {
-            $return->setStatusId($statusId);
+
+            $return->setStatus($status);
             $entityManager->flush();
             $entityManager->persist( $return);
             $entityManager->flush();
@@ -491,11 +492,11 @@ class ReturnController extends AbstractController
             $entityManager->persist($return);
             $entityManager->flush();
 
-            $return->setStatusId($statusId);
+            // $return->setStatusId($statusId);
             $returnstatus = new ReturnStatus();
     
-            $returnstatus->setStatusId($statusId);
-            $returnstatus->setReturnId($return->getId());
+            $returnstatus->setStatus($status);
+            $returnstatus->setReturns($return);
             $returnstatus->setStatus($status);
             $returnstatus->setCreatedAt(new \DateTime());
             $entityManager->persist($returnstatus);
@@ -714,7 +715,7 @@ class ReturnController extends AbstractController
 
                     
                         $savephoto = new ReturnImages();
-                        $savephoto->setReturnId($newReturn->getId());
+                        $savephoto->setReturns($newReturn);
                         
                         $savephoto->setCreatedAt(new \DateTime());
                         $entityManagerPhoto = $doctrine->getManager();
@@ -754,7 +755,7 @@ class ReturnController extends AbstractController
                 foreach ($videos as $video) {
 
                     $savevideo = new ReturnVideos();
-                    $savevideo->setReturnId($newReturn->getId());
+                    $savevideo->setReturns($newReturn);
                     
                     $savevideo->setCreatedAt(new \DateTime());
                     $entityManagerVideo = $doctrine->getManager();
@@ -793,7 +794,7 @@ class ReturnController extends AbstractController
         }
 
         //for returnstatus table
-        $returnstatus->setReturnId($newReturn->getId());
+        $returnstatus->setReturns($newReturn);
         $entityManagerRS = $doctrine->getManager();
         $entityManagerRS->persist($returnstatus);
 

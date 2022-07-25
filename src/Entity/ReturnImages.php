@@ -27,17 +27,17 @@ class ReturnImages
      */
     private $url;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $return_id;
 
-    /**
+     /**
+     * @ORM\ManyToOne(targetEntity=Returns::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $returns;
+
+     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
 
@@ -48,6 +48,7 @@ class ReturnImages
      */
     private $updated_at;
 
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -65,14 +66,14 @@ class ReturnImages
         return $this;
     }
 
-    public function getReturnId(): ?int
+    public function getReturns(): ?Returns
     {
-        return $this->return_id;
+        return $this->returns;
     }
 
-    public function setReturnId(int $return_id): self
+    public function setReturns(?Returns $returns): self
     {
-        $this->return_id = $return_id;
+        $this->returns = $returns;
 
         return $this;
     }
@@ -100,4 +101,6 @@ class ReturnImages
 
         return $this;
     }
+
+   
 }
