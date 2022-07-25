@@ -21,20 +21,6 @@ class ReturnStatus
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $return_id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $status_id;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -49,34 +35,17 @@ class ReturnStatus
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Returns::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $returns;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getReturnId(): ?int
-    {
-        return $this->return_id;
-    }
-
-    public function setReturnId(int $return_id): self
-    {
-        $this->return_id = $return_id;
-
-        return $this;
-    }
-
-    public function getStatusId(): ?int
-    {
-        return $this->status_id;
-    }
-
-    public function setStatusId(int $status_id): self
-    {
-        $this->status_id = $status_id;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -98,6 +67,18 @@ class ReturnStatus
     public function setStatus(?Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getReturns(): ?Returns
+    {
+        return $this->returns;
+    }
+
+    public function setReturns(?Returns $returns): self
+    {
+        $this->returns = $returns;
 
         return $this;
     }

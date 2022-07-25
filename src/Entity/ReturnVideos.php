@@ -27,12 +27,12 @@ class ReturnVideos
      */
     private $url;
 
+
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Returns::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $return_id;
+    private $returns;
 
     /**
      * @var \DateTime
@@ -47,6 +47,8 @@ class ReturnVideos
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+  
 
     public function getId(): ?int
     {
@@ -65,14 +67,14 @@ class ReturnVideos
         return $this;
     }
 
-    public function getReturnId(): ?int
+    public function getReturns(): ?Returns
     {
-        return $this->return_id;
+        return $this->returns;
     }
 
-    public function setReturnId(int $return_id): self
+    public function setReturns(?Returns $returns): self
     {
-        $this->return_id = $return_id;
+        $this->returns = $returns;
 
         return $this;
     }
@@ -100,4 +102,6 @@ class ReturnVideos
 
         return $this;
     }
+
+   
 }

@@ -62,18 +62,18 @@ class Returns
      */
     private $company_name;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
+    // /**
+    //  * @var int
+    //  *
+    //  * @ORM\Column(type="integer")
+    //  */
     // private $status_id;
 
-    // /**
-    //  * @var string
-    //  *
-    //  * @ORM\Column(type="string", length=155, nullable=true)
-    //  */
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=155, nullable=true)
+     */
     private $action;
 
     /**
