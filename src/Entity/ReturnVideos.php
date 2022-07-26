@@ -30,6 +30,7 @@ class ReturnVideos
 
     /**
      * @ORM\ManyToOne(targetEntity=Returns::class)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\JoinColumn(nullable=false)
      */
     private $returns;

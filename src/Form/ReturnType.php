@@ -235,7 +235,12 @@ class ReturnType extends AbstractType
                 $street = $all['return']['street'];
                 $postalCode = $all['return']['postal_code'];
                 $itemId = $all['return']['items'];
-
+                $item = $this->doctrine->getRepository(ResellerShipmentItems::class)->findOneBy(['id'=>$itemId]);
+                
+                if(!$item)
+                {
+                    return $form->get('items')->addError(new FormError('Item doesnt exist'));              
+                }
                 $return->setReference($this->order->getReference());
                 $return->setWebshopOrderId($this->orderId);
                 $return->setStatus($status);
@@ -245,7 +250,7 @@ class ReturnType extends AbstractType
                 $return->setCompanyName($companyName);
                 $return->setStreet($street);
                 $return->setPostCode($postalCode);
-                $return->setItemsId($itemId);
+                $return->setItem($item);
                 // $return->setStatus($status);
                 $return->setCountry($country);
                 $return->setCreatedAt(new \DateTime());
@@ -368,6 +373,11 @@ class ReturnType extends AbstractType
                 // - returns and -returnstatus send email
 
                 $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
+
+                if(!$emailT)
+                {
+                    return dd("Mora se napraviti email");
+                }
 
                 $servername = $_SERVER['SERVER_NAME'];
                 

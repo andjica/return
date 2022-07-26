@@ -133,14 +133,20 @@ class Returns
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $items_id;
+    // private $items_id;
+
+    // /**
+    //  * @var string
+    //  *
+    //  * @ORM\Column(type="string", length=15, nullable=true)
+    //  */
+    private $post_code;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\OneToOne(targetEntity=ResellerShipmentItems::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $post_code;
+    private $item;
 
     public function getId(): ?int
     {
@@ -328,17 +334,17 @@ class Returns
         return $this;
     }
 
-    public function getItemsId(): ?int
-    {
-        return $this->items_id;
-    }
+    // public function getItemsId(): ?int
+    // {
+    //     return $this->items_id;
+    // }
 
-    public function setItemsId(int $items_id): self
-    {
-        $this->items_id = $items_id;
+    // public function setItemsId(int $items_id): self
+    // {
+    //     $this->items_id = $items_id;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getPostCode(): ?string
     {
@@ -348,6 +354,18 @@ class Returns
     public function setPostCode(?string $post_code): self
     {
         $this->post_code = $post_code;
+
+        return $this;
+    }
+
+    public function getItem(): ?ResellerShipmentItems
+    {
+        return $this->item;
+    }
+
+    public function setItem(ResellerShipmentItems $item): self
+    {
+        $this->item = $item;
 
         return $this;
     }
