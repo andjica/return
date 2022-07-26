@@ -682,7 +682,7 @@ class ReturnController extends AbstractController
 
         
         $item = $request->request->get('items-products');
-
+        
         $deliveryAddress = $order->getDeliveryAddressId();
         $client = $doctrine->getRepository(ResellerAddress::class)->findOneBy(['id' => $deliveryAddress]);
         
@@ -696,7 +696,7 @@ class ReturnController extends AbstractController
         $newReturn->setStreet($street);
         $newReturn->setPostCode($postcode);
         $newReturn->setCreatedAt(new \DateTime());
-        $newReturn->setItemsId($item);
+        $newReturn->setItem($item);
         $entityManager = $doctrine->getManager();
         $entityManager->persist($newReturn);
         

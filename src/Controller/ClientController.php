@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Users;
 use App\Entity\Status;
 use App\Entity\Country;
 use App\Entity\Returns;
@@ -115,10 +116,37 @@ class ClientController extends AbstractController
              // stores an attribute in the session for later reuse
             $session->set('webshop_order_id', $webshopOrderId);
             $session->set('user_email', $email);
+            $order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
+               
+                if(!$order)
+                {
+                  
+                     return $form->get('webshop_order_id')->addError(new FormError('There is no order with id: '.$webshopOrderId));              
+                }
+                else
+                {
+                    $customerId = $order->getCustomerId();
+                    $customer = $this->doctrine->getRepository(Users::class)->findOneBy(['id' => $customerId]);
+                    $customeremail = $customer->getUsername();
+                    
+                    
+                    if($email !== $customeremail)
+                    {
+                        
+                       $form->get('user_email')->addError(new FormError('There is no order with email : '.$email));              
+                    }
+                    else
+                    {
+                        return $this->redirectToRoute('create_return');
+                    }
+                   
+                    
 
+                }
+                
             
+          
             
-        
             
         }
         // $return->add($findreturn);
