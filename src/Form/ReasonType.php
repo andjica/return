@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\ReasonSettings;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -23,74 +25,40 @@ class ReasonType extends AbstractType
 {
     public $requestStack;
     public $doctrine;
+    public $findfirst;
+    public $firstreason; 
 
     public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine)
     {
         $this->requestStack = $requestStack;
         $this->doctrine = $doctrine;
+
+
+        //find for edit
+        $this->findfirst = $doctrine->getRepository(ReasonSettings::class)->findOneBy(['id'=>1]);
+
+        
+        if( $this->findfirst)
+        {
+            $this->firstreason =  $this->findfirst->getName();
+        }
+        else
+        {
+
+            $this->firstreason = "Wrong item";
+        }
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-
-            $request = $this->requestStack->getCurrentRequest();
-
-            $all = $request->request->all();
-            // return dd($all);
-            $reasons = $all['reasons']['text'];
-            
-            if(count($all['reasons']) == 1)
-            {
-                return dd("Jedan mora biti aktivan");
-            }
-
-            $active = $all['reasons']['active'];
-            
+        $builder->add('first_reason', TextType::class, [
+            'required' => 'First reason must be active',
+            'attr' => ['class' => 'form-control'],
+            'empty_data' => $this->firstreason,
+            'data' => $this->firstreason,
+            'label' => 'Reason 1',
+        ]);
            
-           $reasonExist = array_filter($reasons);
-           $activeExist = array_filter($active);
-           
-           $appended = array_merge($reasonExist,$activeExist); 
-
-           $data = [
-            'name' => $reasonExist,
-            'active' => $activeExist 
-           ];
-           
-           $act = [];
-           foreach($data as $d)
-           {
-                $newReasons = new ReasonSettings();
-                return dd($d->name);
-                // $newReasons->setName($value);
-                
-           }
-           return dd($act);
-            foreach($reasonExist as $r)
-            {
-                $newReasons = new ReasonSettings();
-               
-                $newReasons->setName($r);
-                
-                
-                foreach($activeExist as $a)
-                { 
-                    $newReasons->setActive(1);
-                }
-                $entityManager = $this->doctrine->getManager();
-                $entityManager->persist($newReasons);
-                $entityManager->flush();
-            }
-        //    return dd($reasonExist);
-
-
-            
-         
-              
-          
-           
-        });
       
     }
+    
 }

@@ -42,7 +42,7 @@ class SearchReturnType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('webshop_order_id', TextType::class, [
-                'required' => 'Order id is required field',
+                'required' => 'Nummber of order id is required field',
                 'attr' => ['class' => 'form-control'],
             ]);
     }

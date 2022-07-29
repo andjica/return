@@ -48,19 +48,19 @@ class ReasonSettingsRepository extends ServiceEntityRepository
     // /**
     //  * @return ReasonSettings[] Returns an array of ReasonSettings objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    
+    // public function findByOthers($value)
+    // {
+    //     return $this->createQueryBuilder('r')
+    //         ->andWhere('r.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->orderBy('r.id', 'ASC')
+    //         ->setMaxResults(10)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
+    
 
     /*
     public function findOneBySomeField($value): ?ReasonSettings
@@ -73,4 +73,16 @@ class ReasonSettingsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    //example for fandind except some row
+    public function findothers($val)
+    {
+        return $this
+            ->createQueryBuilder("r")
+            ->where('r.id != :val')
+            ->setParameter('val', $val)
+            ->getQuery()
+            ->getResult();
+    }
+    
 }
