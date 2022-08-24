@@ -29,6 +29,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.order_id) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.order_id) }}
+                    <small>{{ form_help(form.order_id) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.order_id) }}
+                    </div>
+                </div>
+            </div>
              <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
                     {{ form_label(form.status) }}
@@ -128,6 +140,7 @@
                 </div>
                 <div class="col-lg-8">
                     {{ form_widget(form.client_name) }}
+                    
                     <small>{{ form_help(form.client_name) }}</small>
                     <div class="form-error">
                         {{ form_errors(form.client_name) }}
@@ -189,7 +202,7 @@
                 </div>
                 </div>
             </div>
-        {{ form_end(form, {'render_rest': false}) }}
+        {{ form_end(form) }}
         </div>
      </div>
     </div>

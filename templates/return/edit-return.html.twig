@@ -51,13 +51,13 @@
                             <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Country</label>
                             <div class="col-lg-8">
                                 <select name="countries" class="form-control">
-                                    {% if  return.getCountries()  is empty %}
+                                    {% if  return.getCountry()  is empty %}
                                         <option value="" class="form-control">
                                             /
                                         </option>
                                         {% else %}
-                                        <option value="{{return.getCountries().getId()}}" class="form-control">
-                                        {{ return.getCountries().getName() }} 
+                                        <option value="{{return.getCountry().getId()}}" class="form-control">
+                                        {{ return.getCountry().getName() }} 
                                         {% endif %}
                                     </option>
                                     {% for country in countries%}
@@ -107,9 +107,9 @@
                     <div class="col-lg-8">{{return.getReference()}}</div>
                 </div>
                    
-                 {% if  itemId == 0 %}
+                 {# {% if  itemId == 0 %}
                         There is no items
-                 {% else %}
+                 {% else %} #}
                     <h5 class="mt-10">Item for return:</h5><br>
                      <div class="row">
                         <div class="col-lg-8">Name:</div>
@@ -148,8 +148,8 @@
                                 {% endfor %}
                         {% endif %} #}
 
-                {% endif %}
-              
+                {# {% endif %}
+               #}
         </div>
     </div>
          </div>

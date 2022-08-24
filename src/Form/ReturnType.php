@@ -83,7 +83,7 @@ class ReturnType extends AbstractType
     {
         $builder->add('order_id', TextType::class, [
             'required' => 'Order is required field',
-            'attr' => ['class' => 'form-control', 'disabled'=>'disabled'],
+            'attr' => ['class' => 'form-control'],
             'data' => $this->order->getId()
             ])
             ->add('status', EntityType::class, [
@@ -142,7 +142,7 @@ class ReturnType extends AbstractType
             ])
             ->add('reference', TextType::class, [
                 'required' => 'References is required field',
-                'attr' => ['class' => 'form-control', 'disabled'=>'disabled'],
+                'attr' => ['class' => 'form-control'],
                 'data' =>  $this->order->getReference()
             ])
             ->add('client_name', TextType::class, [
@@ -224,7 +224,12 @@ class ReturnType extends AbstractType
                 $statusId = $all['return']['status'];
                 $status = $this->doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
                
-
+                $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
+                
+                if(!$emailT)
+                {
+                    return dd("Mora se napraviti email");
+                }
                 //find country
                 $countryId = $this->resellerAddress->getCountryId();
                 $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
@@ -241,6 +246,15 @@ class ReturnType extends AbstractType
                 {
                     return $form->get('items')->addError(new FormError('Item doesnt exist'));              
                 }
+
+                $alredyExist = $this->doctrine->getRepository(Returns::class)->findOneBy(['item'=>$item]);
+               
+                if($alredyExist)
+                {
+                    
+                    return $form->get('items')->addError(new FormError('Item is in process for return'));        
+                }
+
                 $return->setReference($this->order->getReference());
                 $return->setWebshopOrderId($this->orderId);
                 $return->setStatus($status);
@@ -371,13 +385,14 @@ class ReturnType extends AbstractType
 
              
                 // - returns and -returnstatus send email
-
                 $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
 
                 if(!$emailT)
                 {
                     return dd("Mora se napraviti email");
                 }
+
+                
 
                 $servername = $_SERVER['SERVER_NAME'];
                 
@@ -408,6 +423,10 @@ class ReturnType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
+            'csrf_protection' => true,
+            // the name of the hidden HTML field that stores the token
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'return',
         ]);
     }
 }
