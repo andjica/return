@@ -1,7 +1,272 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fcf06a62-0f87-4399-ad43-78274a1dd647" name="Changes" comment="" />
+    <list default="true" id="fcf06a62-0f87-4399-ad43-78274a1dd647" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sreturn.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/css/custom.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/entrypoints.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/runtime.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/vendor/bootstrap.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/vendor/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/vendor/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_ob-7db861.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/styles/admin.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706153051.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706153957.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706155701.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706160316.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706161000.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706161448.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220706163158.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220714121322.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220725155120.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220725155654.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220725155713.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220725155749.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220725155840.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20220726190931.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/custom.style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/email-editor.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/return.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/css/style.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/apps-chats/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/create-return-validation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/customers/add.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/customers/list/export.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/customers/list/list.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/intro.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/modals/create-app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/modals/upgrade-plan.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/modals/users-search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/custom/widgets.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/scripts.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/js/widgets.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/custom/datatables/datatables.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/custom/datatables/datatables.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/global/plugins.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/global/plugins.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/plugins/global/sourcemaps/tiny-slider.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/Modern-Minimalist-Typography-Logo-624b909013c9c.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/Modern-Minimalist-Typography-Logo-62506e62a9cea.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/Modern-Minimalist-Typography-Logo-62586f033f7bd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/Screenshot-2022-01-26-013846-removebg-preview-6238620ac5764.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/Screenshot-51-624b840b39b4f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/about-img1-62585516eeda0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/background-is-pink-with-hole-advertisement-62585516ef63e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244c78515458.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244c818603e5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244cc6844466.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244cf6f9799d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244cf7e93d06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-6244c7850e966.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/customer-service-operator-talking-phone-office-6244cc6840be2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-624b840b3a2f4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-624b9014033ea.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-624b909014175.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-62506e62aa508.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-removebg-preview-6244c78515ee7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-removebg-preview-6244c818639f9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-removebg-preview-6244cf6f9b17c.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/da-01-removebg-preview-6244cf7e969fb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244c8186493d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/happy-smiling-millennial-girl-with-red-hair-holds-modern-cellular-enjoys-texting-social-media-uses-mobile-network-services-wears-blue-jumper-hat-6239eb871fca9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/happy-smiling-millennial-girl-with-red-hair-holds-modern-cellular-enjoys-texting-social-media-uses-mobile-network-services-wears-blue-jumper-hat-62586f033fef9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/happy-young-woman-showing-blank-screen-mobile-phone-hand-gesture-success-isolated-pink-background-6238620ac5ec3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/interiorandliving-01-624b901402e22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/client_images/takeaway-6239eb871f5ec.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/errors/17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/errors/18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/10-2022-6-624f164e43919.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/10-2022-9-624f164e4199a.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/2c4800b8-mercedes-amg-gt-4-aero-kit-6-624f10a1bf599.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/2c4800b8-mercedes-amg-gt-4-aero-kit-6-624f152830d8f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/300-12-62612615e3bf6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294f73e38f6e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294f73eb1163.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294f7421a040.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294f7455e842.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294f74774fbf.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/BannerOlivera-01-6294fef4a2674.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/H406b49132f084984988bf9347debe271w-6251765cc4da1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/Lange-Strip-Opbouw-Lineaire-Lamp-Eenvoudige-Loopbrug-Balkon-Slaapkamer-Eetkamer-Muur-Woonkamer-Zonder-Belangrijkste-Plafondlamp-jpg-Q90-jpg-624b7ac1d6d01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/Screenshot-34-6285392557281.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/Screenshot-51-removebg-preview-62e929593f7ef.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/Woonkamer-Kroonluchter-Moderne-Minimalistische-Creatieve-Nordic-Plafond-Lamp-Slaapkamer-Eetkamer-Verlichting-Decoratie-Interieur-Led-Lampen-jpg-Q90-jpg-2-624b7ac1d9b1f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/Woonkamer-Kroonluchter-Moderne-Minimalistische-Creatieve-Nordic-Plafond-Lamp-Slaapkamer-Eetkamer-Verlichting-Decoratie-Interieur-Led-Lampen-jpg-Q90-jpg-2-6250af539db2d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/babylogo1-01-624f10a1c415e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/babylogo1-01-624f152833041.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/beautiful-asian-woman-uses-smartphone-app-sends-messages-social-media-chat-points-away-copy-space-wears-casual-jumper-6244d9747cac9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/customer-service-operator-talking-phone-office-01-removebg-preview-6244d6ce03549.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/customer-service-operator-talking-phone-office-6244d9747ff80.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-62e92683a7971.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d6ce04554.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d717b7482.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d74869daf.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d790d00b8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d80b948bf.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d8567e9ce.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d87540a58.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d8885d0d8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/da-01-removebg-preview-6244d89d8aab1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/emailDevelopers-624f198db6007.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d717ba8b5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d7486b913.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d790d2f1c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d80b963ab.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d85681b2a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d875433e3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d88860317.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/front-view-young-male-blue-striped-jersey-black-wall-photo-model-darkness-human-colors-6244d89d8d7a6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/headone-01-624f11cd30bd2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/imagename-6251765cc1fa1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/interiorandliving-01-624f11cd33f76.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/logo-624f30272e696.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/logo4-624f302731c9b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/social-62e9292553c9c.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/stripe-624f16d78ee27.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/stripe-624f1a1aef6a8.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_images/stripe-624f1a3d00a5e.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_payment_images/Resources-OG-2x-62680f97970ff.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_payment_images/car-removebg-preview-removebg-preview-62cd66c9a565e.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_payment_images/demo1-1-62710340ec604.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/Modern-Minimalist-Typography-Logo-6266af65882c2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/Modern-Minimalist-Typography-Logo-62c2e3c9084bb.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/Salontafel-Mariska-Sfeer-8823292-6216-6286a9d5314f7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/Screenshot-51-62e829b84e8b9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/Screenshot-53-removebg-preview-62857fd3cdd21.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/blank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/da-01-62e829b84ed13.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/glad-dancing-african-woman-laughing-pretty-girl-vintage-jeans-chilling-white-62857fd3d440d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/logo-2x-6286aa01d23bd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/pexels-vecislavas-popa-1643383-62c2e3c909787.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_settings_images/young-woman-orange-sweater-chatting-her-smartphone-6266af793e65c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/300-21-6267bdea19aa1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/bandicam-2021-10-19-00-15-19-900-mp4-6244d875447a0.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/bandicam-2021-10-19-00-15-19-900-mp4-6244d88861cd9.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/bandicam-2021-10-19-00-15-19-900-mp4-6244d89d8f239.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/bandicam-2021-10-19-00-15-19-900-mp4-6244d97482b01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/return_videos/young-beautiful-girl-holding-speech-bubble-text-isolated-6267be976d58d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/ClientController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/CountryController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/EmailTemplateController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/FrontController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/PaymentController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/ReasonController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/ReturnController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/ReturnSettingsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/ReturnStatusController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Country.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/EmailTemplate.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/PayCategory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Payments.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ReasonSettings.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ResellerAddress.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ResellerShipmentItems.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ResellerShipments.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ReturnImages.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ReturnSettings.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ReturnStatus.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/ReturnVideos.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Returns.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Status.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Users.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/PaymentsType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/ReasonType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/ReturnEditType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/ReturnSettingsType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/ReturnType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/SearchReturnType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/CountryRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/EmailRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/EmailTemplateRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/PayCategoryRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/PaymentsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReasonSettingsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ResellerAddressRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ResellerShipmentItemsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ResellerShipmentsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturnImagesRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturnSettingsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturnStatusRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturnVideosRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/ReturnsRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/StatusRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/UsersRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/client/components/sidebar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/client/components/topbar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/client/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/alert-message.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/header.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/return-settings/toolbar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/return/toolbar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/sidebar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/toolbar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/vertical-sidebar.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/country/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/email/edit-email.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/email/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/email/send-status.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/email/status.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/errors/404.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/errors/500.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/front/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/front/order-products.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/main-metronic.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/payment/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/payment/new.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/reason/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/reason/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/reason/new.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return/add-return.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return/edit-return.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return/find.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return/new.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return_settings/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return_settings/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return_settings/new.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return_status/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/return_status/show-process.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user-template.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/console" beforeDir="false" afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/web_profiler.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/web_profiler.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.override.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,66 +295,38 @@
       <path value="$PROJECT_DIR$/vendor/friendsofphp/proxy-manager-lts" />
       <path value="$PROJECT_DIR$/vendor/symfony/dotenv" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
       <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/string" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/vendor/symfony/notifier" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
       <path value="$PROJECT_DIR$/vendor/symfony/messenger" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
       <path value="$PROJECT_DIR$/vendor/symfony/process" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/symfony/serializer" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bundle" />
-      <path value="$PROJECT_DIR$/vendor/symfony/doctrine-messenger" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
-      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/vendor/symfony/web-profiler-bundle" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
       <path value="$PROJECT_DIR$/vendor/symfony/maker-bundle" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
-      <path value="$PROJECT_DIR$/vendor/symfony/browser-kit" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/vendor/symfony/config" />
-      <path value="$PROJECT_DIR$/vendor/symfony/phpunit-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/mailer" />
       <path value="$PROJECT_DIR$/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/vendor/symfony/debug-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
       <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
-      <path value="$PROJECT_DIR$/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
       <path value="$PROJECT_DIR$/vendor/symfony/intl" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/symfony/routing" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
       <path value="$PROJECT_DIR$/vendor/symfony/doctrine-bridge" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/vendor/symfony/monolog-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/dependency-injection" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
-      <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
       <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/validator" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation" />
@@ -106,12 +343,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
-      <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/vendor/symfony/framework-bundle" />
-      <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/vendor/symfony/cache" />
-      <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/vendor/symfony/property-info" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
@@ -147,7 +381,9 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle" />
-      <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/vendor/symfony/apache-pack" />
     </include_path>
   </component>
   <component name="ProjectId" id="2E2DxE6ILQt7S7iB2vNErx9LdR8" />
@@ -156,15 +392,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "yarn",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="phpunit.xml.dist" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
@@ -180,12 +416,16 @@
       <option name="presentableId" value="Default" />
       <updated>1661785030800</updated>
       <workItem from="1661785032137" duration="3239000" />
-      <workItem from="1661846556608" duration="2185000" />
+      <workItem from="1661846556608" duration="5359000" />
+      <workItem from="1661855680053" duration="1000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

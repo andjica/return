@@ -1,0 +1,80 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block public_key %}New ReturnSettings{% endblock %}
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl mt-17 pt-5">
+<div class="row">
+  <div class="col-lg-3 col-xl-2">
+        {{include('/components/vertical-sidebar.html.twig')}}
+    </div>
+    <div class="col-lg-7">
+    <div class="card">
+    <div class="card-body">
+
+        {{include('/components/alert-message.html.twig')}}
+
+        {{ form_start(form) }}
+            <div class="row mb-6 mt-2">
+                <div class="col-lg-4 text-right">
+                {{ form_label(form.image) }} 
+                </div>
+                 <div class="col-lg-8">
+                    <div class="image-input image-input-outline image-input-changed" data-kt-image-input="true" style="background-image: url('{{asset('/return_payment_images/')}}{{payment.getImage()}})">
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('{{asset('/return_payment_images/')}}{{payment.getImage()}}"></div>
+                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="" data-bs-original-title="Insert logo">
+                           <i class="fas fa-pen text-muted"></i>
+                          {{ form_widget(form.image) }}
+                        </label>
+                    </div>
+                    <small>{{ form_help(form.image) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                    {{ form_errors(form.image) }}
+                </div>
+                </div>
+            </div>
+            
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.public_key) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.public_key) }}
+                    <small>{{ form_help(form.public_key) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.public_key) }}
+                    </div>
+                </div>
+            </div>
+            {% if category.getName() == "Stripe" %}
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.secret_key) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.secret_key) }}
+                    <small>{{ form_help(form.secret_key) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.secret_key) }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+             <div class="row mb-6 mt-2">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-8">
+                    <button class="btn btn-success mt-3 btn-sm">{{ button_label|default('Save') }}</button>
+                </div>
+                </div>
+            </div>
+        {{ form_end(form, {'render_rest': false}) }}
+        </div>
+     </div>
+    </div>
+</div>
+</div>
+{% endblock %}

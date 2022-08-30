@@ -1,0 +1,240 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Create{% endblock %}
+
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+   <link href="{{asset('/assets/css/email-editor.css')}}" rel="stylesheet" type="text/css">
+  <script src="https://cdn.tiny.cloud/1/8p3icisy40xcxkscqyb9aprzmvhopjtna0jb1j6tduiy8vld/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+  {% endblock %}
+
+{% block content %}
+
+{{include('components/return-settings/toolbar.html.twig')}}
+
+<div class="container-xxl mt-17 pt-5">
+<div class="row pl-2">
+    <div class="col-lg-3 col-xl-2">
+        {{include('/components/vertical-sidebar.html.twig')}}
+    </div>
+    <div class="col-lg-9">
+        <div class="card">
+        <div class="row">
+            <div class="card-body border-top p-9">
+
+                {{include('/components/alert-message.html.twig')}}
+                <form action="{{asset('/email/create/')}}{{findstatus.getKeyName()}}" method="POST">
+                 <input type="hidden" name="token" value="{{ csrf_token('add-return-settings') }}"/>
+                 <input type="hidden" name="statusId" value="{{findstatus.getId()}}">
+
+                 <div class="row mb-0 mt-8">
+                    <label class="col-lg-2 col-form-label fw-bold fs-6 text-right">Enabled</label>
+                    <div class="col-lg-8 d-flex align-items-center">
+                        <div class="form-check form-check-solid form-switch fv-row">
+                             <input class="form-check-input w-45px h-30px" name="status" type="checkbox" id="allowmarketing" checked="checked">
+                             <label class="form-check-label" for="allowmarketing"></label>
+                            
+                        </div>
+                    </div>
+                </div>
+               <div class="row">
+                    <label class="col-2 col-form-label text-right">Shablon</label>
+                    <div class="col-9 col-form-label">
+                        <div class="radio-list">
+                            <label class="radio radio-primary">
+                            <input type="radio" name="shablon" value="custom" class="sha" checked="checked">
+                            <span></span>Custom</label><br>
+                            <label class="radio radio-primary">
+                            <input type="radio" name="shablon" value="user" class="sha" >
+                            <span></span>Your template</label>
+                        </div>
+                      </div>
+                </div>
+                <div class="row mt-10">
+                        <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Subject</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="subject" name="subject">
+                        </div>
+                    </div>
+                <div id="shablon-custom">
+                   <div class="row mt-10">
+                      <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
+                    <div class="col-lg-10">
+     
+                   <textarea id="open-source-plugins" name="templatecustom">
+                      {% if imagelogo is empty %}
+
+                      {% else %}
+                        <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
+                        {% endif %}
+                        <h2 style="text-align: center;">There is a new message</h2>
+                        <p>Your order nummber [web_shop_order_id] is in [status] status.</p>
+
+                        Dear [name],
+                        Your order at [webshop_name] with order number [webshop_order_id] is now in [status]
+                        [name]
+                        [address]
+                        [postal_code] [city]
+                        [country]
+                        [phone]
+                        </textarea>
+                    </div>
+                </div>
+                </div>
+               
+               
+               
+                 <div id="shablon-user" style="display:none">
+                   <div class="row mt-10">
+                    <label class="col-lg-2 col-form-label fw-bold fs-6  text-right">Background color</label>
+                    <div class="col-lg-3">
+                          <input type="text" class="form-control" id="background" name="background">
+                          
+                    </div>
+                </div>
+                <div class="row mt-10">
+                      <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
+                    <div class="col-lg-10">
+                    
+                   <textarea id="open-source-plugins" name="templateuser">
+                      {% if imagelogo is empty %}
+
+                      {% else %}
+                        <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
+                        {% endif %}
+                        <h2 style="text-align: center;">There is a new message</h2>
+                        <p>Your order nummber [web_shop_order_id] is in [status] status.</p>
+
+                        <h2>Found a bug?</h2>
+                        <p>If you think you have found a bug please create an issue on the <a href="https://github.com/tinymce/tinymce/issues">GitHub repo</a> to report it to the developers.</p>
+
+                        <h2>Finally ...</h2>
+                        <p>Don't forget to check out our other product <a href="http://www.plupload.com" target="_blank">Plupload</a>, your ultimate upload solution featuring HTML5 upload support.</p>
+                        <p>Thanks for supporting TinyMCE! We hope it helps you and your users create great content.<br>All the best from the TinyMCE team.</p>
+                        </textarea>
+
+                    </div>
+                </div>
+                </div>
+                </div>
+                  <div class="row mb-0 mt-8">
+                    <div class="col-lg-4 col-form-label fw-bold fs-6"></div>
+                    <div class="col-lg-8 d-flex align-items-center">
+                       <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
+                    </div>
+                </div>
+                
+                </div>
+                     
+                    </div>
+                </div>
+                
+                </div>
+             </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}
+ {% block javascripts %}
+ <script>
+
+    const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+
+        tinymce.init({
+        selector: 'textarea#open-source-plugins',
+        plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+        editimage_cors_hosts: ['picsum.photos'],
+        menubar: 'file edit view insert format tools table help',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+        toolbar_sticky: true,
+        toolbar_sticky_offset: isSmallScreen ? 102 : 108,
+        autosave_ask_before_unload: true,
+        autosave_interval: '30s',
+        autosave_prefix: '{path}{query}-{id}-',
+        autosave_restore_when_empty: false,
+        autosave_retention: '2m',
+        image_advtab: true,
+        link_list: [
+            { title: 'My page 1', value: 'https://www.tiny.cloud' },
+            { title: 'My page 2', value: 'http://www.moxiecode.com' }
+        ],
+        image_list: [
+            { title: 'My page 1', value: 'https://www.tiny.cloud' },
+            { title: 'My page 2', value: 'http://www.moxiecode.com' }
+        ],
+        image_class_list: [
+            { title: 'None', value: '' },
+            { title: 'Some class', value: 'class-name' }
+        ],
+        importcss_append: true,
+        file_picker_callback: (callback, value, meta) => {
+            /* Provide file and text for the link dialog */
+            if (meta.filetype === 'file') {
+            callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+            }
+
+            /* Provide image and alt text for the image dialog */
+            if (meta.filetype === 'image') {
+            callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+            }
+
+            /* Provide alternative source and posted for the media dialog */
+            if (meta.filetype === 'media') {
+            callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
+            }
+        },
+        templates: [
+            { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+            { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+            { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+        ],
+        template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+        template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+        height: 600,
+        image_caption: true,
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        noneditable_class: 'mceNonEditable',
+        toolbar_mode: 'sliding',
+        contextmenu: 'link image table',
+        skin: useDarkMode ? 'oxide-dark' : 'oxide',
+        content_css: useDarkMode ? 'dark' : 'default',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+        });
+
+
+        
+
+</script>
+            
+<script src="{{asset('/')}}build/vendor/jquery.min.js"></script>
+<script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
+<script>
+
+    $(".sha").on('click', function(){
+        let shablon = $('input[name="shablon"]:checked').val();
+
+        if(shablon == "custom")
+        {
+            if(document.getElementById("shablon-custom").style.display="none")
+            {
+                document.getElementById("shablon-custom").style.display="block";
+                document.getElementById("shablon-user").style.display="none";
+            }
+        }
+        else
+        {
+            document.getElementById("shablon-custom").style.display="none";
+            document.getElementById("shablon-user").style.display="block";
+            
+        }
+    });
+</script>
+{% endblock %}
