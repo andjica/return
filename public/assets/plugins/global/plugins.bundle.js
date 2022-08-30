@@ -179,12 +179,12 @@ jQuery.fn = jQuery.prototype = {
 	// Get the whole matched element set as a clean array
 	get: function( num ) {
 
-		// Return all the elements in a clean array
+		// Returns all the elements in a clean array
 		if ( num == null ) {
 			return slice.call( this );
 		}
 
-		// Return just the one element from the set
+		// Returns just the one element from the set
 		return num < 0 ? this[ num + this.length ] : this[ num ];
 	},
 
@@ -198,7 +198,7 @@ jQuery.fn = jQuery.prototype = {
 		// Add the old object onto the stack (as a reference)
 		ret.prevObject = this;
 
-		// Return the newly-formed element set
+		// Returns the newly-formed element set
 		return ret;
 	},
 
@@ -322,7 +322,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		}
 	}
 
-	// Return the modified object
+	// Returns the modified object
 	return target;
 };
 
@@ -765,7 +765,7 @@ function Sizzle( selector, context, results, seed ) {
 
 	results = results || [];
 
-	// Return early from calls with invalid selector or context
+	// Returns early from calls with invalid selector or context
 	if ( typeof selector !== "string" || !selector ||
 		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
 
@@ -1130,7 +1130,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	var hasCompare, subWindow,
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
-	// Return early if doc is invalid or already selected
+	// Returns early if doc is invalid or already selected
 	// Support: IE 11+, Edge 17 - 18+
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
 	// two documents; shallow comparisons work.
@@ -1851,7 +1851,7 @@ Expr = Sizzle.selectors = {
 				match[ 2 ] = unquoted.slice( 0, excess );
 			}
 
-			// Return only captures needed by the pseudo filter method (type and argument)
+			// Returns only captures needed by the pseudo filter method (type and argument)
 			return match.slice( 0, 3 );
 		}
 	},
@@ -2372,7 +2372,7 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 		}
 	}
 
-	// Return the length of the invalid excess
+	// Returns the length of the invalid excess
 	// if we're just parsing
 	// Otherwise, throw an error or return tokens
 	return parseOnly ?
@@ -2636,7 +2636,7 @@ function matcherFromTokens( tokens ) {
 		} else {
 			matcher = Expr.filter[ tokens[ i ].type ].apply( null, tokens[ i ].matches );
 
-			// Return special upon seeing a positional matcher
+			// Returns special upon seeing a positional matcher
 			if ( matcher[ expando ] ) {
 
 				// Find the next relative operator (if any) for proper handling
@@ -5562,7 +5562,7 @@ jQuery.event = {
 					leverageNative( el, "click", returnTrue );
 				}
 
-				// Return false to allow normal processing in the caller
+				// Returns false to allow normal processing in the caller
 				return false;
 			},
 			trigger: function( data ) {
@@ -5578,7 +5578,7 @@ jQuery.event = {
 					leverageNative( el, "click" );
 				}
 
-				// Return non-false to allow normal event-path propagation
+				// Returns non-false to allow normal event-path propagation
 				return true;
 			},
 
@@ -5842,7 +5842,7 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			// dataPriv.set( this, "blur", ... )
 			leverageNative( this, type, expectSync );
 
-			// Return false to allow normal processing in the caller
+			// Returns false to allow normal processing in the caller
 			return false;
 		},
 		trigger: function() {
@@ -5850,7 +5850,7 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			// Force setup before trigger
 			leverageNative( this, type );
 
-			// Return non-false to allow normal event-path propagation
+			// Returns non-false to allow normal event-path propagation
 			return true;
 		},
 
@@ -6186,7 +6186,7 @@ jQuery.extend( {
 			setGlobalEval( destElements, !inPage && getAll( elem, "script" ) );
 		}
 
-		// Return the cloned set
+		// Returns the cloned set
 		return clone;
 	},
 
@@ -6650,7 +6650,7 @@ var cssPrefixes = [ "Webkit", "Moz", "ms" ],
 	emptyStyle = document.createElement( "div" ).style,
 	vendorProps = {};
 
-// Return a vendor-prefixed property or undefined
+// Returns a vendor-prefixed property or undefined
 function vendorPropName( name ) {
 
 	// Check for vendor prefixed names
@@ -6665,7 +6665,7 @@ function vendorPropName( name ) {
 	}
 }
 
-// Return a potentially-mapped jQuery.cssProps or vendor prefixed property
+// Returns a potentially-mapped jQuery.cssProps or vendor prefixed property
 function finalPropName( name ) {
 	var final = jQuery.cssProps[ name ] || vendorProps[ name ];
 
@@ -6788,7 +6788,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		offsetProp = "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 );
 
 	// Support: Firefox <=54
-	// Return a confounding non-pixel value or feign ignorance, as appropriate.
+	// Returns a confounding non-pixel value or feign ignorance, as appropriate.
 	if ( rnumnonpx.test( val ) ) {
 		if ( !extra ) {
 			return val;
@@ -8615,7 +8615,7 @@ jQuery.each( [ "radio", "checkbox" ], function() {
 
 
 
-// Return jQuery for attributes-only inclusion
+// Returns jQuery for attributes-only inclusion
 
 
 support.focusin = "onfocusin" in window;
@@ -8966,7 +8966,7 @@ jQuery.param = function( a, traditional ) {
 		}
 	}
 
-	// Return the resulting serialization
+	// Returns the resulting serialization
 	return s.join( "&" );
 };
 
@@ -10502,7 +10502,7 @@ jQuery.fn.extend( {
 			return;
 		}
 
-		// Return zeros for disconnected and hidden (display: none) elements (gh-2310)
+		// Returns zeros for disconnected and hidden (display: none) elements (gh-2310)
 		// Support: IE <=11 only
 		// Running getBoundingClientRect on a
 		// disconnected node in IE throws an error
@@ -19722,7 +19722,7 @@ S2.define('jquery.select2',[
   return Select2;
 });
 
-  // Return the AMD loader configuration so it can be used outside of this file
+  // Returns the AMD loader configuration so it can be used outside of this file
   return {
     define: S2.define,
     require: S2.require
@@ -19738,7 +19738,7 @@ S2.define('jquery.select2',[
   // as in the language files.
   jQuery.fn.select2.amd = S2;
 
-  // Return the Select2 instance for anyone who is importing it.
+  // Returns the Select2 instance for anyone who is importing it.
   return select2;
 }));
 
@@ -26432,7 +26432,7 @@ $.fn.select2.defaults.set("selectionCssClass", ":all:");
 
 
       /**
-       * Return the byte count of the specified character in UTF8 encoding.
+       * Returns the byte count of the specified character in UTF8 encoding.
        * Note: This won't cover UTF-8 characters that are 4 bytes long.
        *
        * @param input
@@ -26445,7 +26445,7 @@ $.fn.select2.defaults.set("selectionCssClass", ":all:");
       }
 
       /**
-       * Return the length of the specified input in UTF8 encoding.
+       * Returns the length of the specified input in UTF8 encoding.
        *
        * @param input
        * @return {number}
@@ -26461,7 +26461,7 @@ $.fn.select2.defaults.set("selectionCssClass", ":all:");
       }
 
       /**
-       * Return the length of the specified input.
+       * Returns the length of the specified input.
        *
        * @param input
        * @return {number}
@@ -26524,7 +26524,7 @@ $.fn.select2.defaults.set("selectionCssClass", ":all:");
       }
 
       /**
-       * Return true if the indicator should be showing up.
+       * Returns true if the indicator should be showing up.
        *
        * @param input
        * @param threshold
@@ -33362,7 +33362,7 @@ var tns=function(){var t=window,Ai=t.requestAnimationFrame||t.webkitRequestAnima
                         callback.call(
                         // Use the slider public API as the scope ('this')
                         scope_Self, 
-                        // Return values as array, so arg_1[arg_2] is always valid.
+                        // Returns values as array, so arg_1[arg_2] is always valid.
                         scope_Values.map(options.format.to), 
                         // Handle index, 0 or 1
                         handleNumber, 
@@ -33421,7 +33421,7 @@ var tns=function(){var t=window,Ai=t.requestAnimationFrame||t.webkitRequestAnima
             to = scope_Spectrum.getStep(to);
             // Limit percentage to the 0 - 100 range
             to = limit(to);
-            // Return false if handle can't move
+            // Returns false if handle can't move
             if (to === reference[handleNumber] && !getValue) {
                 return false;
             }
@@ -34660,7 +34660,7 @@ var tns=function(){var t=window,Ai=t.requestAnimationFrame||t.webkitRequestAnima
 
 		}
 
-		// Return sanitized hash
+		// Returns sanitized hash
 		return '#' + result;
 
 	};
@@ -41835,7 +41835,7 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
-/******/ 		// Return the exports of the module
+/******/ 		// Returns the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
@@ -45651,7 +45651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
 /******/
-/******/ 		// Return the exports of the module
+/******/ 		// Returns the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/
@@ -46294,7 +46294,7 @@ var setProperty = function setProperty(target, options) {
 	}
 };
 
-// Return undefined instead of __proto__ if '__proto__' is not an own property
+// Returns undefined instead of __proto__ if '__proto__' is not an own property
 var getProperty = function getProperty(obj, name) {
 	if (name === '__proto__') {
 		if (!hasOwn.call(obj, name)) {
@@ -46359,7 +46359,7 @@ module.exports = function extend() {
 		}
 	}
 
-	// Return the modified object
+	// Returns the modified object
 	return target;
 };
 
@@ -54183,7 +54183,7 @@ function EventEmitter() {
 }
 
 /**
- * Return an array listing the events for which the emitter has registered
+ * Returns an array listing the events for which the emitter has registered
  * listeners.
  *
  * @returns {Array}
@@ -54208,7 +54208,7 @@ EventEmitter.prototype.eventNames = function eventNames() {
 };
 
 /**
- * Return the listeners registered for a given event.
+ * Returns the listeners registered for a given event.
  *
  * @param {String|Symbol} event The event name.
  * @param {Boolean} exists Only check if there are listeners.

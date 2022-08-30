@@ -136,12 +136,12 @@ class Users
         return $this;
     }
 
-    public function getCreatedDate(): ?\DateTimeInterface
+    public function getCreatedDate(): ?\DateTime
     {
         return $this->created_date;
     }
 
-    public function setCreatedDate(?\DateTimeInterface $created_date): self
+    public function setCreatedDate(?\DateTime $created_date): self
     {
         $this->created_date = $created_date;
 
@@ -160,12 +160,12 @@ class Users
         return $this;
     }
 
-    public function getAccessTokenExp(): ?\DateTimeInterface
+    public function getAccessTokenExp(): ?\DateTime
     {
         return $this->access_token_exp;
     }
 
-    public function setAccessTokenExp(?\DateTimeInterface $access_token_exp): self
+    public function setAccessTokenExp(?\DateTime $access_token_exp): self
     {
         $this->access_token_exp = $access_token_exp;
 

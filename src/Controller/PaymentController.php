@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Status;
-use App\Entity\Payments;
+use App\Entity\Returns\PayCategory;
+use App\Entity\Returns\Payments;
+use App\Entity\Returns\Status;
 use App\Form\PaymentsType;
-use App\Entity\PayCategory;
-use App\Repository\PaymentsRepository;
+use App\Repository\Returns\PaymentsRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/settings/payment')]
 class PaymentController extends AbstractController

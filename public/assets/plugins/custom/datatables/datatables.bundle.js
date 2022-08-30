@@ -2836,7 +2836,7 @@
 	
 	
 	/**
-	 * Return a function that can be used to get data from a source object, taking
+	 * Returns a function that can be used to get data from a source object, taking
 	 * into account the ability to use nested objects as a source
 	 *  @param {string|int|function} mSource The data source for the object
 	 *  @returns {function} Data get function
@@ -2846,7 +2846,7 @@
 	
 	
 	/**
-	 * Return a function that can be used to set data from a source object, taking
+	 * Returns a function that can be used to set data from a source object, taking
 	 * into account the ability to use nested objects as a source
 	 *  @param {string|int|function} mSource The data source for the object
 	 *  @returns {function} Data set function
@@ -2856,7 +2856,7 @@
 	
 	
 	/**
-	 * Return an array with the full table data
+	 * Returns an array with the full table data
 	 *  @param {object} oSettings dataTables settings object
 	 *  @returns array {array} aData Master data array
 	 *  @memberof DataTable#oApi
@@ -6527,7 +6527,7 @@
 	
 	
 	/**
-	 * Return the settings object for a particular table
+	 * Returns the settings object for a particular table
 	 *  @param {node} table table we are using as a dataTable
 	 *  @returns {object} Settings object - or null if not found
 	 *  @memberof DataTable#oApi
@@ -8225,7 +8225,7 @@
 				return out;
 			}, 1 );
 	
-		// Return an Api.rows() extended instance, so rows().nodes() etc can be used
+		// Returns an Api.rows() extended instance, so rows().nodes() etc can be used
 		var modRows = this.rows( -1 );
 		modRows.pop();
 		$.merge( modRows, newRows );
@@ -8294,7 +8294,7 @@
 			return _fnAddData( settings, row );
 		} );
 	
-		// Return an Api.rows() extended instance, with the newly added row selected
+		// Returns an Api.rows() extended instance, with the newly added row selected
 		return this.row( rows[0] );
 	} );
 	
@@ -12520,7 +12520,7 @@
 			 *        when gathering data. Note that when `undefined` is given for the
 			 *        type DataTables expects to get the raw data for the object back<
 			 *      * `{*}` Data to set when the second parameter is 'set'.
-			 *    * Return:
+			 *    * Returns:
 			 *      * The return value from the function is not required when 'set' is
 			 *        the type of call, but otherwise the return is what will be used
 			 *        for the data requested.
@@ -12691,7 +12691,7 @@
 			 *        'display', 'type' or 'sort'.
 			 *      * {array|object} The full data source for the row (not based on
 			 *        `data`)
-			 *    * Return:
+			 *    * Returns:
 			 *      * The return value from the function is what will be used for the
 			 *        data requested.
 			 *
@@ -16836,7 +16836,7 @@ function _xlsxToStrings( obj ) {
 					str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+str;
 				}
 
-				// Return namespace attributes to being as such
+				// Returns namespace attributes to being as such
 				str = str.replace( /_dt_b_namespace_token_/g, ':' );
 			}
 
@@ -17914,7 +17914,7 @@ function _addToZip( zip, obj ) {
 					str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+str;
 				}
 
-				// Return namespace attributes to being as such
+				// Returns namespace attributes to being as such
 				str = str.replace( /_dt_b_namespace_token_/g, ':' );
 
 				// Remove testing name space that IE puts into the space preserve attr

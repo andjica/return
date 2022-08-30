@@ -2,18 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Status;
-
+use App\Entity\Returns\PayCategory;
+use App\Entity\Returns\ReasonSettings;
+use App\Entity\Returns\Status;
 use App\Form\ReasonType;
-use App\Entity\PayCategory;
-use App\Entity\ReasonSettings;
-use App\Entity\ReturnSettings;
-use Symfony\Component\Form\FormError;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ReasonController extends AbstractController
 {

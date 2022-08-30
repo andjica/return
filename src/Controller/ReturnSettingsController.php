@@ -2,24 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\PayCategory;
-use App\Entity\Status;
-use App\Entity\Returns;
-use App\Entity\Payments;
+use App\Entity\Returns\PayCategory;
+use App\Entity\Returns\Status;
 use App\Entity\ReturnSettings;
 use App\Form\ReturnSettingsType;
-use Symfony\Component\Form\FormEvent;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\ReturnSettingsRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
- /**
+/**
     * @Route("/settings")
 */
 class ReturnSettingsController extends AbstractController

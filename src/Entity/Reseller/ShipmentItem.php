@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Reseller;
 
-use App\Repository\ResellerShipmentItemsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ResellerShipmentItemsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Reseller\ShipmentItemRepository")
  * @ORM\Table(name="reseller_shipment_items")
  */
-class ResellerShipmentItems
+class ShipmentItem
 {
     /**
      * @var int
@@ -18,200 +19,201 @@ class ResellerShipmentItems
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
-
+    private int $id;
+    
     /**
-     * @var int
+     * @var Shipment
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Shipment", inversedBy="items")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $shipment_id;
-
+    private Shipment $shipment;
+    
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string")
      */
-    private $sku;
-
+    private string $sku;
+    
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $qty;
-
+    private int $qty;
+    
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string")
      */
-    private $title;
-
+    private string $title;
+    
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string")
      */
-    private $location;
-
+    private string $location;
+    
     /**
      * @var float
      *
      * @ORM\Column(type="float")
      */
-    private $weight;
-
+    private float $weight;
+    
     /**
      * @var float
      *
      * @ORM\Column(type="float")
      */
-    private $length;
-
+    private float $length;
+    
     /**
      * @var float
      *
      * @ORM\Column(type="float")
      */
-    private $width;
-
+    private float $width;
+    
     /**
      * @var float
      *
      * @ORM\Column(type="float")
      */
-    private $height;
-
+    private float $height;
+    
     /**
      * @var float
      *
      * @ORM\Column(type="float")
      */
-    private $price;
+    private float $price;
 
+    /**
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="ShipmentItemAttribute",
+     *      mappedBy="shipmentItem"
+     * )
+     */
+    private ArrayCollection $attributes;
+
+    public function __construct()
+    {
+        $this->attributes = new ArrayCollection();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getShipmentId(): ?int
+    
+    public function getShipment(): ?Shipment
     {
-        return $this->shipment_id;
+        return $this->shipment;
     }
-
-    public function setShipmentId(int $shipment_id): self
+    
+    public function setShipment(Shipment $shipment): void
     {
-        $this->shipment_id = $shipment_id;
-
-        return $this;
+        $this->shipment = $shipment;
     }
-
+    
     public function getSku(): ?string
     {
         return $this->sku;
     }
-
-    public function setSku(string $sku): self
+    
+    public function setSku(string $sku): void
     {
         $this->sku = $sku;
-
-        return $this;
     }
-
+    
     public function getQty(): ?int
     {
         return $this->qty;
     }
-
-    public function setQty(int $qty): self
+    
+    public function setQty(int $qty): void
     {
         $this->qty = $qty;
-
-        return $this;
     }
-
-    public function getTitle(): ?string
+    
+        public function getTitle(): ?string
     {
         return $this->title;
     }
-
-    public function setTitle(string $title): self
+    
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
-
+    
     public function getLocation(): ?string
     {
         return $this->location;
     }
-
-    public function setLocation(string $location): self
+    
+    public function setLocation(string $location): void
     {
         $this->location = $location;
-
-        return $this;
     }
-
+    
     public function getWeight(): ?float
     {
         return $this->weight;
     }
-
-    public function setWeight(float $weight): self
+    
+    public function setWeight(float $weight): void
     {
         $this->weight = $weight;
-
-        return $this;
     }
-
+    
     public function getLength(): ?float
     {
         return $this->length;
     }
-
-    public function setLength(float $length): self
+    
+    public function setLength(float $length): void
     {
         $this->length = $length;
-
-        return $this;
     }
-
+    
     public function getWidth(): ?float
     {
         return $this->width;
     }
-
-    public function setWidth(float $width): self
+    
+    public function setWidth(float $width): void
     {
         $this->width = $width;
-
-        return $this;
     }
-
+    
     public function getHeight(): ?float
     {
         return $this->height;
     }
-
-    public function setHeight(float $height): self
+    
+    public function setHeight(float $height): void
     {
         $this->height = $height;
-
-        return $this;
     }
-
+    
     public function getPrice(): ?float
     {
         return $this->price;
     }
-
-    public function setPrice(float $price): self
+    
+    public function setPrice(float $price): void
     {
         $this->price = $price;
-
-        return $this;
     }
+
+    public function getAttributes(): Collection
+    {
+        return $this->attributes;
+    }
+    
 }

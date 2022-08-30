@@ -2,43 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Users;
-use App\Entity\Status;
-use App\Entity\Country;
-use App\Entity\Returns;
-use App\Entity\ReturnImages;
-use App\Entity\ReturnVideos;
-use App\Entity\EmailTemplate;
-use App\Entity\ReasonSettings;
-use App\Entity\ResellerAddress;
-use App\Entity\ResellerShipments;
-use App\Entity\ResellerShipmentItems;
-use App\Repository\ReturnsRepository;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Returns\Returns;
+use App\Entity\Returns\Status;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\HttpFoundation\RequestStack;
-use App\Repository\ResellerShipmentItemsRepository;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
-use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReturnEditType extends AbstractType
 {

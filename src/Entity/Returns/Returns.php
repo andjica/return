@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Returns;
 
-use App\Repository\ReturnsRepository;
+use App\Entity\Common\Country;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Reseller\ShipmentItem;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReturnsRepository")
- * @ORM\Table(name="returns")
+ * @ORM\Table(name="return_returns")
  */
 class Returns
 {
@@ -121,7 +122,7 @@ class Returns
     private $street;
 
     /**
-     * @var Status
+     * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="returns")
      * @ORM\JoinColumn(nullable=false)
@@ -143,7 +144,7 @@ class Returns
     private $post_code;
 
     /**
-     * @ORM\OneToOne(targetEntity=ResellerShipmentItems::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="ShipmentItem", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $item;
@@ -249,24 +250,24 @@ class Returns
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTime $created_at): self
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(?\DateTime $updated_at): self
     {
         $this->updated_at = $updated_at;
 
@@ -358,18 +359,16 @@ class Returns
         return $this;
     }
 
-    public function getItem(): ?ResellerShipmentItems
+    public function getItem(): ?ShipmentItem
     {
         return $this->item;
     }
 
-    public function setItem(ResellerShipmentItems $item): self
+    public function setItem(ShipmentItem $item): self
     {
         $this->item = $item;
 
         return $this;
     }
 
-    
-   
 }

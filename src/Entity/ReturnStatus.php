@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\ReturnStatusRepository;
+use App\Entity\Returns\Returns;
+use App\Entity\Returns\Status;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,12 +49,12 @@ class ReturnStatus
     }
 
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTime $created_at): self
     {
         $this->created_at = $created_at;
 
