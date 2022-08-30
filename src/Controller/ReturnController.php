@@ -9,6 +9,7 @@ use App\Form\ReturnType;
 use App\Entity\ReturnImages;
 use App\Entity\ReturnStatus;
 use App\Entity\ReturnVideos;
+use App\Form\ReturnEditType;
 use Psr\Log\LoggerInterface;
 use App\Entity\EmailTemplate;
 use App\Entity\ReasonSettings;
@@ -132,7 +133,7 @@ class ReturnController extends AbstractController
         // $return->setStatusId($statusId);
         $return->setCreatedAt(new \DateTime());
         $return->setReturnQuantity($quantity);
-        $return->setItemsId($itemsId);
+        $return->setItem($item);
         
         
         //return status table
@@ -310,10 +311,25 @@ class ReturnController extends AbstractController
         $form = $this->createForm(ReturnType::class);
         $form->handleRequest($request);
         
-        if ($form->isSubmitted()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             
-            return $this->redirectToRoute('returns');
+            // return dd($form);
+            $count = $form->getErrors()->count();
+            if($count > 0)
+            {
+                
+                $contents = $this->renderView('errors/500.html.twig', []);
+        
+                return new Response($contents, 500);
+            }
+            else
+            {
+                // return dd("Upada ovde");
+                return $this->redirectToRoute('returns');
+            }
+            
+            
+           
         
         }
         
@@ -323,7 +339,7 @@ class ReturnController extends AbstractController
 
     //page for edit return
     /**
-     * @Route("/return/edit/{id}", methods={"GET", "POST"}, name="edit_return")
+     * @Route("/return/edit/{id}/andjca", methods={"GET", "POST"}, name="edit_return")
      */
     public function editreturn(int $id, ManagerRegistry $doctrine)
     {
@@ -335,15 +351,16 @@ class ReturnController extends AbstractController
         
             return new Response($contents, 404);
         }
-
-        $status = $doctrine->getRepository(Status::class)->notInStatus(['id' => $return->getStatusId()]);
+       
+        $status = $doctrine->getRepository(Status::class)->notInStatus(['id' => $return->getStatus()]);
+      
         $countries = $doctrine->getRepository(Country::class)->findAll();
 
 
-        $images = $doctrine->getRepository(ReturnImages::class)->findBy(['return_id'=> $return->getId()]);
+        $images = $doctrine->getRepository(ReturnImages::class)->findBy(['returns'=> $return->getId()]);
         
-
-        $itemsId = $return->getItemsId();
+       
+        $itemsId = $return->getItem();
         
         //get item which is in table return :)
         if($itemsId)
@@ -379,6 +396,28 @@ class ReturnController extends AbstractController
       
     }
 
+    //page for edit return
+    /**
+     * @Route("/return/edit/{id}", methods={"GET", "POST"}, name="edit_return")
+     */
+    public function idemo(Request $request, $id, ManagerRegistry $doctrine): Response
+    {
+        $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$id]);
+        
+        if(!$return)
+        {
+            $contents = $this->renderView('errors/404.html.twig', []);
+        
+            return new Response($contents, 404);
+        }
+        
+        $form = $this->createForm(ReturnEditType::class, $return);
+        $form->handleRequest($request);
+
+        return $this->renderForm('return/edit.html.twig', [
+            'form' => $form
+        ]);
+    }
 
 
     //edit return
@@ -395,8 +434,9 @@ class ReturnController extends AbstractController
         {
             $logger->info("CSRF failure");
 
-            return new Response("Operation not allowed",  Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'text/plain']);
+            $contents = $this->renderView('errors/500.html.twig', []);
+        
+            return new Response($contents, 500);
         }
 
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$id]);

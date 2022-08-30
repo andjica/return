@@ -116,12 +116,13 @@ class ReasonController extends AbstractController
         
         $form = $this->createForm(ReasonType::class);
         $form->handleRequest($request);
-       
+        
         if($form->isSubmitted())
         {
             $all = $request->request->all();
+            
             $reasons = $all['reasons']['text'];
-           
+            return dd($reasons);
             $firstreason = $all['reason']['first_reason'];
             
            
@@ -139,39 +140,193 @@ class ReasonController extends AbstractController
             $entityManager->flush();
             
 
-        
-
-          
-           
-            $list = [2,3,4,5,6,7,8,9,10];
-            $otherreasons = $doctrine->getRepository(ReasonSettings::class)->findBy(['id'=>$list]);
-            
-            foreach($otherreasons as $r)
+            $ids = [];
+            foreach($reasons as $r=>$value)
             {
-                $andjica = [];
-                foreach($reasons as $value)
+                $ids[] = $r;
+            }
+
+           
+          
+            $list = [2,3,4,5,6,7,8,9,10];
+            
+            $edit = $doctrine->getRepository(ReasonSettings::class)->findBy(['id' => $ids]);
+
+            foreach($reasons as $r=>$value)
+            {
+                $editarray = $doctrine->getRepository(ReasonSettings::class)->findBy(['id' => $ids]);
+                foreach($editarray as $edit)
                 {
-                 
-                    $andjica[] = $value;
-                    
-                    foreach($andjica as $s)
+                   
+                    if($r == "")
                     {
-                        $r->setName($s);
-                        $r->setActive(1);
-                            
-                        $r->setUpdatedAt(new \DateTime());
-                        $entityManager = $this->doctrine->getManager();
-                        $entityManager->persist($r);
-                            
-                        $entityManager->flush();     
+                       
+                        $edit->setName(""); 
+                        $edit->setActive(2);
+                        $edit->setUpdatedAt(new \DateTime());
+                        $entityManager->persist($edit);
                     }
+                    
+                   $edit->setName($value); 
+                   $edit->setActive(1);
+                    
+                    $edit->setUpdatedAt(new \DateTime());
+                     $entityManager->persist($edit);
+                    
+                    
+                  
+                   
+                }
+               
+            }
+            $entityManager->flush();
+           
+            // $entityManager->flush();
+
+            // $andjica = [];
+
+            // foreach($reasons as $r=>$value)
+            // {
+            //     foreach($edit as $s)
+            //     {
+            //         if($value == "")
+            //         {
+            //             $s->setName("");
+            //             $s->setActive(2);
+            //         }
+            //         $s->setName($andjica[] = $value);
+            //         $s->setActive(1);
+            //         $s->setUpdatedAt(new \DateTime());
+            //         $entitym = $this->doctrine->getManager();
+            //         $entitym->persist($s);
+                    
+            //     }
+               
+                
+            // }
+            
+            // $entitym->flush();
+           
+            // foreach($edit as $rs)
+            // {
+                
+            //    foreach($reasons as $r=>$value)
+            //     {
+            //         $rs->setName($value);
+                   
+            //         $rs->setActive(1);
+            //         $rs->setUpdatedAt(new \DateTime());
+                  
+            
+            //     }
+                
+                
+            // }
+            
+            
+            // foreach ($otherreasons as $obj) {
+                
+            //     $map[$obj->getId()] = $obj;
+
+               
+               
+            //     $obj->setName($andjica);
+                
+                
+            //     $entityManager2 = $this->doctrine->getManager();
+            //     $entityManager2->persist($obj); 
+                                
+            //      $entityManager2->flush();  
+            
+            // }
+            // return dd($obj);
+            // $em->flush();
+            // foreach ($otherreasons as $entity) {
+            //     $map[$entity->getId()] = $entity;
+
+            //     $andjica = [];
+                 
+                    
+            //         $map[$entity->setName()] = "ss";
+            //         $map[$entity->setActive()] = 1;
+            //         $map[$entity->setUpdatedAt()] = (new \DateTime());
+                
+            // }
+            // $entityManager = $this->doctrine->getManager();
+            // return dd($entityManager->persist($entity));
+                           
+            //     $entityManager->flush();    
+            // return dd($map);
+            // if (array_keys($list) !== array_keys($map)) {
+            //     return dd("ne slaze se");
+            // }
+            // $i = 0;
+           
+            // $name = [];
+            
+            // return dd($res);
+               
+            //    foreach($otherreasons as $r)
+            //     {
+            //             foreach($reasons as $t)
+            //             {
+            //                 $r->setName($t);
+
+            //                 $r->setActive(1);
+                                
+            //                 $r->setUpdatedAt(new \DateTime());
+                           
+            //             }
+                          
+                            
+            //     }
+               
+                   
+               
+            
+               
+            // $this->getDoctrine()->getEntityManager()->flush();
+            // foreach ($list as $id => $form_data) {
+               
+            //     foreach($map as $s)
+            //     {
+            //         return dd($s->setName());
+                    
+            //         $s->setActive(1);
+            //         $s->setUpdatedAt(new \DateTime());
+            //         $entityManager = $this->doctrine->getManager();
+            //         $entityManager->persist($s);
+                            
+            //         $entityManager->flush();     
+            //     }
+            // }
+
+            // foreach($otherreasons as $r)
+            // {
+            //     $andjica = [];
+            //     foreach($reasons as $value)
+            //     {
+                 
+            //         $andjica[] = $value;
+                    
+            //         foreach($andjica as $s)
+            //         {
+            //             $r->setName($s);
+            //             $r->setActive(1);
+                            
+            //             $r->setUpdatedAt(new \DateTime());
+            //             $entityManager = $this->doctrine->getManager();
+            //             $entityManager->persist($r);
+                            
+            //             $entityManager->flush();     
+            //         }
                    
                    
-                 }
+            //      }
                 
               
                
-            }
+            // }
 
             
 
