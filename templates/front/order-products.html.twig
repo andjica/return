@@ -1,0 +1,271 @@
+{% extends "user-template.html.twig" %}
+{% block stylesheet %}
+<link href="{{asset('/')}}build/css/custom.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+       <div class="container">
+            <div class="row">
+              <div class="col-lg-2 pt-5 justify-content-center text-align-center">
+              </div>
+                <div class="col-lg-6 pt-5 justify-content-center text-align-center">
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto text-center">
+                        <img src="{{asset('/return_settings_images/')}}{{ data.imagelogo }}" width="130px" class='img-fluid mt-5 mb-5 logo-m-s'>       
+                         <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                         <div class="card-body d-flex flex-column shadow-sm">
+                            {% for product in products %}
+                            <div class="row mt-3 border-top pt-3">
+                                <div class="col-lg-2">
+                                <i class="fas fa-image fa-3x text-warning m-1"></i></div>
+                                <div class="col-lg-6 text-left">
+                                <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>
+                                <h4 class="mb-0">
+                                    {{product.title}}
+                                </h4>
+                                <div class="mb-1 text-muted">{{product.sku}}</div>
+                                <p class="pt-3 border-top text-black mb-0">Quantity X Price</p>
+                                <p class="">{{product.qty}} X {{product.price}}</p>
+                                    </div>
+                                    <div class="col-lg-4 text-left">
+                                        <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" data-bs-target="#itemId{{ product.id}}">Return</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="itemId{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog md-dialog">
+                                          <form id="insert{{product.id}}" method="POST" action="{{asset('/return/item=')}}{{product.id}}" enctype="multipart/form-data" medias>
+                                            <input type="hidden" name="orderId" value="{{orderId}}">
+                                            <input type="hidden" name="itemsId" value="{{product.id}}">
+                                            <input type="hidden" name="email" value="{{email}}">
+                                            <div class="modal-content">
+                                          
+                                            <div class="modal-body">
+                                             <button type="button" class="btn btn-muted border float-right" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                          
+                                                    <div class="row mt-3 border-top pt-3">
+                                                    
+                                                    <div class="col-lg-5 text-left ml-2 border-right">
+                                                    <i class="fas fa-image fa-5x text-warning m-1"></i>
+                                                    <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>
+                                                    <h4 class="mb-0">
+                                                    {{product.title}}
+                                                      
+                                                    </h4>
+                                                    <div class="mb-1 text-muted">{{product.sku}}</div>
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-6 text-left">
+                                                        <div class="form-group mt-2">
+                                                            <label for="quantity">How many items your return:</label>
+                                                            <input type="number"  name="quantity" id="qty" class="form-control" value="1" min="1" max="{{product.qty}}">
+                                                        </div>
+                                                         <div class="form-group"  id="adminreasons{{product.id}}">
+                                                         <label for="userreasons">Choose reasons why you returning item</label>
+                                                            <select name="reasons" id="sreasons{{product.id}}" class="form-control">
+                                                                <option value="0">Find your reason</option>
+                                                                {% for reason in reasons %}
+                                                                <option value="{{reason.id}}" class="form-control">{{reason.name}}</option>
+                                                                {% endfor %}
+                                                            </select><br>
+                                                            <small class="text-danger" id="select-error{{product.id}}"></small>
+                                                              <br>
+                                                            <div id="givereasons{{product.id}}" style="display-block">
+                                                            Or Give your reason 
+                                                            <button class="btn btn-give-reason" data-id="{{product.id}}">
+                                                                <i class="fas fa-plus-circle text-danger"></i>
+                                                            </button>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        </div>
+                                                </div>
+                                                <!-- Users custom reasons -->
+                                                <div class="row border-top pt-2" id="userresons{{product.id}}" style="display:none">
+                                                    <div class="col-lg-10">
+                                                       
+                                                      <label for="userreasons">Your reasons</label>
+                                                      <textarea class="form-control" id="usertext{{product.id}}" rows="3" name="userreasons"></textarea>
+                                                      <small class="text-danger" id="user-reasons-empty{{product.id}}"></small>
+                                                       <div class="form-group mt-5">
+                                                            <label for="uploadmedia">Choose your photos</label>
+                                                            <input type="file" class="form-control-file" name="photos[]" id="uploadmedia{{product.id}}"   multiple/><br>
+                                                            <small class="text-danger" id="mediaerror{{product.id}}"></small>
+                                                           
+                                                        </div>
+                                                         <div class="form-group mt-5">
+                                                            <label for="uploadmedia">Choose your Videos</label>
+                                                            <input type="file" class="form-control-file" name="videos[]" id="uploadvideos{{product.id}}"  multiple/><br>
+                                                            <small class="text-danger" id="videos-error{{product.id}}"></small>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                   <div class="col-lg-6">
+                                                    <button class="btn btn-danger dont-save mt-5">Dont save</button>
+                                                   </div>
+                                                  
+                                                </div>
+                                                <!-- End Users custom reasons -->
+                                             
+                                            </div>
+                                            
+                                            <div class="modal-footer">
+                                            
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                 <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Make return">
+                                            </div>
+                                               </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <div class="card-footer text-left">
+                                    <span class="text-black">TOTAL(USD)</span> 
+                                    <span class="text-black">{{total}}</span>
+                                </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    </div>
+                                </div>
+                            </div>
+                       <div class="col-lg-3">
+                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ data.imagebackground }}'); background-position-x: 50%; background-position-y: 35%"></div>
+                    </div>
+                </div>   
+          </div>         
+
+          
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('.btn-give-reason').on('click', function(e){
+            var id = $(this).data('id');
+
+            var adminreason = document.getElementById('sreasons'+id);
+            adminreason.setAttribute('disabled', true);
+            
+            var admintitle = document.getElementById('givereasons'+id);
+            admintitle.style.display = 'none';
+
+            var userreasons = document.getElementById('userresons'+id);
+            userreasons.style.display = 'block';
+
+            if($('.dont-save').on('click', function(e){
+                e.preventDefault();
+                 adminreason.removeAttribute('disabled', true);
+                 admintitle.style.display = 'block';
+                 userreasons.style.display = 'none';
+            }));
+            e.preventDefault();
+        });
+
+        $('.save').on('click', function(e){
+            
+            var id = $(this).data('id');
+            var form = document.getElementById('insert'+id);
+
+            var user = document.getElementById('userresons'+id);
+            
+            if(user.style.display == 'block')
+            {
+
+                var mistakes = [];
+                var usertext = $('#usertext'+id).val();
+
+                $('#uploadmedia'+id).on('change', function(){
+                    $('#mediaerror'+id).text="";
+
+                    if (!document.getElementById('uploadmedia'+id).files[0].name.match(/.(jpg|jpeg|png)$/i))
+                        {
+                            
+                            document.getElementById('mediaerror'+id).innerHTML="Image  extenstions must  are jpg, jpeg, png";
+                            e.preventDefault();
+                        }
+                        else
+                        {
+                            $('#mediaerror'+id).innerHTML="";
+                        }
+                });
+                //checking textarea
+                $('#usertext'+id).on('keyup',function(){
+        
+                    var usertext = $("#usertext"+id).val();
+                   
+                    if (usertext == "") {
+                    //alert('Please provide a valid email address');
+                    $("#user-reasons-empty"+id).text(usertext +"Must write your reason for returning product");
+                     document.getElementById('usertext'+id).style.border = '1px solid red';
+                
+                    //return false;
+                    } else {
+                        $("#user-reasons-empty"+id).text("");
+                         document.getElementById('usertext'+id).style.border = '2px solid #4fd2f0';
+                    }
+                });
+
+                if(usertext == "")
+                {
+                    document.getElementById('usertext'+id).style.border = '2px solid red';
+                    e.preventDefault();
+                    mistakes.push = "Empty field";
+
+                }
+
+                //photos validation
+                if(document.getElementById('uploadmedia'+id).files.length == 0)
+                {
+                    document.getElementById('mediaerror'+id).innerHTML="You must send photos of product for return";
+                    e.preventDefault();
+                }
+                else if(document.getElementById('uploadmedia'+id).files.length >= 1)
+                {   
+                    if (!document.getElementById('uploadmedia'+id).files[0].name.match(/.(jpg|jpeg|png)$/i))
+                        {
+                            document.getElementById('mediaerror'+id).innerHTML="Image  extenstions must  are jpg, jpeg, png";
+                            e.preventDefault();
+                        }
+                }
+
+                //video validations
+                if(document.getElementById('uploadvideos'+id).files.length >= 1)
+                {
+                   if (!document.getElementById('uploadvideos'+id).files[0].name.match(/.(webm|mkv|flv|mp4)$/i))
+                        {
+                            document.getElementById('videos-error'+id).innerHTML="Video extenstions must be  webm, mkv, flv, mp4";
+                            e.preventDefault();
+                        }
+                }
+
+ 
+            }
+            else
+            {
+                var adminreason = $('#sreasons'+id).val();
+                
+                if(adminreason == 0)
+                {  
+                    document.getElementById('select-error'+id).innerHTML="Must choose reason";
+                    document.getElementById('select-error'+id).style.display="block";
+                    e.preventDefault();
+                }
+               
+            
+               
+                $('#sreasons'+id).on('change', function(){
+                   
+                    document.getElementById('select-error'+id).style.display="none";
+                    
+                });
+            }
+
+            
+        });
+
+       
+  
+
+    </script>
+   
+{% endblock %}

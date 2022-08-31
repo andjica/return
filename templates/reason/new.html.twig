@@ -1,0 +1,68 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Settings | Reason | create{% endblock %}
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl mt-17 pt-5">
+<div class="row">
+  <div class="col-lg-3 col-xl-2">
+        {{include('/components/vertical-sidebar.html.twig')}}
+    </div>
+    <div class="col-lg-7">
+    <div class="card">
+    <div class="card-body">
+
+        {{include('/components/alert-message.html.twig')}}
+        {{ form_start(form) }}
+               <div class="row mb-6 mt-2">
+               <div class="col-lg-3 text-right">
+                    {{ form_label(form.first_reason) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form_widget(form.first_reason) }}
+                    <small>{{ form_help(form.first_reason) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.first_reason) }}
+                    </div>
+                </div>
+            </div>
+            {% for i in 1..9 %}
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-3 text-right">
+                  Reason {{ i + 1 }}
+                </div>
+                <div class="col-lg-6">
+                    <input type="text" name="reasons[text][]" class="form-control">
+                    <small></small>
+                    <div class="form-error">
+                   
+                    </div>
+                </div>
+                {# <div class="col-lg-3">
+                    <label class="m-checkbox">
+                        <input type="checkbox"  name="reasons[active][]">
+                    
+                        <span></span>
+                    </label>
+                </div> #}
+            </div>
+            {% endfor %}
+          
+             <div class="row mb-6 mt-2">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-8">
+                    <button class="btn btn-success mt-3 btn-sm">{{ button_label|default('Save') }}</button>
+                </div>
+                </div>
+            </div>
+         {{ form_end(form) }}
+        
+        </div>
+     </div>
+    </div>
+</div>
+</div>
+{% endblock %}

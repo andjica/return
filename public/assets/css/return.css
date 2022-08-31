@@ -1,0 +1,8 @@
+.text-right
+{
+    text-align:right !important;
+}
+
+.menu-link .text-muted:hover {
+    color: #009EF7 !important;
+}

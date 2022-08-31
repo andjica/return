@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ReturnSettings index{% endblock %}
+
+{% block body %}
+    <h1>ReturnSettings index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image_logo</th>
+                <th>Image_background</th>
+                <th>Title</th>
+                <th>Return_period</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for return_setting in return_settings %}
+            <tr>
+                <td>{{ return_setting.id }}</td>
+                <td>{{ return_setting.imageLogo }}</td>
+                <td>{{ return_setting.imageBackground }}</td>
+                <td>{{ return_setting.title }}</td>
+                <td>{{ return_setting.returnPeriod }}</td>
+                <td>{{ return_setting.status }}</td>
+                <td>
+                    <a href="{{ path('app_return_settings_show', {'id': return_setting.id}) }}">show</a>
+                    <a href="{{ path('app_return_settings_edit', {'id': return_setting.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_return_settings_new') }}">Create new</a>
+{% endblock %}

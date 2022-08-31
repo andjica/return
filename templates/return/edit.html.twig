@@ -1,0 +1,166 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Create{% endblock %}
+
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block content %}
+<div class="container-xxl mt-17 pt-5">
+<div class="row">
+    <div class="col-lg-7">
+    <div class="card">
+    <div class="card-body">
+
+        {{include('/components/alert-message.html.twig')}}
+
+        {{ form_start(form) }}
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.reference) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.reference) }}
+                    <small>{{ form_help(form.reference) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.reference) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.order_id) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.order_id) }}
+                    <small>{{ form_help(form.order_id) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.order_id) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.status) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.status) }}
+                    <small>{{ form_help(form.status) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.status) }}
+                    </div>
+                </div>
+            </div>
+             {# <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.items) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.items) }}
+                    <small>{{ form_help(form.items) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.items) }}
+                    </div>
+                </div>
+            </div>
+             #}
+         
+              <div class="row mb-6 mt-2" id="re1">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.reasons) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.reasons) }}
+                    <small>{{ form_help(form.reasons) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.reasons) }}
+                    </div>
+                </div>
+            </div>
+             
+           
+            
+              <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.client_name) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.client_name) }}
+                    
+                    <small>{{ form_help(form.client_name) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.client_name) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.client_email) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.client_email) }}
+                    <small>{{ form_help(form.client_email) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.client_email) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.company_name) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.company_name) }}
+                    <small>{{ form_help(form.company_name) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.company_name) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.street) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.street) }}
+                    <small>{{ form_help(form.street) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            </div>
+               <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.postal_code) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.postal_code) }}
+                    <small>{{ form_help(form.postal_code) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.postal_code) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-8">
+                    <button class="btn btn-success mt-3 btn-sm">{{ button_label|default('Save') }}</button>
+                </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+        </div>
+     </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+ {% block javascripts %}
+
+<script src="{{asset('/')}}build/vendor/jquery.min.js"></script>
+<script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
+<script src="{{asset('/')}}assets/js/custom/create-return-validation.js"></script>
+{% endblock %}

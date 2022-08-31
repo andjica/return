@@ -1,0 +1,159 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}Edit | Id: {{return.getId()}}{% endblock %}
+
+{% block stylesheet %}
+   <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+{{include('components/return/toolbar.html.twig')}}
+
+<div class="container-xxl mt-17 pt-5">
+    <div class="row">
+        <div class="col-lg-7 mb-3">
+             <div class="card">
+                <div class="card-header"><h3>ID: {{return.id}} | Referntie {{return.getReference()}}</h3></div>
+                <div class="card-body">
+                {% for message in app.flashes('errors')%}
+                        <div class="alert alert-danger" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                          {% for message in app.flashes('success')%}
+                        <div class="alert alert-success" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                    <form action="{{asset('/return/update')}}" method="POST">
+                     <input type="hidden" name="token" value="{{ csrf_token('edit-return') }}"/>
+                     <input type="hidden" name="returnId" value="{{return.id}}"/>
+                        <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Order id</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="orderId" name="orderId" value="{{ return.getWebshopOrderId() }}" disabled>
+                                </div>
+                        </div>
+                        <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Name</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="clientname" name="clientname" value="{{ return.getClientName() }}">
+                                </div>
+                        </div>
+                        <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Company Name</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="companyname" name="companyname" value="{{ return.getCompanyName() }}">
+                                </div>
+                        </div>
+                       <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Country</label>
+                            <div class="col-lg-8">
+                                <select name="countries" class="form-control">
+                                    {% if  return.getCountry()  is empty %}
+                                        <option value="" class="form-control">
+                                            /
+                                        </option>
+                                        {% else %}
+                                        <option value="{{return.getCountry().getId()}}" class="form-control">
+                                        {{ return.getCountry().getName() }} 
+                                        {% endif %}
+                                    </option>
+                                    {% for country in countries%}
+                                    <option value="{{country.getId()}}">{{country.getName()}}</option>
+                                    {% endfor %}
+                                </select>
+                             </div>
+                        </div>
+                        <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Street</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" id="street" name="street" value="{{ return.getStreet() }}">
+                            </div>
+                        </div>
+                        <div class="row mt-10">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6 text-right">Status</label>
+                            <div class="col-lg-8">
+                            <select name="status" class="form-control">
+                                <option value="{{ return.getStatus().getId()}}"> {{ return.getStatus().getName()}}</option>
+                                {% for st in status%}
+                                <option value="{{st.getId()}}">{{st.getName()}}</option>
+                                {% endfor %}
+                            </select>
+                             </div>
+                        </div>
+                         <div class="row mb-0 mt-8">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-8 d-flex align-items-center">
+                            <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                <h5>Order information:</h5><br>
+                <div class="row">
+                    <div class="col-lg-4">Order id:</div>
+                    <div class="col-lg-8">{{return.getWebshopOrderId()}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">Referntie: </div>
+                    <div class="col-lg-8">{{return.getReference()}}</div>
+                </div>
+                   
+                 {# {% if  itemId == 0 %}
+                        There is no items
+                 {% else %} #}
+                    <h5 class="mt-10">Item for return:</h5><br>
+                     <div class="row">
+                        <div class="col-lg-8">Name:</div>
+                        <div class="col-lg-4">{{items.title}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">Sky:</div>
+                        <div class="col-lg-4">{{items.sku}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">Quantity X Price:</div>
+                        <div class="col-lg-4">{{items.qty}} X {{items.price}}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-8">Total</div>
+                        <div class="col-lg-4">{{total}} </div>
+                    </div>
+                    <h5 class="mt-10">User request:</h5><br>
+                    <div class="row">
+                        <div class="col-lg-8">Reason</div>
+                        <div class="col-lg-4">{{return.getReason()}}</div>
+                    </div>
+                      <div class="row">
+                        <div class="col-lg-8">Quntity of return</div>
+                        <div class="col-lg-4">{{return.getReturnQuantity}}</div>
+                    </div>
+                    
+                      {# {% if  images is empty %}
+                   
+                        {% else %}
+                            <h5 class="mt-10">Users images</h5><br>
+                                {% for img in images %}
+                                <img src="{{asset('/return_images/')}}{{img.getUrl()}}" class="img-fluid" width="110px">
+                                
+                                {% endfor %}
+                        {% endif %} #}
+
+                {# {% endif %}
+               #}
+        </div>
+    </div>
+         </div>
+    </div>
+</div>
+
+{% endblock %}
