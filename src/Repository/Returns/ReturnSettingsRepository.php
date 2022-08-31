@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Returns;
 
-use App\Entity\ReturnSettings;
+use App\Entity\Returns\ReturnSettings;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use  Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -33,46 +33,6 @@ class ReturnSettingsRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(ReturnSettings $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    // /**
-    //  * @return ReturnSettings[] Returns an array of ReturnSettings objects
-    //  */
-   
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    
-
-    
-    public function findOneBySomeField($value): ?ReturnSettings
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
     public function findLastInserted()
     {
         return $this
@@ -82,6 +42,6 @@ class ReturnSettingsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
-    
+
+
 }

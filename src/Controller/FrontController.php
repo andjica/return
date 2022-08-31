@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Reseller\Shipment;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Returns\ReasonSettings;
-use App\Entity\ReturnSettings;
-use App\Entity\Reseller\Shipment;
+use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +72,6 @@ class FrontController extends AbstractController
     public function findorder(ManagerRegistry $doctrine, Request $request)
     {
         $returnsettings = $doctrine->getRepository(ReturnSettings::class)->findOneBy(['status' => 1]);
-
 
         if (!$returnsettings) {
             $contents = $this->renderView('errors/404.html.twig', []);

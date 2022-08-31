@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Returns\PayCategory;
+use App\Entity\Returns\ReturnSettings;
 use App\Entity\Returns\Status;
-use App\Entity\ReturnSettings;
 use App\Form\ReturnSettingsType;
-use App\Repository\ReturnSettingsRepository;
+use App\Repository\Returns\ReturnSettingsRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Reseller;
 
-use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
- * @ORM\Table(name="users")
+ * @ORM\Entity(repositoryClass="App\Repository\Reseller\UsersRepository")
+ * @ORM\Table(name="users", schema="reseller")
  */
 class Users
 {

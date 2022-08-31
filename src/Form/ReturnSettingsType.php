@@ -2,16 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\ReturnSettings;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ReturnSettingsType extends AbstractType
 {

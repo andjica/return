@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Returns;
 
-use App\Entity\Returns\Returns;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

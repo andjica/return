@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Reseller\ShipmentItem;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReturnsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Returns\ReturnsRepository")
  * @ORM\Table(name="return_returns")
  */
 class Returns
@@ -124,28 +124,21 @@ class Returns
     /**
      * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="returns")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Common\Country", inversedBy="returns")
      * @ORM\JoinColumn(nullable=false)
      */
     private $country;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    // private $items_id;
-
-    // /**
-    //  * @var string
-    //  *
-    //  * @ORM\Column(type="string", length=15, nullable=true)
-    //  */
+     * @ORM\Column(type="string", nullable=true)
+    */
     private $post_code;
 
     /**
-     * @ORM\OneToOne(targetEntity="ShipmentItem", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Reseller\ShipmentItem", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $item;
 

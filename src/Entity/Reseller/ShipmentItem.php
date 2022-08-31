@@ -2,13 +2,11 @@
 
 namespace App\Entity\Reseller;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Reseller\ShipmentItemRepository")
- * @ORM\Table(name="reseller_shipment_items")
+ * @ORM\Table(name="reseller_shipment_items", schema="reseller")
  */
 class ShipmentItem
 {
@@ -91,20 +89,6 @@ class ShipmentItem
      * @ORM\Column(type="float")
      */
     private float $price;
-
-    /**
-     *
-     * @ORM\OneToMany(
-     *      targetEntity="ShipmentItemAttribute",
-     *      mappedBy="shipmentItem"
-     * )
-     */
-    private ArrayCollection $attributes;
-
-    public function __construct()
-    {
-        $this->attributes = new ArrayCollection();
-    }
     
     public function getId(): ?int
     {
@@ -210,10 +194,4 @@ class ShipmentItem
     {
         $this->price = $price;
     }
-
-    public function getAttributes(): Collection
-    {
-        return $this->attributes;
-    }
-    
 }

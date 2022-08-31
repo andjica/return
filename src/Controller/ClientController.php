@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Reseller\Shipment;
 use App\Entity\Returns\Returns;
+use App\Entity\Returns\ReturnStatus;
 use App\Entity\Returns\Status;
-use App\Entity\ReturnStatus;
 use App\Form\ReturnType;
 use App\Form\SearchReturnType;
-use App\Repository\ReturnsRepository;
+use App\Repository\Returns\ReturnsRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;

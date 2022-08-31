@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Returns\StatusRepository")
- * @ORM\Table(name="returns_status")
+ * @ORM\Table(name="return_status")
  */
 class Status
 {

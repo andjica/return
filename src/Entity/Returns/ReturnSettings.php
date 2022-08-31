@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Returns;
 
-use App\Repository\ReturnSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\NotBlankValidator;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReturnSettingsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Returns\ReturnSettingsRepository")
  * @ORM\Table(name="return_settings")
  */
 class ReturnSettings

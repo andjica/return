@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Returns;
 
-use App\Entity\Returns\Returns;
-use App\Entity\Returns\Status;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReturnStatusRepository")
- * @ORM\Table(name="return_status")
+ * @ORM\Entity(repositoryClass="App\Repository\Returns\ReturnStatusRepository")
+ * @ORM\Table(name="return_return_status")
  */
 class ReturnStatus
 {
