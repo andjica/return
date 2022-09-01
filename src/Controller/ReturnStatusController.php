@@ -26,7 +26,7 @@ class ReturnStatusController extends AbstractController
 
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $returnId]);
         $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => $statusId]);
-
+        
         if (!$return || (!$status)) {
             $response = new Response();
             $response->setStatusCode(404);
@@ -35,6 +35,14 @@ class ReturnStatusController extends AbstractController
         } else {
 
 
+            $returnstatusExist = $doctrine->getRepository(ReturnStatus::class)->findOneBy(['returns'=>$return, 'status'=>$status]);
+            
+            if($returnstatusExist)
+            {
+                $this->addFlash('alert', 'You have already choosen status: '.$returnstatusExist->getStatus()->getName());
+                return $this->redirectToRoute('returns');
+    
+            }
             $return->setStatus($status);
 
             $entityManager = $doctrine->getManager();
@@ -42,15 +50,15 @@ class ReturnStatusController extends AbstractController
             $entityManager->flush();
 
             $returnstatus = new ReturnStatus();
-
+            
             $returnstatus->setReturns($return);
-
+            
             $returnstatus->setStatus($status);
             $returnstatus->setCreatedAt(new \DateTime());
 
             $entityManager->persist($returnstatus);
 
-
+           
             $webshop = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $return->getWebShopOrderId()]);
             $reseleraddress = $webshop->getDeliveryAddress();
             $city = $reseleraddress->getCity();

@@ -3,12 +3,17 @@
 
 {% block content %}
 <div class="container-xxl mt-10">
-        <div class="card">
-            {% for message in app.flashes('success')%}
-            <div class="alert alert-success" role="alert">
+    {% for message in app.flashes('success')%}
+            <div class="alert alert-success mb-2" role="alert">
                 {{message}}
             </div>
             {% endfor %}
+            {% for message in app.flashes('alert')%}
+            <div class="alert alert-danger mb-2" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+        <div class="card">
         <div class="card-header border-0 pt-6">
             <!--begin::Card title-->
             <div class="card-title">
@@ -200,14 +205,7 @@
                             <!--begin::Menu-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true" style="">
                                 <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">Accept</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3" data-kt-customer-table-filter="delete_row">Deny</a>
-                                </div>
+                               
                                  <div class="menu-item px-3">
                                     <a href="{{asset('/show-process/')}}{{return.id}}" class="menu-link px-3">Show proccess</a>
                                 </div>

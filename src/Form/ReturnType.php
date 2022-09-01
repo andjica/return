@@ -3,34 +3,35 @@
 namespace App\Form;
 
 use App\Entity\Common\Country;
-use App\Entity\EmailTemplate;
-use App\Entity\Reseller\ResellerShipments;
-use App\Entity\ResellerAddress;
-use App\Entity\ResellerShipmentItems;
-use App\Entity\Returns\ReasonSettings;
-use App\Entity\Returns\ReturnImages;
-use App\Entity\Returns\Returns;
-use App\Entity\Returns\ReturnVideos;
 use App\Entity\Returns\Status;
-use App\Repository\Returns\ReturnsRepository;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Returns\Returns;
+use App\Entity\Reseller\Address;
+use App\Entity\Reseller\Shipment;
+use App\Entity\Returns\ReturnImages;
+use App\Entity\Returns\ReturnVideos;
+use App\Entity\Reseller\ShipmentItem;
+use App\Entity\Returns\EmailTemplate;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
+use App\Entity\Returns\ReasonSettings;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Form\AbstractType;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Repository\Returns\ReturnsRepository;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ReturnType extends AbstractType
 {
@@ -57,10 +58,20 @@ class ReturnType extends AbstractType
        
         $this->webshopOrderId = $this->session->get('webshop_order_id');
         $this->email = $this->session->get('user_email');
+        
+        $current = $this->requestStack->getCurrentRequest();
+        $webshop =  $current->request->all();
+        
+        // $wbOrderId = $webshop['return']['order_id'];
+        
+        $this->order = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$this->webshopOrderId]);
+        
+        $this->resellerAddress = $this->doctrine->getRepository(Address::class)->findOneBy(['id'=>$this->order->getDeliveryAddress()]);
+        $shipmentId = $this->webshopOrderId;
+        $shipment = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$this->webshopOrderId]);
+        
+        $this->shipmentsItems = $this->doctrine->getRepository(ShipmentItem::class)->findBy(['shipment'=> $shipment]);
        
-        $this->order = $this->doctrine->getRepository(ResellerShipments::class)->findOneBy(['webshopOrderId'=>$this->webshopOrderId]);
-        $this->resellerAddress = $this->doctrine->getRepository(ResellerAddress::class)->findOneBy(['id'=>$this->order->getDeliveryAddressId()]);
-        $this->shipmentsItems = $this->doctrine->getRepository(ResellerShipmentItems::class)->findBy(['shipment_id'=> $this->order->getId()]);
         
         $this->orderId = $this->webshopOrderId;
         $this->userEmail = $this->email;
@@ -76,7 +87,7 @@ class ReturnType extends AbstractType
         $builder->add('order_id', TextType::class, [
             'required' => 'Order is required field',
             'attr' => ['class' => 'form-control'],
-            'data' => $this->order->getId()
+            'data' => $this->webshopOrderId
             ])
             ->add('status', EntityType::class, [
             'class' => Status::class,
@@ -201,7 +212,7 @@ class ReturnType extends AbstractType
                     ])
                 ],
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event, MailerInterface $mailer) {
 
                 $request = $this->requestStack->getCurrentRequest();
                 $form = $event->getForm();
@@ -209,21 +220,38 @@ class ReturnType extends AbstractType
 
                
                 $all  = $request->request->all();
-                // return dd($all);
+               
+                
                 $shablon = $all['return']['shablon'];
-
+                $orderId = $all['return']['order_id'];
+                $reference = $all['return']['reference'];
                 //find status
                 $statusId = $all['return']['status'];
                 $status = $this->doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
                
                 $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
                 
+                if($reference != $this->order->getReference())
+                {
+                    return  $form->get('reference')->addError(new FormError('This reference '.$reference.' doesnt exist in system'));
+                }
+
+                
+                if($orderId != $this->webshopOrderId)
+                {
+                    return  $form->get('order_id')->addError(new FormError('This order '.$orderId.' doesnt exist in system'));
+                }
+
+                
                 if(!$emailT)
                 {
-                    return dd("Mora se napraviti email");
+                    
+                    return  $form->get('status')->addError(new FormError('You need to configure template email for status in '.$status->getName()));
+                    
                 }
                 //find country
-                $countryId = $this->resellerAddress->getCountryId();
+                $countryId = $this->resellerAddress->getCountry();
+                
                 $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
               
                 $clientEmail = $all['return']['client_email'];
@@ -232,7 +260,7 @@ class ReturnType extends AbstractType
                 $street = $all['return']['street'];
                 $postalCode = $all['return']['postal_code'];
                 $itemId = $all['return']['items'];
-                $item = $this->doctrine->getRepository(ResellerShipmentItems::class)->findOneBy(['id'=>$itemId]);
+                $item = $this->doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$itemId]);
                 
                 if(!$item)
                 {
@@ -262,7 +290,7 @@ class ReturnType extends AbstractType
                 $return->setCreatedAt(new \DateTime());
                 //quantity check
                 $quantity = $all['return']['quantity'];
-                $findOrder = $this->doctrine->getRepository(ResellerShipmentItems::class)->findOneBy(['id'=>$itemId]);
+                $findOrder = $this->doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$itemId]);
                
                 if($quantity > $findOrder->getQty())
                 {
@@ -377,15 +405,8 @@ class ReturnType extends AbstractType
 
              
                 // - returns and -returnstatus send email
-                $emailT = $this->doctrine->getRepository(EmailTemplate::class)->findOneBy(['status'=>$status]);
-
-                if(!$emailT)
-                {
-                    return dd("Mora se napraviti email");
-                }
-
-                
-
+               
+               
                 $servername = $_SERVER['SERVER_NAME'];
                 
                 $search = array('[webshop_name]','[webshop_order_id]', '[status]', '[name]', '[address]', '[phone]', '[postal_code]', '[country]');
@@ -403,7 +424,7 @@ class ReturnType extends AbstractType
                 ->context([
                     'emailtemplate' => $newtemplate,
                 ]);
-                
+                $mailer->send($emailT);
                
                
                 $this->session->clear();

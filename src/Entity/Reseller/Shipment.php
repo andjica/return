@@ -43,6 +43,14 @@ class Shipment
      */
     private $customer;
 
+
+     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $reference;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +86,18 @@ class Shipment
     public function setCustomer(Customer $customer): void
     {
         $this->customer = $customer;
+    }
+
+    public function getReference(): ?int
+    {
+        return $this->reference;
+    }
+
+    public function setReference(int $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
     }
 
 }
