@@ -67,8 +67,10 @@ class ClientController extends AbstractController
      */
     public function showprocess(int $id, ManagerRegistry $doctrine)
     {
-        $returnprocess = $doctrine->getRepository(ReturnStatus::class)->findBy(['return_id' => $id]);
-        $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $id]);
+        $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$id]);
+        $returnprocess = $doctrine->getRepository(ReturnStatus::class)->findBy(['returns' => $return]);
+        
+        // $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $id]);
 
 
         $data = [
@@ -106,13 +108,18 @@ class ClientController extends AbstractController
 
             if (!$order) {
 
-                return $form->get('webshop_order_id')->addError(new FormError('There is no order with id: ' . $webshopOrderId));
+               
+                    $error = $form->get('webshop_order_id')->addError(new FormError('There is no order with id: '.$webshopOrderId));              
+                    return $this->renderForm('return/find.html.twig', ['form' => $form, 'error'=>$error]);
+
             } else {
                 $customeremail = $order->getDeliveryAddress()->getEmail();
 
                 if ($email !== $customeremail) {
 
-                    $form->get('user_email')->addError(new FormError('There is no order with email : ' . $email));
+                    $error = $form->get('user_email')->addError(new FormError('There is no order with email : ' . $email));
+                    return $this->renderForm('return/find.html.twig', ['form' => $form, 'error'=>$error]);
+
                 } else {
                     return $this->redirectToRoute('create_return');
                 }
