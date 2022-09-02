@@ -2,54 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fcf06a62-0f87-4399-ad43-78274a1dd647" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/EventListener/MappingListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/messenger.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706153051.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706153957.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706155701.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706160316.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706161000.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706161448.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220706163158.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220714121322.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220725155120.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220725155654.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220725155713.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220725155749.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220725155840.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20220726190931.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ClientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EmailTemplateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EmailTemplateController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FrontController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FrontController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ReturnController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReturnController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ReturnSettingsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReturnSettingsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ReturnStatusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReturnStatusController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Reseller/Address.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reseller/Address.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Reseller/Customer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reseller/Customer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Reseller/Shipment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reseller/Shipment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Reseller/ShipmentItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reseller/ShipmentItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ReturnSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Returns/ReturnSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ReturnStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Returns/ReturnStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ReturnVideos.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Returns/ReturnVideos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Returns/Returns.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Returns/Returns.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Returns/Status.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Returns/Status.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reseller/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ReturnSettingsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ReturnSettingsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ReturnType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ReturnType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/EmailRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ReturRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ReturnSettingsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Returns/ReturnSettingsRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ReturnStatusRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Returns/ReturnStatusRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ReturnVideosRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Returns/ReturnVideosRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ReturnsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Returns/ReturnsRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UsersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/Reseller/UsersRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +168,7 @@
       <workItem from="1661846556608" duration="5359000" />
       <workItem from="1661855680053" duration="10646000" />
       <workItem from="1661869607958" duration="3333000" />
-      <workItem from="1661934204563" duration="8548000" />
+      <workItem from="1661934204563" duration="11372000" />
     </task>
     <servers />
   </component>
