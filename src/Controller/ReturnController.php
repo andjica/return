@@ -16,6 +16,7 @@ use App\Form\ReturnEditType;
 use App\Form\ReturnType;
 use App\Repository\Returns\ReturnsRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Egulias\EmailValidator\Result\Reason\Reason;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,15 +36,16 @@ class ReturnController extends AbstractController
     public function createreturn(ManagerRegistry $doctrine, Request $request, int $id, SluggerInterface $slugger)
     {
 
+        // return dd($request->request->all());
         $orderId = $request->request->get('orderId');
         $quantity = $request->request->get('quantity');
         $email = $request->request->get('email');
         $itemsId = $request->request->get('itemsId');
-
+        
         $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
-
+      
         $item = $doctrine->getRepository(ShipmentItem::class)->find($itemsId);
-
+        
         if (!$order) {
             // throw $this->createNotFoundException('The order does not exist', 
 
@@ -98,7 +100,7 @@ class ReturnController extends AbstractController
         $statusId = 1;
         //reference
         $reference = $order->getReference();
-
+       
         $adminReasons = $request->request->get('reasons');
         $userReasons = $request->request->get('userreasons');
 
@@ -277,7 +279,7 @@ class ReturnController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            // return dd($request->request->all());
             // return dd($form);
             $count = $form->getErrors()->count();
             if ($count > 0) {
@@ -357,10 +359,10 @@ class ReturnController extends AbstractController
     /**
      * @Route("/return/edit/{id}", methods={"GET", "POST"}, name="edit_return")
      */
-    public function idemo(Request $request, $id, ManagerRegistry $doctrine): Response
+    public function update(Request $request, $id, ManagerRegistry $doctrine): Response
     {
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $id]);
-
+       
         if (!$return) {
             $contents = $this->renderView('errors/404.html.twig', []);
 
@@ -369,9 +371,44 @@ class ReturnController extends AbstractController
 
         $form = $this->createForm(ReturnEditType::class, $return);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+           
+        
+           $requestedit = $request->get('return_edit');
+           $reference = $requestedit['reference'];
+           $orderId = $requestedit['order_id'];
+           $statusId = $requestedit['status'];
+           $reason = $requestedit['reasons'];
+           $status = $doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
+           $clientname = $requestedit['client_name'];
+           $clientemail = $requestedit['client_email'];
+           $companyname = $requestedit['company_name'];
+           $street = $requestedit['street'];
+           $postalcode = $requestedit['postal_code'];
 
+
+           $return->setReference($reference);
+           $return->setWebShopOrderId($orderId);
+           $return->setStatus($status);
+           $return->setReason($reason);
+           $return->setClientName($clientname);
+           $return->setClientEmail($clientemail);
+           $return->setCompanyName($companyname);
+           $return->setStreet($street);
+           $return->setPostCode($postalcode);
+           
+           $entitym = $doctrine->getManager();
+           $entitym->persist($return);
+           $entitym->flush();
+
+
+           $this->addFlash('success', 'You made changes successfully :)');
+           return $this->redirectToRoute('returns');
+        }
         return $this->renderForm('return/edit.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'return' => $return
         ]);
     }
 

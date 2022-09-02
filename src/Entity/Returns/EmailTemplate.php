@@ -46,7 +46,7 @@ class EmailTemplate
      *
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private string $background_color;
+    private ?string $background_color;
 
     /**
      * @var \DateTime

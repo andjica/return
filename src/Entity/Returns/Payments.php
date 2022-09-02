@@ -40,6 +40,7 @@ class Payments
      */
     private string $image;
 
+
     /**
      * @ORM\ManyToOne(targetEntity=PayCategory::class)
      * @ORM\JoinColumn(nullable=false)

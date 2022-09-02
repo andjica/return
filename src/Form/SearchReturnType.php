@@ -38,6 +38,10 @@ class SearchReturnType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
+            'csrf_protection' => true,
+            // the name of the hidden HTML field that stores the token
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'search_return',
         ]);
     }
 }

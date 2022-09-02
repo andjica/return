@@ -88,7 +88,7 @@ class FrontController extends AbstractController
 
         //find order
         $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
-
+        
         $arrayerrors = [];
 
         if ($order) {
@@ -114,7 +114,7 @@ class FrontController extends AbstractController
     /**
      * @Route("return/order-products/orderId={orderId}&email={email}", methods={"GET"}, name="order_products")
      */
-    public function reasons(ManagerRegistry $doctrine, Request $request, int $orderId, $email)
+    public function reasons(ManagerRegistry $doctrine, Request $request, string $orderId, $email)
     {
         $returnsettings = $doctrine->getRepository(ReturnSettings::class)->findOneBy(['status' => 1]);
 

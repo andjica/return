@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Email;
-use App\Entity\EmailTemplate;
+use App\Entity\Returns\EmailTemplate;
 use App\Entity\Returns\PayCategory;
 use App\Entity\Returns\ReturnSettings;
 use App\Entity\Returns\Status;
@@ -71,12 +71,12 @@ class EmailTemplateController extends AbstractController
     /**
      * @Route("/email/create/{name}", methods={"GET", "POST"}, name="app_email_create_template")
      */
-    public function andjica(string $name, ManagerRegistry $doctrine, Request $request)
+    public function store(string $name, ManagerRegistry $doctrine, Request $request)
     {
        
-        // return dd($request->request->all());
+       
         $templatecustom = $request->request->get('templatecustom');
-
+        
         $statusId = $request->request->get('statusId');
         $status = $doctrine->getRepository(Status::class)->findOneBy(['id'=> $statusId]);
         
@@ -110,11 +110,16 @@ class EmailTemplateController extends AbstractController
        else
        {
            
+       
             $templateuser = $request->request->get('templateuser');
             $newEmail->setBody($templateuser);
 
             $background = $request->request->get('background');
-            
+         
+            if($background == "")
+            {
+                return dd($newEmail->setBackgroundColor("#FFFFFF"));
+            }
             $newEmail->setBackgroundColor($background);
 
        }
