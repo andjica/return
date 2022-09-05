@@ -4,20 +4,19 @@
 {% endblock %}
 {% block content %}
        <div class="container">
-            <div class="row">
-              <div class="col-lg-2 pt-5 justify-content-center text-align-center">
-              </div>
+            <div class="row text-left">
+  
                 <div class="col-lg-6 pt-5 justify-content-center text-align-center">
                     <div class="row">
                         <div class="col-lg-12 mx-auto text-center">
-                        <img src="{{asset('/return_settings_images/')}}{{ data.imagelogo }}" width="130px" class='img-fluid mt-5 mb-5 logo-m-s'>       
+                        <img src="{{asset('/return_settings_images/')}}{{ data.imagelogo }}" width="180px" class='img-fluid mt-5 mb-15 logo-m-s'>       
                          <div class="card flex-md-row mb-4 box-shadow h-md-250">
                          <div class="card-body d-flex flex-column shadow-sm">
                             {% for product in products %}
                             <div class="row mt-3 border-top pt-3">
                                 <div class="col-lg-2">
                                 <i class="fas fa-image fa-3x text-warning m-1"></i></div>
-                                <div class="col-lg-6 text-left">
+                                <div class="col-lg-6 left-aligns text-left">
                                 <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>
                                 <h4 class="mb-0">
                                     {{product.title}}
@@ -38,7 +37,9 @@
                                             <div class="modal-content">
                                           
                                             <div class="modal-body">
-                                             <button type="button" class="btn btn-muted border float-right" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                             <div class="col-md-12 new-height">
+                                                <button type="button" class="btn btn-muted border float-righter" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                            </div>
                                           
                                                     <div class="row mt-3 border-top pt-3">
                                                     
@@ -107,9 +108,12 @@
                                             </div>
                                             
                                             <div class="modal-footer">
-                                            
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                 <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Make return">
+                                                <div class="col-md-6 new-class">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                                <div class="col-md-6 new-class text-right">
+                                                    <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Make return">
+                                                </div>
                                             </div>
                                                </form>
                                             </div>
@@ -118,8 +122,8 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                                <div class="card-footer text-left">
-                                    <span class="text-black">TOTAL(USD)</span> 
+                                <div class="card-footer ">
+                                    <span class="text-black">Totaal order €</span> 
                                     <span class="text-black">{{total}}</span>
                                 </div>
                         </div>
@@ -131,7 +135,16 @@
                                 </div>
                             </div>
                        <div class="col-lg-3">
-                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ data.imagebackground }}'); background-position-x: 50%; background-position-y: 35%"></div>
+                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ data.imagebackground }}'); background-position-x: 50%; background-position-y: 35%;  background-position-y: 83%;
+    clip-path: ellipse(58% 100% at 60% 50%);
+    left: inherit;
+    z-index: 9;
+    position: fixed;
+    width: 39%;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-size: cover;"></div>
                     </div>
                 </div>   
           </div>         
