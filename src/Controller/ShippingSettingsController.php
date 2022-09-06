@@ -40,6 +40,7 @@ class ShippingSettingsController extends AbstractController
         
         $customer = $this->doctrine->getRepository(Customer::class)->findOneBy(['isReseller' => true]);
         $country = $countries->findOneBy(['iso_code' => $_country]);
+          
         
         $countries_items = [];
         $shippingpriceHistory = $this->doctrine->getRepository(ShippingPriceHistory::class)->findOneBy(['customer'=>$customer->getId()]);
