@@ -1,0 +1,71 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="container-xxl mt-17 pt-5">
+<div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+        <select class="form-control" id="country_select">
+            
+            {% set group = '' %}
+            
+            {% for country in countries %}
+                
+                {% if group != country.group %}
+                                
+                    {% if group != '' %}
+                        </optgroup>
+                    {% endif %}
+                                
+                    <optgroup label="{{ country.group|trans }}"> 
+                                
+                    {% set group = country.group %}
+                                
+                {% endif %}
+                
+                <option {% if country.code == country_selected.isocode %}selected{% endif %} data="{{ country.code }}" value="{{ path('account_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
+            {% endfor %}
+            
+            </optgroup>
+        </select>
+    </div>
+<div class="row">
+    <div class="col-lg-3 col-xl-2">
+        {{include('/components/vertical-sidebar.html.twig')}}
+    </div>
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+    
+    $('#country_select').select2({
+        escapeMarkup: function(markup) {
+            return markup;
+	},
+        templateResult: function(country) {
+            
+            var flag = $(
+                '<div class="select2-icon-wrap"><div class="select2-icon" style="background-image: url(\'/reseller/build/images/flags/countries/' + $(country.element).attr('data') + '.svg\');"></div><span class="select2-text">' + country.text + '</span></div>'
+            );
+            return flag;
+            
+        }
+    });
+    
+    $('#country_select').change(function() {
+        window.location.href = $(this).val();
+    });
+    
+    
+});
+</script>
+{% endblock %}

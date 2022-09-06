@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reseller\Shipment;
 use App\Entity\Reseller\ShipmentItem;
+use App\Entity\Reseller\ShipmentLabel;
 use App\Entity\Returns\ReasonSettings;
 use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
@@ -89,6 +90,7 @@ class FrontController extends AbstractController
         //find order
         $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
         
+       
         $arrayerrors = [];
 
         if ($order) {
