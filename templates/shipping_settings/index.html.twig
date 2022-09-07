@@ -23,7 +23,7 @@
                                 
                 {% endif %}
                 
-                <option {% if country.code == country_selected.isocode %}selected{% endif %} data="{{ country.code }}" value="{{ path('account_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
+                <option {% if country.code == country_selected.isocode | default ('undefined') %}selected{% endif %} data="{{ country.code }}" value="{{ path('settings_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
             {% endfor %}
             
             </optgroup>
