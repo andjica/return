@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Common\Country;
 use App\Entity\Returns\Status;
 use App\Entity\Reseller\Customer;
 use App\Entity\Returns\PayCategory;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\Reseller\ShippingPriceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ShippingSettingsController extends AbstractController
 {
@@ -43,33 +45,49 @@ class ShippingSettingsController extends AbstractController
         $customer = $this->doctrine->getRepository(Customer::class)->findOneBy(['isReseller' => true]);
         $country = $countries->findOneBy(['iso_code' => $_country]);
         
-        return dd($customer->getCurrentShippingPriceHistory());
-
+        if (!($country instanceof Country)) {
+            $country = $countries->findBy([], ['weight' => 'ASC'])[0];
+            if (!$country instanceof Country) {
+                throw new NotFoundHttpException();
+            }
+        }
         $countries_items = [];
         $shippingpriceHistory = $this->doctrine->getRepository(ShippingPriceHistory::class)->findOneBy(['customer'=>$customer->getId()]);
        
-        // return dd($shippingpriceHistory);
+        $distributors_items = [];
+        
+        foreach ($shipping_prices->distributors($customer->getCurrentShippingPriceHistory(), $country) as $distrib) {
 
-        foreach ($shipping_prices->countries($customer->getCurrentShippingPriceHistory()) as $s_price) {
-
-            
-            $countr = $s_price->getCountry();
-            // return dd($countr);
-            // $shippingOption = $shippingPrice->getShippingOption();
-
-            // echo $shippingOption->getName();
-            if (!isset($countries_items[$countr->getId()])) {
-
-                $countries_items[$countr->getId()] = [
-                    'group' => $countr->getIsEu() ? 'EU' : 'label.rest_of_the_world',
-                    'code' => $countr->getISOCode(),
-                    'name' => $countr->getName()
-                   
-                ];
-
-            }
+            $distributors_items[] = [
+                'id' => $distrib->getId(),
+                'name' => $distrib->getName(),
+                'key_name' => $distrib->getKeyName(),
+            ];
 
         }
+        
+        $shippingOptions = [];
+
+
+        foreach ($shipping_prices->shippingOptions($customer->getCurrentShippingPriceHistory(),  $country, $distrib) as $shoption) {
+
+            return  dd( $shoption->getShippingOption());
+
+            
+
+        }
+        
+      
+
+        
+        $distributors_selected = [];
+        $options_items = [];
+
+       
+
+        
+        
+
 
         return $this->render('shipping_settings/index.html.twig', [
             'status' => $this->data,
