@@ -13,7 +13,7 @@
                             </div>
                         </div>
                         <div class="menu-item">
-                          <a class="menu-link {{asset('/settings/edit') or asset('/settings/create') in route ? 'active' }}" href="{{asset('/settings/create')}}">
+                          <a class="menu-link new-bl {{asset('/settings/edit') or asset('/settings/create') in route ? 'active' }}" href="{{asset('/settings/create')}}">
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -21,11 +21,11 @@
                           <span class="menu-title">General</span>
                         </a>
                       </div>
-                       
+                      
                         
                         <div data-kt-menu-trigger="click" id="email" class="menu-item menu-accordion {{  asset('/email') in route ? 'show' }}">
                 
-                            <span class="menu-link">
+                            <span class="menu-link new-bl">
                                 <span class="menu-icon">
                                   <i class="fas fa-envelope text-muted"></i>
                                 </span>
@@ -36,7 +36,7 @@
                           
                             {% for st in status %}
                              <div class="menu-item">
-                                    <a class="menu-link {{ st.getKeyName() in route ? 'active' }}" href="{{asset('/settings/email/')}}{{st.getKeyName() }}">
+                                    <a class="menu-link new-bl {{ st.getKeyName() in route ? 'active' }}" href="{{asset('/settings/email/')}}{{st.getKeyName() }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -48,7 +48,7 @@
                         </div>
                       <div data-kt-menu-trigger="click" id="payment" class="menu-item menu-accordion {{  asset('/settings/payment/') in route ? 'show' }}">
                 
-                            <span class="menu-link">
+                            <span class="menu-link new-bl">
                                 <span class="menu-icon">
                                   <i class="fas fa-envelope text-muted"></i>
                                 </span>
@@ -59,7 +59,7 @@
                           
                             {% for payment in payments %}
                              <div class="menu-item">
-                                    <a class="menu-link {{ payment.getName() | lower in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() |lower }}{{asset('/create')}}">
+                                    <a class="menu-link new-bl {{ payment.getName() | lower in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() |lower }}{{asset('/create')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                        <div class="menu-item">
-                          <a class="menu-link {{asset('/settings/reason/edit') or asset('/settings/reason/create')  in route ? 'active' }}" href="{{asset('/settings/reason/create')}}">
+                          <a class="menu-link new-bl {{asset('/settings/reason/edit') or asset('/settings/reason/create')  in route ? 'active' }}" href="{{asset('/settings/reason/create')}}">
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -79,7 +79,7 @@
                         </a>
                       </div>
                         <div class="menu-item">
-                            <a class="menu-link {{ '/shipping' in route ? 'active' }}" href="{{asset('/settings/shipping')}}">
+                            <a class="menu-link new-bl {{ '/shipping' in route ? 'active' }}" href="{{asset('/settings/shipping')}}">
                             <span class="menu-icon">
                               <i class="fas fa-shipping-fast text-muted"></i>
                             </span>
