@@ -12,8 +12,11 @@
                                 <span class="menu-section text-muted text-uppercase fs-8 ls-1">General</span>
                             </div>
                         </div>
+                        {% set route_name = app.request.attributes.get('_route') %}
+
                         <div class="menu-item">
-                          <a class="menu-link new-bl {{asset('/settings/edit') or asset('/settings/create') in route ? 'active' }}" href="{{asset('/settings/create')}}">
+                        <a  {% if route_name == "app_return_settings_edit" %} class="menu-link new-bl active" {% elseif route_name == "app_return_settings_new" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/create')}}">
+                          {# <a class="menu-link new-bl {{ asset('/edit') or asset('/create')  in route ? 'active' }}" href="{{asset('/settings/create')}}"> #}
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -70,7 +73,7 @@
                             </div>
                         </div>
                        <div class="menu-item">
-                          <a class="menu-link new-bl {{asset('/settings/reason/edit') or asset('/settings/reason/create')  in route ? 'active' }}" href="{{asset('/settings/reason/create')}}">
+                        <a  {% if route_name == "create_reason" %} class="menu-link new-bl active" {% elseif route_name == "edit_reason" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/reason/create')}}">
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -79,7 +82,7 @@
                         </a>
                       </div>
                         <div class="menu-item">
-                            <a class="menu-link new-bl {{ '/shipping' in route ? 'active' }}" href="{{asset('/settings/shipping')}}">
+                        <a  {% if route_name == "settings_shipping" %} class="menu-link new-bl active" {% elseif route_name == "settings_shipping" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/shipping/')}}">
                             <span class="menu-icon">
                               <i class="fas fa-shipping-fast text-muted"></i>
                             </span>

@@ -39,10 +39,10 @@
         {{include('/components/vertical-sidebar.html.twig')}}
     </div>
     <div class="col-lg-7 new-w">
-       
         <div class="card">
             <div class="card-header"</div>
             <div class="card-body">
+        {{ form_start(form, {attr: {id: 'save_form'}}) }}
            {% for distributor in distributors_selected %}
                 
                 <div class="kt-portlet">
@@ -54,44 +54,35 @@
                     <div class="kt-portlet__body">
                         
                         {% if options[distributor.id] is not empty %}
-                            
-                            <table class="table">
-                                
+                           <table class="table">
                                 <thead class="thead-light">
-                                    
-                                    <tr>
-                                   
+                                   <tr>
                                         <th>{{ 'label.shipping_option'|trans }}</th>
-                                        
                                     </tr>
-                                    
-                                </thead>
-                                
+                                  </thead>
                                 <tbody>
-                                    
                                     {% for option in options[distributor.id] %}
-                                        
-                                        <tr>
-                                             
-                                            <td><div class="form-group">
+                                       <tr>
+                                        {# <td class="checkbox-cell">{{ form_row(form['enabled' ~ option.id], {attr: {class: 'enable-option'}, label: false, label_attr: {class: 'kt-checkbox kt-checkbox--bold kt-checkbox--brand'}}) }}</td>
+                                                    <td>{{ option.name }}</td>
+                                                    <td class="price-cell">{{ option.id }}</td>
+                                          <td> #}
+                                          <td>
+                                          <div class="form-group">
                                                 <div class="checkbox">
                                                     <div class="kt-checkbox-warp">
-                                                        <label class="kt-checkbox kt-checkbox--brand"><input type="checkbox" id="empty_form_dayEnabled1" name="empty_form[dayEnabled1]" value="1"> <span></span>
+                                                        <label class="kt-checkbox kt-checkbox--brand">
+                                                        {{ form_row(form['enabled' ~ option.id], {attr: {class: 'enable-option'}, label: false, label_attr: {class: 'kt-checkbox kt-checkbox--bold kt-checkbox--brand'}}) }}
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div> 
-                                            {{ option.name}}</td>
-                                            
-                                            
+                                        {{ option.name}}</td>
                                         </tr>
-                                        
-                                    {% endfor %}
-                                    
-                                </tbody>
-                                
-                            </table>
-                            {% endif %}
+                                     {% endfor %}
+                                  </tbody>
+                              </table>
+                        {% endif %}
                        
            {% endfor %}
             </div>
@@ -101,11 +92,19 @@
   
  </div>
    
-                    <div class="col-lg-3 col-xl-3"></div>
-                    <div class="col-lg-9 col-xl-9">
-                        <button type="submit" id="empty_form_save" name="empty_form[save]" class="btn btn-primary">Save</button>
+<div class="col-lg-3 col-xl-3"></div>
+<div class="col-lg-9 col-xl-9">
+        <div class="kt-portlet">
+                    <div class="kt-portlet__body">
+                        <div class="kt-form__actions">
+                            {{ form_widget(form.save, {label: 'Save', attr: {class: 'btn btn-primary'}}) }}
+                        </div>
                     </div>
-             
+                </div>
+            
+            {{ form_end(form) }}
+</div>
+     {# </form>         #}
 </div>
 
 </div>

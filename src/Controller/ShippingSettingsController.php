@@ -5,15 +5,19 @@ namespace App\Controller;
 use App\Entity\Common\Country;
 use App\Entity\Returns\Status;
 use App\Entity\Common\CostPrice;
+use App\Form\ShippingOptionType;
 use App\Entity\Reseller\Customer;
 use App\Entity\Returns\PayCategory;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\Common\CountryRepository;
 use App\Entity\Reseller\ShippingPriceHistory;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Returns\ShippingOptionSettings;
 use App\Repository\Common\CostPriceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\Reseller\ShippingPriceRepository;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -36,14 +40,14 @@ class ShippingSettingsController extends AbstractController
     }
     
     /**
-     * @Route("/settings/shipping", defaults={"_country": "", "_distributor": ""}, methods={"GET", "POST"}, name="settings_shipping_prices")
+     * @Route("/settings/shipping", defaults={"_country": "", "_distributor": ""}, methods={"GET", "POST"}, name="settings_shipping")
      * @Route("/settings/shipping/{_country}", defaults={"_distributor": ""}, methods={"GET", "POST"}, name="settings_shipping_prices_country")
      * @Route("/settings/shipping/{_country}/{_distributor}", methods={"GET", "POST"}, name="settings_shipping_prices_country_distributor")
      */
-    public function index(ShippingPriceRepository $shipping_prices, CountryRepository $countries, string $_country, string $_distributor, CostPriceRepository $cost_prices): Response
+    public function index(Request $request, ShippingPriceRepository $shipping_prices, CountryRepository $countries, string $_country, string $_distributor, CostPriceRepository $cost_prices): Response
     {
 
-        
+
         $customer = $this->doctrine->getRepository(Customer::class)->findOneBy(['isReseller' => true]);
         $country = $countries->findOneBy(['iso_code' => $_country]);
         
@@ -86,18 +90,29 @@ class ShippingSettingsController extends AbstractController
 
         }
         
+        $form = $this->createForm(ShippingOptionType::class);
         //get shipping options
         foreach ($shipping_prices->shippingOptions($customer->getCurrentShippingPriceHistory(),  $country, $distrib) as $shoption) {
            
             $shippingOption = $shoption->getShippingOption();
+           
             $shippingOptionId = $shippingOption->getId();
-        
+            $currentShOptionSetting = $this->doctrine->getRepository(ShippingOptionSettings::class)->findOneBy(['shipping_option_id' => $shippingOptionId, 'country_id' => $country]);
+            // return dd($currentShOptionSetting);
+            // return dd($shippingOptionId);
+            //add new Entity and check if exist in Entity table ShippingOptionSettings
+            $form->add('enabled' . $shippingOptionId, CheckboxType::class, [
+                'data' => ($currentShOptionSetting instanceof ShippingOptionSettings) ? $currentShOptionSetting->getEnabled() : false,
+                'required' => false,
+                'mapped' => false,
+            ]);
             $distributor =  $shippingOption->getDistributor();
             $is_colli = $shippingOption->getIsColli();
 
           
         }
-
+       
+       
         //get selected distributors
         $distributors_selected = [];
         $options_items = [];
@@ -117,10 +132,44 @@ class ShippingSettingsController extends AbstractController
                 'name' =>  $shippingOption->getName()
             ];
         }
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // return dd(5);
+           foreach($shipping_prices->shippingOptions($customer->getCurrentShippingPriceHistory(),  $country, $distrib) as $sh)
+           {
+                $shippingOption = $sh->getShippingOption();
+                $enabled = $form->get('enabled' . $shippingOption ->getId())->getData();
+
+                $shippingOptionId = $shippingOption->getId();
+                
+                $currentShOptionSetting = $this->doctrine->getRepository(ShippingOptionSettings::class)->findOneBy(['shipping_option_id' => $shippingOptionId, 'country_id' => $country]);
+                $em = $this->doctrine->getManager();
+
+		        if($currentShOptionSetting instanceof ShippingOptionSettings) {
+                    $currentShOptionSetting->setEnabled($enabled);
+                    $currentShOptionSetting->setUpdatedAt(new \DateTime());
+                }
+                else {
+                    $currentShOptionSetting = new ShippingOptionSettings();
+                    $currentShOptionSetting->setShippingOptionId($shippingOptionId);
+                    $countryId = $country->getId();
+                    $currentShOptionSetting->setCountryId($countryId);
+                    $currentShOptionSetting->setEnabled($enabled);
+                    $currentShOptionSetting->setCreatedAt(new \DateTime());
+                    $em->persist($currentShOptionSetting);
+
+                }
+                  
+                    $em->flush();
+
+           }
+        }
         
 
 
-        return $this->render('shipping_settings/index.html.twig', [
+        return $this->renderForm('shipping_settings/index.html.twig', [
             'status' => $this->data,
             'payments' => $this->payments,
             'countries' => $countries_items,
@@ -128,7 +177,8 @@ class ShippingSettingsController extends AbstractController
             'distributors' => $distributors_items,
             'distributor_selected' => $_distributor,
             'distributors_selected' => $distributors_selected,
-            'options' => $options_items
+            'options' => $options_items,
+            'form' => $form
         ]);
     }
 
