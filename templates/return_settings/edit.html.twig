@@ -94,6 +94,48 @@
                     </div>
                 </div>
             </div>
+              <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    Countries
+                </div>
+                <div class="col-lg-8">
+                    <select name="return_settings[countries]" class="form-control">
+                        <option value="{{countryid}}">{{countryname}}</option>
+                        {% for country in countries %}
+                        <option value="{{country.getId()}}">{{country.getName()}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <small></small>
+                    <div class="form-error">
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.street) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.street) }}
+                    <small>{{ form_help(form.street) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.postcode) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.postcode) }}
+                    <small>{{ form_help(form.postcode) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.postcode) }}
+                    </div>
+                </div>
+            </div
              <div class="row mb-6 mt-2">
              <div class="kt-portlet__foot">
             <div class="kt-form__actions">

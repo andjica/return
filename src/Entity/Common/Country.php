@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Common\Translation\CountryTranslation;
+use App\Entity\Returns\ReturnSettings;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -72,6 +73,11 @@ class Country
      */
     private $translations;
     
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Returns\ReturnSettings", mappedBy="country")
+     */
+    private $settings;
+
     public function __construct()
     {
         $this->translations = new ArrayCollection();
@@ -111,6 +117,17 @@ class Country
     {
         $this->language = $language;
     }
+
+    public function getSettings(): ?ReturnSettings
+    {
+        return $this->settings;
+    }
+    
+    public function setSettings(?ReturnSettings $settings): void
+    {
+        $this->settings = $settings;
+    }
+    
     
     public function getWeight(): ?float
     {

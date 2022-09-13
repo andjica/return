@@ -90,6 +90,42 @@
                     </div>
                 </div>
             </div>
+              <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.countries) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.countries) }}
+                    <small>{{ form_help(form.countries) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.countries) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.street) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.street) }}
+                    <small>{{ form_help(form.street) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.postcode) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.postcode) }}
+                    <small>{{ form_help(form.postcode) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.postcode) }}
+                    </div>
+                </div>
+            </div>
              <div class="row mb-6 mt-2">
                 <div class="col-lg-4"></div>
                 <div class="col-lg-8">

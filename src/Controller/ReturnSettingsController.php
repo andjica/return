@@ -2,19 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Returns\PayCategory;
-use App\Entity\Returns\ReturnSettings;
+use App\Entity\Common\Country;
 use App\Entity\Returns\Status;
 use App\Form\ReturnSettingsType;
-use App\Repository\Returns\ReturnSettingsRepository;
+use App\Entity\Returns\PayCategory;
+use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Returns\ReturnSettingsRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
     * @Route("/settings")
@@ -61,10 +62,12 @@ class ReturnSettingsController extends AbstractController
 
         $logoimage = $form->get('image_logo')->getData();
         $backgroundimage = $form->get('image_background')->getData();
-
-
+        $country = $form->get('countries')->getData();
+        $street = $form->get('street')->getData();
+        $postcode = $form->get('postcode')->getData();
+      
         if ($form->isSubmitted() && $form->isValid()) {
-  
+            // return dd($request->request->all());
             if($logoimage)
             {
                 $originalFilename = pathinfo($logoimage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -105,7 +108,9 @@ class ReturnSettingsController extends AbstractController
             }
             $returnSetting->setImageLogo($newLogo);
             $returnSetting->setImageBackground($newBackground);
-
+            $returnSetting->setCountry($country);
+            $returnSetting->setStreet($street);
+            $returnSetting->setPostCode($postcode);
             $returnSettingsRepository->add($returnSetting);
 
             return $this->redirectToRoute('app_return_settings_edit', [], Response::HTTP_SEE_OTHER);
@@ -128,7 +133,9 @@ class ReturnSettingsController extends AbstractController
        
         
         $returnSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
-
+        $currentCountryName = $returnSetting->getCountry()->getName();
+        $currentCountryId = $returnSetting->getCountry()->getId();
+        $countries = $doctrine->getRepository(Country::class)->findAll();
         if(!$returnSetting)
         {
             return $this->redirectToRoute('app_return_settings_new');
@@ -218,9 +225,14 @@ class ReturnSettingsController extends AbstractController
             {
                 $returnSetting->setImageBackground($returnSetting->getImageBackground());
             }
-           
+            $requestis = $request->request->all();
+            $countryId = $requestis['return_settings']['countries'];
             
+            $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
            
+            // return dd($country);
+            $returnSetting->setCountry($country);
+            // return dd($returnSetting);
             $returnSettingsRepository->add($returnSetting);
             return $this->redirectToRoute('app_return_settings_edit', [], Response::HTTP_SEE_OTHER);
         }
@@ -233,7 +245,10 @@ class ReturnSettingsController extends AbstractController
             'return_setting' => $returnSetting,
             'form' => $form,
             'status' => $this->data,
-            'payments' => $this->payments
+            'payments' => $this->payments,
+            'countryname' => $currentCountryName,
+            'countryid' => $currentCountryId,
+            'countries' => $countries
         ]);
     }
 

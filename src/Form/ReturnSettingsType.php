@@ -2,15 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Common\Country;
 use App\Entity\Returns\ReturnSettings;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ReturnSettingsType extends AbstractType
 {
@@ -94,7 +96,30 @@ class ReturnSettingsType extends AbstractType
                 ],
                 'attr' => ['class'=> 'form-control']
             ])
-           
+            // ->add('countries', EntityType::class, [
+            //     'class' => Country::class,
+            //     // 'empty_data' => function () {
+            //     //     $returnSetting = $this->doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
+            //     //     $currentCountryName = $returnSetting->getCountry()->getName();
+            //     //     $currentCountryId = $returnSetting->getCountry()->getId();
+            //     //     return dd($currentCountryName());
+            //     // },
+            //     'choice_label' => function ($country) {
+            //         return $country->getName();
+            // },
+            //     'attr' => ['class' => 'form-control'],
+            //     'mapped' => false,
+            //     'required' => 'Country is required field',
+            // ])
+            ->add('street', TextType::class, [
+                'required' => 'Street is required field',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('postcode', TextType::class, [
+                'required' => 'Post code is required field',
+                'attr' => ['class' => 'form-control'],
+            ])
+            
           
         ;
     }
