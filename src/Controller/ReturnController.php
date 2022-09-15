@@ -46,10 +46,10 @@ class ReturnController extends AbstractController
         $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
       
         $item = $doctrine->getRepository(ShipmentItem::class)->find($itemsId);
-        $shipmentLabel = $doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment' => $order->getId()]);
+        // $shipmentLabel = $doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment' => $order->getId()]);
         
-        $shipmenturl = $shipmentLabel->getLabelFileName();
-        return dd($shipmenturl);
+        // $shipmenturl = $shipmentLabel->getLabelFileName();
+       
         if (!$order) {
             // throw $this->createNotFoundException('The order does not exist', 
 
@@ -259,7 +259,7 @@ class ReturnController extends AbstractController
             try {
                 $entityManager->flush();
 
-                return $this->redirectToRoute('returns');
+                return $this->redirect('/shippment/'.$orderId.'&'.$return->getId());
             } catch (\Exception $e) {
                 return new Response ("Something went wrong", 500);
             }
@@ -269,15 +269,7 @@ class ReturnController extends AbstractController
 
     }
 
-    /**
-     * @Route("/label/label={name}&label={id}", name="RouteName")
-     */
-    public function getlabel(string $name, int $id): Response
-    {
-
-        return $this->render('$0.html.twig', []);
-    }
-
+   
 
     //page
 

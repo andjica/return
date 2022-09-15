@@ -96,7 +96,7 @@
             </div>
               <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
-                    Countries
+                   <label class="required"> Countries</label>
                 </div>
                 <div class="col-lg-8">
                     <select name="return_settings[countries]" class="form-control">
@@ -114,6 +114,18 @@
             </div>
             <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
+                    {{ form_label(form.city) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.city) }}
+                    <small>{{ form_help(form.city) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.city) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
                     {{ form_label(form.street) }}
                 </div>
                 <div class="col-lg-8">
@@ -121,6 +133,18 @@
                     <small>{{ form_help(form.street) }}</small>
                     <div class="form-error">
                         {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            </div>
+              <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.house_nummber) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.house_nummber) }}
+                    <small>{{ form_help(form.house_nummber) }}</small>
+                    <div class="form-error">
+                        {{ form_errors(form.house_nummber) }}
                     </div>
                 </div>
             </div>

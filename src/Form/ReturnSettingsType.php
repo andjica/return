@@ -19,23 +19,29 @@ class ReturnSettingsType extends AbstractType
 
     public $logo; 
     public $background;
-
+    public $housenum;
+    public $city;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $returnSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
 
         
+        
         if($returnSetting)
         {
             $this->logo = $returnSetting->getImageLogo();
             $this->background = $returnSetting->getImageBackground();
+            $this->housenum = $returnSetting->getHouseNumber();
+            $this->city = $returnSetting->getCityName();
         }
         else
         {
 
             $this->logo = "blank.png";
             $this->background = "blank.png";
+            $this->housenum = "";
+            $this->city = "";
         }
 
     }
@@ -114,6 +120,18 @@ class ReturnSettingsType extends AbstractType
             ->add('street', TextType::class, [
                 'required' => 'Street is required field',
                 'attr' => ['class' => 'form-control'],
+            ])
+            ->add('house_nummber', TextType::class, [
+                'required' => 'House nummber is required field',
+                'attr' => ['class' => 'form-control'],
+                'mapped' => false,
+                'data' =>  $this->housenum,
+            ])
+            ->add('city', TextType::class, [
+                'required' => 'City name is required field',
+                'attr' => ['class' => 'form-control'],
+                'mapped' => false,
+                'data' =>  $this->city,
             ])
             ->add('postcode', TextType::class, [
                 'required' => 'Post code is required field',

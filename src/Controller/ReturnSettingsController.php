@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Common\Country;
+use App\Entity\Common\NlCity;
 use App\Entity\Returns\Status;
 use App\Form\ReturnSettingsType;
 use App\Entity\Returns\PayCategory;
@@ -136,6 +137,23 @@ class ReturnSettingsController extends AbstractController
         $currentCountryName = $returnSetting->getCountry()->getName();
         $currentCountryId = $returnSetting->getCountry()->getId();
         $countries = $doctrine->getRepository(Country::class)->findAll();
+
+
+        // $cities = $doctrine->getRepository(NlCity::class)->findAll();
+       
+        // if($returnSetting->getCountry()->getName() == "Netherlands")
+        // {
+        //     $cityName = $returnSetting->getCityName();
+        //     $findCity = $doctrine->getRepository(NlCity::class)->findOneBy(['name'=>$cityName]);
+        //     $nlId = $findCity->getId();
+        //     $nlName = $findCity->getName();
+
+        // }
+        // else
+        // {
+        //     $nlId = "";
+        // }
+
         if(!$returnSetting)
         {
             return $this->redirectToRoute('app_return_settings_new');
@@ -227,11 +245,17 @@ class ReturnSettingsController extends AbstractController
             }
             $requestis = $request->request->all();
             $countryId = $requestis['return_settings']['countries'];
-            
+            $cityfromrequest = $requestis['return_settings']['city'];
+            $housenum = $requestis['return_settings']['house_nummber'];
+        
             $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
-           
+            
+            // $city = $doctrine->getRepository(NlCity::class)->findOneBy(['id'=>$cityfromrequest]);
             // return dd($country);
+           
             $returnSetting->setCountry($country);
+            $returnSetting->setCityName($cityfromrequest);
+            $returnSetting->setHouseNumber($housenum);
             // return dd($returnSetting);
             $returnSettingsRepository->add($returnSetting);
             return $this->redirectToRoute('app_return_settings_edit', [], Response::HTTP_SEE_OTHER);
@@ -248,7 +272,10 @@ class ReturnSettingsController extends AbstractController
             'payments' => $this->payments,
             'countryname' => $currentCountryName,
             'countryid' => $currentCountryId,
-            'countries' => $countries
+            'countries' => $countries,
+            // 'cities' => $cities,
+            // 'nlId' => $nlId,
+            // 'nlName' => $nlName
         ]);
     }
 

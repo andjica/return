@@ -24,8 +24,24 @@ use Doctrine\ORM\Mapping as ORM;
      *
      * @ORM\Column(type="integer")
      */
+
     private $shipping_option_id;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200)
+     */
+
+    private $shipping_option_name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=200)
+     */
+
+    private $shipping_option_key_name;
       /**
      * @var int
      *
@@ -69,6 +85,30 @@ use Doctrine\ORM\Mapping as ORM;
         $this->shipping_option_id = $shipping_option_id;
 
         return $this;
+    }
+
+    public function setShippingOptionName(string $shipping_option_name): self
+    {
+        $this->shipping_option_name = $shipping_option_name;
+
+        return $this;
+    }
+
+    public function getShippingOptionName(): ?string
+    {
+        return $this->shipping_option_name;
+    }
+
+    public function setShippingOptionKeyName(string $shipping_option_key_name): self
+    {
+        $this->shipping_option_key_name = $shipping_option_key_name;
+
+        return $this;
+    }
+
+    public function getShippingOptionKeyName(): ?string
+    {
+        return $this->shipping_option_key_name;
     }
 
     public function getCountryId(): ?int
@@ -117,4 +157,6 @@ use Doctrine\ORM\Mapping as ORM;
 
         return $this;
     }
+
+   
 }

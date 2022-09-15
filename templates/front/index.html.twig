@@ -1,7 +1,7 @@
 
 {% extends "user-template.html.twig" %}
 {% block stylesheet %}
-<link href="{{asset('/')}}build/css/custom.css" rel="stylesheet" type="text/css">
+<link href="{{asset('/')}}assets/css/custom.css" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
 
@@ -48,17 +48,7 @@
                     </form>
                 </div>
                     <div class="col-lg-3">
-                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}');     background-position-x: 85%;
-    background-position-y: 83%;
-    clip-path: ellipse(58% 100% at 60% 50%);
-    left: inherit;
-    z-index: 9;
-    position: fixed;
-    width: 39%;
-    right: 0;
-    top: 0;
-    height: 100%;
-    background-size: cover;"></div>
+                        <div class="cover cover-background" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}');></div>
                     </div>
             </div>
           </div>
