@@ -259,7 +259,7 @@ class ReturnController extends AbstractController
             try {
                 $entityManager->flush();
 
-                return $this->redirect('/shippment/'.$orderId.'&'.$return->getId());
+                return $this->redirect('/shipment/'.$orderId.'&'.$return->getId());
             } catch (\Exception $e) {
                 return new Response ("Something went wrong", 500);
             }

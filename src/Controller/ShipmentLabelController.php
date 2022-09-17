@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Common\Country;
 use App\Entity\Returns\Returns;
 use App\Entity\Reseller\Address;
+use App\Entity\Reseller\Shipment;
 use App\Entity\Reseller\ShipmentItem;
+use App\Entity\Reseller\ShipmentLabel;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use App\Entity\Returns\ReturnSettings;
@@ -40,9 +42,9 @@ class ShipmentLabelController extends AbstractController
 
     }
     /**
-     * @Route("/shippment/{webshopOrderId}&{returnId}", methods={"GET", "POST"}, name="shippment")
+     * @Route("/shipment/{webshopOrderId}&{returnId}", methods={"GET", "POST"}, name="shipment")
      */
-    public function getshippment(Request $request, string $webshopOrderId, int $returnId): Response
+    public function getshipment(Request $request, string $webshopOrderId, int $returnId): Response
     {
         
     
@@ -86,13 +88,13 @@ class ShipmentLabelController extends AbstractController
                
                 date_default_timezone_set('UTC'); 
                 $time_stamp = date('c');
-                $uri = 'http://aaparceld:11000/nl/api/shipment/create';
+                $uri = '/nl/api/shipment/create';
             
                 $data = [
                     'shipping_option' => $shippingOption->getShippingOptionKeyName(),
                     'sender_address' => false,
                     'return_address' => [
-                        'country' => $returnInfoSetting->getCountry()->getName(),
+                        'country' => $returnInfoSetting->getCountry()->getIsoCode(),
                         'name' => 'Jane Doe',
                         'company_name' => 'Some company, BV',
                         'postal_code' => $returnInfoSetting->getPostCode(),
@@ -103,8 +105,8 @@ class ShipmentLabelController extends AbstractController
                         'phone' => '088-1234567',
                         'email' => 'jd@example.com',
                     ],
-                    'country' => $country->getName(),
-                    'customer_id' =>  $findUser->getId(),
+                    'country' => $country->getIsoCode(),
+                    'customer_id' =>  '',
                     'name' => $findUser->getName(),
                     'company_name' => $findUser->getCompanyName(),
                     'postal_code' => $findUser->getPostalCode(),
@@ -137,6 +139,10 @@ class ShipmentLabelController extends AbstractController
                     ],
                 ];
 
+                
+                // return dd($data);
+                // print_r($data); die;
+
                 $post_data = json_encode($data);
                
                 $public_key = '4569912fc1fd4418e252585d9212688e';
@@ -145,8 +151,8 @@ class ShipmentLabelController extends AbstractController
                 $hash_string = $public_key . '|' . $method . '|' . $uri . '|' . $post_data . '|' . $time_stamp;
                 $hash = hash_hmac('sha512', $hash_string, $secret_key);
                 $curl = curl_init();
-
-                curl_setopt($curl, CURLOPT_URL, 'http://docker.for.mac.localhost:13000' . $uri);
+                // return dd($this->getParameter('aaparcel_domain'));
+                curl_setopt($curl, CURLOPT_URL, $this->getParameter('aaparcel_domain'). $uri);
                 curl_setopt($curl, CURLOPT_POST, true);
                 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
@@ -161,14 +167,49 @@ class ShipmentLabelController extends AbstractController
                 curl_setopt($curl, CURLOPT_FAILONERROR, true);
                 $response = curl_exec($curl);
 
-                print_r($response);
+                // print_r($response);
                 $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
                 if (curl_errno($curl)) {
                     echo 'Error curl: ' . curl_error($curl);
                 }
 
-                die;
+                
+                $resselerShipments = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
+                $uri2 = '/nl/api/shipment/labels';
+                $data2 = [
+                    'shipment_ids' => [$resselerShipments->getId()],
+                    'printer' => 'laser_a4'
+                ];
+                $post_data2 = json_encode($data2); 
+                $hash_string = $public_key . '|' . $method . '|' . $uri2 . '|' . $post_data2 . '|' . $time_stamp;
+
+                $hash = hash_hmac('sha512', $hash_string, $secret_key); 
+                $curl2 = curl_init();
+                curl_setopt($curl2, CURLOPT_URL, $this->getParameter('aaparcel_domain') . $uri2);
+                curl_setopt($curl2, CURLOPT_POST, true);
+                curl_setopt($curl2, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/json',
+                    'charset: utf-8',
+                    'x-date: ' . $time_stamp,
+                    'x-public: ' . $public_key,
+                    'x-hash:' . $hash,
+                ]);
+                curl_setopt($curl2, CURLOPT_POSTFIELDS, $post_data2);
+                curl_setopt($curl2, CURLOPT_HEADER, false);
+                curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl2, CURLOPT_FAILONERROR, true);
+                $response2 = curl_exec($curl2);
+                $http_code = curl_getinfo($curl2, CURLINFO_HTTP_CODE);
+
+                $responsedecode = json_decode($response2, TRUE);
+                $labelUrl = $responsedecode['success']['label_url'];
+                //labelUrl prenesi na sledecu rutu
+                if($response2)
+                {
+                    
+                    return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$resselerShipments->getId(). '/success');
+                }
             }
         }
 
@@ -182,6 +223,32 @@ class ShipmentLabelController extends AbstractController
             'country' => $country,
             'returninfo' => $returnInfoSetting,
             'form' => $form
+        ]);
+    }
+
+    /**
+     * @Route("/shipment/{webshopOrderId}&{returnId}&{shipmentId}/success", methods={"GET"}, name="shipment_success")
+     */
+    public function shipmentSuccess(string $webshopOrderId, int $returnId, int $shipmentId)
+    {
+        $madedReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId]);
+        $findUser = $this->doctrine->getRepository(Address::class)->findOneBy(['email'=>$madedReturn->getUserEmail()]);
+        $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$findUser->getCountry()]);
+        $returnInfoSetting = $this->doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
+
+        $resselerShipments = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
+
+        $shipmentLabel = $this->doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment'=>$resselerShipments]);
+        
+        return $this->render('shipping_label/success.html.twig', 
+        [
+            'imagelogo'=>$this->data['imagelogo'],
+            'imagebackground'=>$this->data['imagebackground'],
+            'madedReturn' => $madedReturn,
+            'finduser' => $findUser,
+            'country' => $country,
+            'returninfo' => $returnInfoSetting,
+            'shipmentLabel' => $shipmentLabel
         ]);
     }
 
