@@ -4,35 +4,39 @@
 
 {% block content %}
 <div class="kt-container kt-container--fluid kt-grid__item kt-grid__item--fluid d-block">
-                            <div class="kt-subheader__main">
-                                <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-                                <h3 class="kt-subheader__title">Verzendtarieven | Landen : </h3>                                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
 
-<div class="col-lg-12">
-<div class="kt-input-icon kt-input-icon--right kt-subheader__search">
-        <select class="form-control" id="country_select">
-            {% set group = '' %}
-            {% for country in countries %}
-                {% if group != country.group %}
-                {% if group != '' %}
-                    </optgroup>
-                {% endif %}
-                <optgroup label="{{ country.group|trans }}"> 
-                    {% set group = country.group %}
-                    {% endif %}
-                        <option {% if country.code == country_selected.isocode | default ('undefined') %}selected{% endif %} data="{{ country.code }}" value="{{ path('settings_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
-                    {% endfor %}
-                </optgroup>
-        </select>
-    </div>
-    </div>
+
+<div class="kt-subheader__main">
+    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+    <h3 class="kt-subheader__title">Verzendtarieven | Landen : </h3>                                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+
+    <div class="col-lg-12">
+        <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                <select class="form-control" id="country_select">
+                    {% set group = '' %}
+                    {% for country in countries %}
+                        {% if group != country.group %}
+                        {% if group != '' %}
+                            </optgroup>
+                        {% endif %}
+                        <optgroup label="{{ country.group|trans }}"> 
+                            {% set group = country.group %}
+                            {% endif %}
+                                <option {% if country.code == country_selected.isocode | default ('undefined') %}selected{% endif %} data="{{ country.code }}" value="{{ path('settings_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
+                            {% endfor %}
+                        </optgroup>
+                </select>
+            </div>
+        </div>
    
     </div>
-                            </div>
-                                                        
-                        </div>
+    </div>
+                                
+</div>
 
 <div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
 
 <div class="row">
     <div class="col-lg-3 col-xl-2">

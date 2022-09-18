@@ -81,7 +81,8 @@ class PaymentController extends AbstractController
             }
             
             $paymentsRepository->add($payment, true);
-            
+            $this->addFlash('success', 'You create payment information successfully');
+
             return $this->redirectToRoute('edit_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
         }
 
@@ -152,7 +153,7 @@ class PaymentController extends AbstractController
             }
             
             $paymentsRepository->add($payment, true);
-            
+            $this->addFlash('success', 'You edit payment information successfully');
             return $this->redirectToRoute('edit_payment', ['name'=>strtolower($category->getName())], Response::HTTP_SEE_OTHER);
         }
 

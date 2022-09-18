@@ -11,21 +11,15 @@
 {{include('components/return/toolbar.html.twig')}}
 
 <div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
+
     <div class="row">
         <div class="col-lg-7 mb-3">
              <div class="card">
                 <div class="card-header"><h3>ID: {{return.id}} | Referntie {{return.getReference()}}</h3></div>
                 <div class="card-body">
-                {% for message in app.flashes('errors')%}
-                        <div class="alert alert-danger" role="alert">
-                            {{message}}
-                        </div>
-                        {% endfor %}
-                          {% for message in app.flashes('success')%}
-                        <div class="alert alert-success" role="alert">
-                            {{message}}
-                        </div>
-                        {% endfor %}
+
                     <form action="{{asset('/return/update')}}" method="POST">
                      <input type="hidden" name="token" value="{{ csrf_token('edit-return') }}"/>
                      <input type="hidden" name="returnId" value="{{return.id}}"/>

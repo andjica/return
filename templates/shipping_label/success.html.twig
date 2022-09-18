@@ -3,7 +3,7 @@
 <link href="{{asset('/')}}assets/css/custom.css" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-<div class="container">
+<div class="container pb-5">
         <div class="row">
             <div class="col-lg-5 mx-auto pt-5 justify-content-center text-align-center mobile-version">
                 <div class="row">
@@ -102,13 +102,13 @@
                     <div class="kt-portlet">
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title ml-0">Your generetade shipment label
+                                <h3 class="kt-portlet__head-title ml-0">Your generetaded shipment label
                                 </h3>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <button type="submit" class="btn btn-outline download" data-id="{{shipmentLabel.getLabelFileName()}}">Download!</button>
+                    <div class="card-body mb-5">
+                        <a href="{{shipmentLabel}}" class="btn btn-info border p-2 btn-lg mt-5" target="blank">Your label - download</a>
 
                     </div>
                    

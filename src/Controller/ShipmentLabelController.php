@@ -8,17 +8,18 @@ use App\Entity\Reseller\Address;
 use App\Entity\Reseller\Shipment;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Reseller\ShipmentLabel;
+use App\Entity\Returns\ReturnSettings;
+use App\Entity\Returns\ReturnShipments;
+use App\Entity\Returns\ShippingOptionSettings;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
-use App\Entity\Returns\ReturnSettings;
 use App\Form\ActiveShippingOptionType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Returns\ShippingOptionSettings;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShipmentLabelController extends AbstractController
 {
@@ -52,6 +53,15 @@ class ShipmentLabelController extends AbstractController
         
         $madedReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=>$webshopOrderId]);
         
+        $returnShipment = $this->doctrine->getRepository(ReturnShipments::class)->findOneBy(['return_id' => $returnId]);
+        
+     
+        if($returnShipment)
+        {
+            $returnShipmentId = $returnShipment->getId();
+            return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$returnShipmentId. '/success');
+        }
+
         $findUser = $this->doctrine->getRepository(Address::class)->findOneBy(['email'=>$madedReturn->getUserEmail()]);
         $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$findUser->getCountry()]);
        
@@ -203,12 +213,23 @@ class ShipmentLabelController extends AbstractController
                 $http_code = curl_getinfo($curl2, CURLINFO_HTTP_CODE);
 
                 $responsedecode = json_decode($response2, TRUE);
-                $labelUrl = $responsedecode['success']['label_url'];
+                $labelUrl = $responsedecode['success']['labels_url'];
+                
+                $newReturnShipment = new ReturnShipments();
+                $newReturnShipment->setReturnId($madedReturn->getId());
+                $newReturnShipment->setShipmentId($resselerShipments->getId());
+                $newReturnShipment->setLabelsUrl($labelUrl);
+                
+                $newReturnShipment->setCreatedAt(new \DateTime());
+                $en = $this->doctrine->getManager();
+                $en->persist($newReturnShipment);
+                $en->flush();
+                
                 //labelUrl prenesi na sledecu rutu
                 if($response2)
                 {
                     
-                    return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$resselerShipments->getId(). '/success');
+                    return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$newReturnShipment->getId(). '/success');
                 }
             }
         }
@@ -227,19 +248,22 @@ class ShipmentLabelController extends AbstractController
     }
 
     /**
-     * @Route("/shipment/{webshopOrderId}&{returnId}&{shipmentId}/success", methods={"GET"}, name="shipment_success")
+     * @Route("/shipment/{webshopOrderId}&{returnId}&{returnShipment}/success", methods={"GET"}, name="shipment_success")
      */
-    public function shipmentSuccess(string $webshopOrderId, int $returnId, int $shipmentId)
+    public function shipmentSuccess(string $webshopOrderId, int $returnId, int $returnShipment)
     {
         $madedReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId]);
+        $returnShipment = $this->doctrine->getRepository(ReturnShipments::class)->findOneBy(['id'=>$returnShipment]);
+        
         $findUser = $this->doctrine->getRepository(Address::class)->findOneBy(['email'=>$madedReturn->getUserEmail()]);
         $country = $this->doctrine->getRepository(Country::class)->findOneBy(['id'=>$findUser->getCountry()]);
         $returnInfoSetting = $this->doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
 
         $resselerShipments = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
 
-        $shipmentLabel = $this->doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment'=>$resselerShipments]);
-        
+        // $shipmentLabel = $this->doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment'=>$resselerShipments]);
+        $shipmentLabel = $returnShipment->getLabelsUrl();
+
         return $this->render('shipping_label/success.html.twig', 
         [
             'imagelogo'=>$this->data['imagelogo'],

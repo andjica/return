@@ -56,19 +56,32 @@ class ReturnSettingsController extends AbstractController
         {
            return  $this->redirectToRoute('app_return_settings_edit');
         }
-
+        $countries = $doctrine->getRepository(Country::class)->findAll();
         $returnSetting = new ReturnSettings();
         $form = $this->createForm(ReturnSettingsType::class, $returnSetting);
         $form->handleRequest($request);
 
         $logoimage = $form->get('image_logo')->getData();
         $backgroundimage = $form->get('image_background')->getData();
-        $country = $form->get('countries')->getData();
+        // $country = $form->get('countries')->getData();
         $street = $form->get('street')->getData();
         $postcode = $form->get('postcode')->getData();
       
-        if ($form->isSubmitted() && $form->isValid()) {
-            // return dd($request->request->all());
+        if ($form->isSubmitted()) {
+
+            $requestis = $request->request->all();
+            $countryId = $requestis['return_settings']['countries'];
+            
+            $currentroute = $request->headers->get('referer');
+
+            if($countryId == 0)
+            {
+               
+                $this->addFlash('er-country', 'Country is required field');
+                return $this->redirect($currentroute);       
+            }
+           
+
             if($logoimage)
             {
                 $originalFilename = pathinfo($logoimage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -107,18 +120,41 @@ class ReturnSettingsController extends AbstractController
                     return new Response($e, 500);
                 }
             }
+            
+          
+
+            $cityfromrequest = $requestis['return_settings']['city'];
+            $housenum = $requestis['return_settings']['house_nummber'];
+        
+            $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
+
+            
+            if(!$country)
+            {
+                $this->addFlash('er-country', 'Choose country from current list');
+                return $this->redirect($currentroute);       
+            }
+            
+            // $city = $doctrine->getRepository(NlCity::class)->findOneBy(['id'=>$cityfromrequest]);
+            // return dd($country);
+           
+            $returnSetting->setCountry($country);
+            $returnSetting->setCityName($cityfromrequest);
+            $returnSetting->setHouseNumber($housenum);
             $returnSetting->setImageLogo($newLogo);
             $returnSetting->setImageBackground($newBackground);
-            $returnSetting->setCountry($country);
+            // $returnSetting->setCountry($country);
             $returnSetting->setStreet($street);
             $returnSetting->setPostCode($postcode);
             $returnSettingsRepository->add($returnSetting);
 
+            $this->addFlash('success', 'You updated settings successfully');
             return $this->redirectToRoute('app_return_settings_edit', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('return_settings/new.html.twig', [
             'return_setting' => $returnSetting,
+            'countries' => $countries,
             'form' => $form,
             'status' => $this->data,
             'payments' => $this->payments
@@ -210,11 +246,7 @@ class ReturnSettingsController extends AbstractController
             {
                 $returnSetting->setImageLogo($returnSetting->getImageLogo());
             }
-            
-            
-            
-
-          
+              
             if($backgroundimage != null)
             {
                 $originalFilename = pathinfo($backgroundimage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -245,11 +277,24 @@ class ReturnSettingsController extends AbstractController
             }
             $requestis = $request->request->all();
             $countryId = $requestis['return_settings']['countries'];
+            $currentroute = $request->headers->get('referer');
+
+            if($countryId == 0)
+            {
+                $this->addFlash('er-country', 'Country is required field');
+                return $this->redirect($currentroute);       
+            }
+           
             $cityfromrequest = $requestis['return_settings']['city'];
             $housenum = $requestis['return_settings']['house_nummber'];
         
             $country = $doctrine->getRepository(Country::class)->findOneBy(['id'=>$countryId]);
-            
+
+            if(!$country)
+            {
+                $this->addFlash('er-country', 'Choose country from current list');
+                return $this->redirect($currentroute);       
+            }
             // $city = $doctrine->getRepository(NlCity::class)->findOneBy(['id'=>$cityfromrequest]);
             // return dd($country);
            
@@ -258,6 +303,8 @@ class ReturnSettingsController extends AbstractController
             $returnSetting->setHouseNumber($housenum);
             // return dd($returnSetting);
             $returnSettingsRepository->add($returnSetting);
+
+            $this->addFlash('success', 'You updated settings successfully');
             return $this->redirectToRoute('app_return_settings_edit', [], Response::HTTP_SEE_OTHER);
         }
            

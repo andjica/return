@@ -8,6 +8,9 @@
 
 {% block content %}
 <div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
+
     <div class="row">
        
         <div class="col-lg-7">
@@ -15,7 +18,7 @@
                 
                 <div class="card-body">
 
-                {{include('/components/alert-message.html.twig')}}
+       
                 
                 {{ form_start(form, {'method': 'POST'}) }}
                     <div class="row mb-6 mt-2">

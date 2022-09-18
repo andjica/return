@@ -8,11 +8,15 @@
 
 {% block content %}
   <div class="container-xxl mt-17 pt-5">
+
+  {{include('/components/alert-message.html.twig')}}
+
+
     <div class="row">
         <div class="col-lg-7">
             <div class="card">
             <div class="card-body">
-             {{include('/components/alert-message.html.twig')}}
+            
                 <form action="{{asset('/create/manually')}}" method="POST" id="custom-return" enctype="multipart/form-data">
                 <input type="hidden" name="token" value="{{ csrf_token('create-manually') }}"/>
                 <div class="row mb-6">
