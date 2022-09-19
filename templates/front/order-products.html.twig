@@ -55,7 +55,7 @@
                                                     </div>
                                                     <div class="col-lg-6 text-left">
                                                         <div class="form-group mt-2">
-                                                            <label for="quantity">How many items your return:</label>
+                                                            <label for="quantity">Total items count:</label>
                                                             <input type="number"  name="quantity" id="qty" class="form-control" value="1" min="1" max="{{product.qty}}">
                                                         </div>
                                                          <div class="form-group"  id="adminreasons{{product.id}}">
@@ -68,7 +68,7 @@
                                                             </select><br>
                                                             <small class="text-danger" id="select-error{{product.id}}"></small>
                                                               <br>
-                                                            <div id="givereasons{{product.id}}" style="display-block">
+                                                            <div id="givereasons{{product.id}}" style="display:block">
                                                             Or Give your reason 
                                                             <button class="btn btn-give-reason" data-id="{{product.id}}">
                                                                 <i class="fas fa-plus-circle text-danger"></i>
@@ -281,4 +281,11 @@
 
     </script>
    
+   <style>
+   .row.mt-3.border-top.pt-3 {
+    width: 100% !important;
+    padding: 30px;
+    /* border-bottom: 1px solid #f5f5f5 !important; */
+}
+</style>
 {% endblock %}
