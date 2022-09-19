@@ -51,6 +51,14 @@ class Shipment
      */
     private $reference;
     
+     /**
+     * @var Domain
+     *
+     * @ORM\ManyToOne(targetEntity="Domain")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $domain;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -98,6 +106,16 @@ class Shipment
         $this->reference = $reference;
 
         return $this;
+    }
+
+    public function getDomain(): Domain
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(Domain $domain): void
+    {
+        $this->domain = $domain;
     }
 
 }

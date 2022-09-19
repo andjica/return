@@ -26,12 +26,18 @@ class ReturnStatusController extends AbstractController
 
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $returnId]);
         $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => $statusId]);
-        
+        $email = $doctrine->getRepository(EmailTemplate::class)->findOneBy(['status' => $status]);
+
         if (!$return || (!$status)) {
             $response = new Response();
             $response->setStatusCode(404);
 
             return $this->render('errors/404.html.twig', [], $response);
+        }
+        elseif(!$email instanceof EmailTemplate){
+
+            $this->addFlash('alert', 'First, you need to configure email template for: '.$status->getName().' status.');
+                return $this->redirectToRoute('returns');
         } else {
 
 
@@ -79,7 +85,7 @@ class ReturnStatusController extends AbstractController
 
             $entityManager->flush();
 
-            $email = $doctrine->getRepository(EmailTemplate::class)->findOneBy(['status' => $status]);
+           
 
             // $emailtemplate = $email->getBody();
 

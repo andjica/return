@@ -13,7 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Reseller\DomainRepository")
- * @ORM\Table(name="reseller_domains", indexes={@ORM\Index(name="api_public_key", columns={"api_public_key"}), @ORM\Index(name="external_id", columns={"external_id"})})
+ * @ORM\Table(name="reseller_domains", indexes={@ORM\Index(name="api_public_key", columns={"api_public_key"}), @ORM\Index(name="external_id", 
+ * columns={"external_id"})}, schema="reseller")
  */
 class Domain
 {

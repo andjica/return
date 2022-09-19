@@ -95,7 +95,12 @@ class ShipmentLabelController extends AbstractController
             {
                 
                 $shippingOption = $this->doctrine->getRepository(ShippingOptionSettings::class)->findOneBy(['shipping_option_id'=>$selectedOption]);
-               
+                if(!$shippingOption instanceof ShippingOptionSettings)
+                {
+                    $contents = $this->renderView('errors/500.html.twig', []);
+
+                    return new Response($contents, 500);
+                }
                 date_default_timezone_set('UTC'); 
                 $time_stamp = date('c');
                 $uri = '/nl/api/shipment/create';
@@ -154,83 +159,107 @@ class ShipmentLabelController extends AbstractController
                 // print_r($data); die;
 
                 $post_data = json_encode($data);
-               
-                $public_key = '4569912fc1fd4418e252585d9212688e';
-                $secret_key = 'fcd2606e6e1bde3ebcca0a63743b1866';
-                $method = 'POST';
-                $hash_string = $public_key . '|' . $method . '|' . $uri . '|' . $post_data . '|' . $time_stamp;
-                $hash = hash_hmac('sha512', $hash_string, $secret_key);
-                $curl = curl_init();
-                // return dd($this->getParameter('aaparcel_domain'));
-                curl_setopt($curl, CURLOPT_URL, $this->getParameter('aaparcel_domain'). $uri);
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'charset: utf-8',
-                    'x-date: ' . $time_stamp,
-                    'x-public: ' . $public_key,
-                    'x-hash:' . $hash,
-                ));
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-                curl_setopt($curl, CURLOPT_HEADER, false);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl, CURLOPT_FAILONERROR, true);
-                $response = curl_exec($curl);
+                $resselerShipment = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
 
-                // print_r($response);
-                $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                if($resselerShipment instanceof Shipment) {
+                        
+                // $public_key = '4569912fc1fd4418e252585d9212688e';
+                 // $secret_key = 'fcd2606e6e1bde3ebcca0a63743b1866';
+                 $public_key = $resselerShipment->getDomain()->getApiPublicKey();
+                 $secret_key = $resselerShipment->getDomain()->getApiSecretKey();
+                 $method = 'POST';
+                 $hash_string = $public_key . '|' . $method . '|' . $uri . '|' . $post_data . '|' . $time_stamp;
+                 $hash = hash_hmac('sha512', $hash_string, $secret_key);
+                 $curl = curl_init();
+                 // return dd($this->getParameter('aaparcel_domain'));
+                 // $this->getParameter('aaparcel_domain')
+                 curl_setopt($curl, CURLOPT_URL,$this->getParameter('aaparcel_domain'). $uri);
+                 curl_setopt($curl, CURLOPT_POST, true);
+                 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                     'Content-Type: application/json',
+                     'charset: utf-8',
+                     'x-date: ' . $time_stamp,
+                     'x-public: ' . $public_key,
+                     'x-hash:' . $hash,
+                 ));
+                 curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+                 curl_setopt($curl, CURLOPT_HEADER, false);
+                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                 curl_setopt($curl, CURLOPT_FAILONERROR, true);
+                 $response = curl_exec($curl);
+                 // return dd($response);
+                 // print_r($response);
+                 $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+ 
+                 if (curl_errno($curl)) {
+                     echo 'Error curl: ' . curl_error($curl);
+                 }
+ 
+                 
+                 
+                 $uri2 = '/nl/api/shipment/labels';
+                 $data2 = [
+                     'shipment_ids' => [$resselerShipment->getId()],
+                     'printer' => 'laser_a4'
+                 ];
+                 $post_data2 = json_encode($data2); 
+                 // return dd($post_data2);
+                 $hash_string = $public_key . '|' . $method . '|' . $uri2 . '|' . $post_data2 . '|' . $time_stamp;
+ 
+                 $hash = hash_hmac('sha512', $hash_string, $secret_key); 
+                 $curl2 = curl_init();
+                 curl_setopt($curl2, CURLOPT_URL, $this->getParameter('aaparcel_domain') . $uri2);
+                 curl_setopt($curl2, CURLOPT_POST, true);
+                 curl_setopt($curl2, CURLOPT_HTTPHEADER, [
+                     'Content-Type: application/json',
+                     'charset: utf-8',
+                     'x-date: ' . $time_stamp,
+                     'x-public: ' . $public_key,
+                     'x-hash:' . $hash,
+                 ]);
+                 curl_setopt($curl2, CURLOPT_POSTFIELDS, $post_data2);
+                 curl_setopt($curl2, CURLOPT_HEADER, false);
+                 curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
+                 curl_setopt($curl2, CURLOPT_FAILONERROR, true);
+                 $response2 = curl_exec($curl2);
+                 $http_code = curl_getinfo($curl2, CURLINFO_HTTP_CODE);
+                 
+                 $responsedecode = json_decode($response2, TRUE);
+ 
+ 
+                 // return dd($response2);
+                 // if($responsedecode == null)
+                 // {
+                     
+                 // }
+                 $labelUrl = $responsedecode['success']['labels_url'];
+                 
+                 $newReturnShipment = new ReturnShipments();
+                 $newReturnShipment->setReturnId($madedReturn->getId());
+                 $newReturnShipment->setShipmentId($resselerShipment->getId());
+                 $newReturnShipment->setLabelsUrl($labelUrl);
+                 
+                 $newReturnShipment->setCreatedAt(new \DateTime());
+                 $en = $this->doctrine->getManager();
+                 $en->persist($newReturnShipment);
+                 $en->flush();
+                 
+                 //labelUrl prenesi na sledecu rutu
+                 if($response2)
+                 {
+                     
+                     return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$newReturnShipment->getId(). '/success');
+                 }
 
-                if (curl_errno($curl)) {
-                    echo 'Error curl: ' . curl_error($curl);
-                }
-
-                
-                $resselerShipments = $this->doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$webshopOrderId]);
-                $uri2 = '/nl/api/shipment/labels';
-                $data2 = [
-                    'shipment_ids' => [$resselerShipments->getId()],
-                    'printer' => 'laser_a4'
-                ];
-                $post_data2 = json_encode($data2); 
-                $hash_string = $public_key . '|' . $method . '|' . $uri2 . '|' . $post_data2 . '|' . $time_stamp;
-
-                $hash = hash_hmac('sha512', $hash_string, $secret_key); 
-                $curl2 = curl_init();
-                curl_setopt($curl2, CURLOPT_URL, $this->getParameter('aaparcel_domain') . $uri2);
-                curl_setopt($curl2, CURLOPT_POST, true);
-                curl_setopt($curl2, CURLOPT_HTTPHEADER, [
-                    'Content-Type: application/json',
-                    'charset: utf-8',
-                    'x-date: ' . $time_stamp,
-                    'x-public: ' . $public_key,
-                    'x-hash:' . $hash,
-                ]);
-                curl_setopt($curl2, CURLOPT_POSTFIELDS, $post_data2);
-                curl_setopt($curl2, CURLOPT_HEADER, false);
-                curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl2, CURLOPT_FAILONERROR, true);
-                $response2 = curl_exec($curl2);
-                $http_code = curl_getinfo($curl2, CURLINFO_HTTP_CODE);
-
-                $responsedecode = json_decode($response2, TRUE);
-                $labelUrl = $responsedecode['success']['labels_url'];
-                
-                $newReturnShipment = new ReturnShipments();
-                $newReturnShipment->setReturnId($madedReturn->getId());
-                $newReturnShipment->setShipmentId($resselerShipments->getId());
-                $newReturnShipment->setLabelsUrl($labelUrl);
-                
-                $newReturnShipment->setCreatedAt(new \DateTime());
-                $en = $this->doctrine->getManager();
-                $en->persist($newReturnShipment);
-                $en->flush();
-                
-                //labelUrl prenesi na sledecu rutu
-                if($response2)
-                {
                     
-                    return $this->redirect('/shipment/'.$webshopOrderId. '&' .$returnId. '&' .$newReturnShipment->getId(). '/success');
                 }
+                else {
+                    $contents = $this->renderView('errors/500.html.twig', []);
+
+                    return new Response($contents, 500);
+                }
+               
+                
             }
         }
 
