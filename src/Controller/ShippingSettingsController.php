@@ -136,39 +136,53 @@ class ShippingSettingsController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+
+            $addedOptions = [];
             // return dd(5);
            foreach($shipping_prices->shippingOptions($customer->getCurrentShippingPriceHistory(),  $country, $distrib) as $sh)
            {
                 $shippingOption = $sh->getShippingOption();
-                $enabled = $form->get('enabled' . $shippingOption ->getId())->getData();
-                // return dd($shippingOption->getKeyName());
-                $shippingOptionId = $shippingOption->getId();
+
+                if(!isset($addedOptions[$shippingOption->getId()])) {
+                    $addedOptions[$shippingOption->getId()] = true;
+
+                    
+                    $enabled = $form->get('enabled' . $shippingOption ->getId())->getData();
+                    // return dd($shippingOption->getKeyName());
+                    $shippingOptionId = $shippingOption->getId();
+                    
+                    $currentShOptionSetting = $this->doctrine->getRepository(ShippingOptionSettings::class)->findOneBy(['shipping_option_id' => $shippingOptionId, 'country_id' => $country]);
+                    // return dd($currentShOptionSetting);
+                    $em = $this->doctrine->getManager();
+    
+                    if($currentShOptionSetting instanceof ShippingOptionSettings) {
+                        $currentShOptionSetting->setEnabled($enabled);
+                        $currentShOptionSetting->setShippingOptionName($shippingOption->getName());
+                        $currentShOptionSetting->setShippingOptionKeyName($shippingOption->getKeyName());
+                        $currentShOptionSetting->setUpdatedAt(new \DateTime());
+                    }
+                    else {
+                        $currentShOptionSetting = new ShippingOptionSettings();
+                        $currentShOptionSetting->setShippingOptionId($shippingOptionId);
+                        $countryId = $country->getId();
+                        $currentShOptionSetting->setCountryId($countryId);
+                        $currentShOptionSetting->setEnabled($enabled);
+                        $currentShOptionSetting->setShippingOptionName($shippingOption->getName());
+                        $currentShOptionSetting->setShippingOptionKeyName($shippingOption->getKeyName());
+                        $currentShOptionSetting->setCreatedAt(new \DateTime());
+                        $em->persist($currentShOptionSetting);
+    
+                    }
+                      
+                        $em->flush();
+
+                        
+
+
+                }
+                        
+
                 
-                $currentShOptionSetting = $this->doctrine->getRepository(ShippingOptionSettings::class)->findOneBy(['shipping_option_id' => $shippingOptionId, 'country_id' => $country]);
-                // return dd($currentShOptionSetting);
-                $em = $this->doctrine->getManager();
-
-		        if($currentShOptionSetting instanceof ShippingOptionSettings) {
-                    $currentShOptionSetting->setEnabled($enabled);
-                    $currentShOptionSetting->setShippingOptionName($shippingOption->getName());
-                    $currentShOptionSetting->setShippingOptionKeyName($shippingOption->getKeyName());
-                    $currentShOptionSetting->setUpdatedAt(new \DateTime());
-                }
-                else {
-                    $currentShOptionSetting = new ShippingOptionSettings();
-                    $currentShOptionSetting->setShippingOptionId($shippingOptionId);
-                    $countryId = $country->getId();
-                    $currentShOptionSetting->setCountryId($countryId);
-                    $currentShOptionSetting->setEnabled($enabled);
-                    $currentShOptionSetting->setShippingOptionName($shippingOption->getName());
-                    $currentShOptionSetting->setShippingOptionKeyName($shippingOption->getKeyName());
-                    $currentShOptionSetting->setCreatedAt(new \DateTime());
-                    $em->persist($currentShOptionSetting);
-
-                }
-                  
-                    $em->flush();
-
            }
         }
         
