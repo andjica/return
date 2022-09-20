@@ -48,7 +48,7 @@
                     </form>
                 </div>
                     <div class="col-lg-3">
-                        <div class="cover cover-background" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}');></div>
+                        <div class="cover cover-background" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}');"></div>
                     </div>
             </div>
           </div>
@@ -60,6 +60,9 @@
             <script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
             <script>
             
+               localStorage.removeItem("orderId");
+               localStorage.removeItem("email");
+               localStorage.clear();
                
             document.querySelector('input[name="orderId"]').value = localStorage.getItem("orderId");
             document.querySelector('input[name="email"]').value = localStorage.getItem("email");
