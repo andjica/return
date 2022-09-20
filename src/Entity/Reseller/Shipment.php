@@ -108,6 +108,16 @@ class Shipment
         return $this;
     }
 
+    public function getProductItemsQty(): ?int
+    {
+        return $this->productItemsGty;
+    }
+
+    public function setProductItemsQty(int $productItemsQty): void
+    {
+    $this->productItemsQty = $productItemsQty;
+    }
+
     public function getDomain(): Domain
     {
         return $this->domain;
