@@ -116,6 +116,8 @@ class ShippingSettingsController extends AbstractController
         //get selected distributors
         $distributors_selected = [];
         $options_items = [];
+        $addedOptions = [];
+
         foreach ($shipping_prices->distributors($customer->getCurrentShippingPriceHistory(), $country, $_distributor) as $distrib) {
 
             $distributors_selected[] =
@@ -127,10 +129,18 @@ class ShippingSettingsController extends AbstractController
             if (!isset($options_items[$distrib->getId()])) {
                 $options_items[$distrib->getId()] = [];
             }
-            $options_items[$distrib->getId()][] = [
-                'id' =>  $shippingOption->getId(),
-                'name' =>  $shippingOption->getName()
-            ];
+
+            if(!isset($addedOptions[$shippingOption->getId()])) {
+                
+                $addedOptions[$shippingOption->getId()] = true;
+
+                $options_items[$distrib->getId()][] = [
+                    'id' =>  $shippingOption->getId(),
+                    'name' =>  $shippingOption->getName()
+                ];
+            }
+
+
         }
 
         $form->handleRequest($request);
@@ -146,7 +156,6 @@ class ShippingSettingsController extends AbstractController
                 if(!isset($addedOptions[$shippingOption->getId()])) {
                     $addedOptions[$shippingOption->getId()] = true;
 
-                    
                     $enabled = $form->get('enabled' . $shippingOption ->getId())->getData();
                     // return dd($shippingOption->getKeyName());
                     $shippingOptionId = $shippingOption->getId();
