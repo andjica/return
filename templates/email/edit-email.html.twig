@@ -14,41 +14,45 @@
 {{include('components/return-settings/toolbar.html.twig')}}
 
 <div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
+
 <div class="row pl-2">
     <div class="col-lg-3 col-xl-2">
         {{include('/components/vertical-sidebar.html.twig')}}
     </div>
     <div class="col-lg-9">
-        <div class="card">
+      <div class="card">
+       <div class="kt-portlet">
+        <div class="kt-portlet__head">
+            <div class="kt-portlet__head-label">
+                <span class="kt-portlet__head-icon btn-back-wrapper">
+                <a href="{{asset('/settings/edit')}}" class="btn btn-label-brand btn-bold btn-icon btn-back"><i class="fa fa-chevron-left"></i></a>
+                </span>
+                <h3 class="kt-portlet__head-title">Return - {{findstatus.getName()}}
+                </h3>
+            </div>
+        </div>
+    </div>
         <div class="row">
             <div class="card-body border-top p-9">
 
-                {{include('/components/alert-message.html.twig')}}
                 <form action="{{asset('/email-template/update/')}}" method="POST">
                  <input type="hidden" name="token" value="{{ csrf_token('update-email') }}"/>
                  <input type="hidden" name="statusId" value="{{findstatus.getId()}}">
                  <input type="hidden" name="emailId" value="{{email.getId()}}">
 
-                 <div class="row mb-0 mt-8">
-                    <label class="col-lg-2 col-form-label fw-bold fs-6 text-right">Enabled</label>
-                    <div class="col-lg-8 d-flex align-items-center">
-                        <div class="form-check form-check-solid form-switch fv-row">
-                             <input class="form-check-input w-45px h-30px" name="status" type="checkbox" id="allowmarketing" checked="checked">
-                             <label class="form-check-label" for="allowmarketing"></label>
-                            
-                        </div>
-                    </div>
-                </div>
+                
                <div class="row">
-                    <label class="col-2 col-form-label text-right">Shablon</label>
+                    <label class="col-2 col-form-label text-right">E-mail template</label>
                     <div class="col-9 col-form-label">
                         <div class="radio-list">
                             <label class="radio radio-primary">
                             <input type="radio" name="shablon" value="custom" class="sha" {% if email.getTemplateShablon() == "custom"  %} checked="checked" {%endif%}>
-                            <span></span>Custom</label><br>
+                            <span></span>Standaard</label><br>
                             <label class="radio radio-primary">
                             <input type="radio" name="shablon" value="user" class="sha" {% if email.getTemplateShablon() == "user"  %} checked="checked" {%endif%}>
-                            <span></span>Your template</label>
+                            <span></span>Custom template</label>
                         </div>
                       </div>
                 </div>
@@ -158,10 +162,10 @@
                
                  
                 </div>
-                  <div class="row mb-0 mt-8">
-                    <div class="col-lg-4 col-form-label fw-bold fs-6"></div>
+                  <div class="row mb-0 mt-2 mb-10">
+                    <div class="col-lg-2 col-form-label fw-bold fs-6"></div>
                     <div class="col-lg-8 d-flex align-items-center">
-                       <button type="submit" class="btn btn-success mt-3 btn-sm">Save</button>
+                       <button type="submit" class="btn btn-success mt-3 btn-sm new-pl">Save</button>
                     </div>
                 </div>
                 

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Returns;
 
+use App\Entity\Common\Country;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,6 +54,43 @@ class ReturnSettings
      * @ORM\Column(type="string", length=255)
      */
     private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $street;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $house_nummber;
+
+    /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Common\Country", inversedBy="settings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city_name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+    */
+    private $post_code;
+
 
     public function getId(): ?int
     {
@@ -115,6 +153,64 @@ class ReturnSettings
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    public function getHouseNumber(): ?string
+    {
+        return $this->house_nummber;
+    }
+    
+    public function setHouseNumber(?string $house_nummber): void
+    {
+        $this->house_nummber = $house_nummber;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCityName(): ?string
+    {
+        return $this->city_name;
+    }
+
+    public function setCityName(?string $city_name): self
+    {
+        $this->city_name = $city_name;
+
+        return $this;
+    }
+
+    public function getPostCode(): ?string
+    {
+        return $this->post_code;
+    }
+
+    public function setPostCode(?string $post_code): self
+    {
+        $this->post_code = $post_code;
 
         return $this;
     }

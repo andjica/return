@@ -1,0 +1,207 @@
+{% extends 'main-metronic.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="kt-container kt-container--fluid kt-grid__item kt-grid__item--fluid d-block">
+
+
+<div class="kt-subheader__main">
+    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+    <h3 class="kt-subheader__title">Verzendtarieven | Landen : </h3>                                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+
+    <div class="col-lg-12">
+        <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                <select class="form-control" id="country_select">
+                    {% set group = '' %}
+                    {% for country in countries %}
+                        {% if group != country.group %}
+                        {% if group != '' %}
+                            </optgroup>
+                        {% endif %}
+                        <optgroup label="{{ country.group|trans }}"> 
+                            {% set group = country.group %}
+                            {% endif %}
+                                <option {% if country.code == country_selected.isocode | default ('undefined') %}selected{% endif %} data="{{ country.code }}" value="{{ path('settings_shipping_prices_country', {_country: country.code}) }}">{{ country.name }}</option>
+                            {% endfor %}
+                        </optgroup>
+                </select>
+            </div>
+        </div>
+   
+    </div>
+    </div>
+                                
+</div>
+
+<div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
+
+<div class="row">
+    <div class="col-lg-3 col-xl-2">
+        {{include('/components/vertical-sidebar.html.twig')}}
+    </div>
+    <div class="col-lg-7 new-w">
+        <div class="card">
+            <div class="card-header"</div>
+            <div class="card-body">
+        {{ form_start(form, {attr: {id: 'save_form'}}) }}
+           {% for distributor in distributors_selected %}
+                
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">{{ distributor.name }}</h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        
+                        {% if options[distributor.id] is not empty %}
+                           <table class="table">
+                                <thead class="thead-light">
+                                   <tr>
+                                        <th>{{ 'label.shipping_option'|trans }}</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                    {% for option in options[distributor.id] %}
+                                       <tr>
+                                        {# <td class="checkbox-cell">{{ form_row(form['enabled' ~ option.id], {attr: {class: 'enable-option'}, label: false, label_attr: {class: 'kt-checkbox kt-checkbox--bold kt-checkbox--brand'}}) }}</td>
+                                                    <td>{{ option.name }}</td>
+                                                    <td class="price-cell">{{ option.id }}</td>
+                                          <td> #}
+                                          <td>
+                                          <div class="form-group">
+                                                <div class="checkbox">
+                                                    <div class="kt-checkbox-warp">
+                                                        <label class="kt-checkbox kt-checkbox--brand">
+                                                        {{ form_row(form['enabled' ~ option.id], {attr: {class: 'enable-option'}, label: false, label_attr: {class: 'kt-checkbox kt-checkbox--bold kt-checkbox--brand'}}) }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        {{ option.name}}</td>
+                                        </tr>
+                                     {% endfor %}
+                                  </tbody>
+                              </table>
+                        {% endif %}
+                       
+           {% endfor %}
+            </div>
+        </div>
+         
+    </div>
+  
+ </div>
+   
+<div class="col-lg-3 col-xl-3"></div>
+<div class="col-lg-9 col-xl-9">
+        <div class="kt-portlet">
+                    <div class="kt-portlet__body">
+                        <div class="kt-form__actions">
+                            {{ form_widget(form.save, {label: 'Save', attr: {class: 'btn btn-primary'}}) }}
+                        </div>
+                    </div>
+                </div>
+            
+            {{ form_end(form) }}
+</div>
+     {# </form>         #}
+</div>
+
+</div>
+<div class="col-lg-3 col-xl-2">
+            
+            <div class="kt-portlet">
+                <div class="kt-section__content kt-section__content--border kt-section__content--fit">
+                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-nav--v3">
+                        
+                        <li class="kt-nav__item {% if distributor_selected == '' %}active{% endif %}">
+                            <a class="kt-nav__link" href="{{ path('settings_shipping_prices_country', {_country: country_selected.isocode}) }}">
+                                <span class="kt-nav__link-text">{{ 'label.all_distributors'|trans }}</span>
+                            </a>
+                        </li>
+                        
+                        {% for distributor in distributors %}
+                            
+                            <li class="kt-nav__item {% if distributor.key_name == distributor_selected %}active{% endif %}">
+                                <a class="kt-nav__link" href="{{ path('settings_shipping_prices_country_distributor', {_country: country_selected.isocode, _distributor: distributor.key_name}) }}">
+                                    <span class="kt-nav__link-text">{{ distributor.name }}</span>
+                                </a>
+                            </li>
+                            
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+                
+            </div>
+            
+        </div>
+
+{% endblock %}
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+    
+    $('#country_select').select2({
+        escapeMarkup: function(markup) {
+            return markup;
+	},
+        templateResult: function(country) {
+            
+            var flag = $(
+                '<div class="select2-icon-wrap"><div class="select2-icon" style="background-image: url(\'/reseller/build/images/flags/countries/' + $(country.element).attr('data') + '.svg\');"></div><span class="select2-text">' + country.text + '</span></div>'
+            );
+            return flag;
+            
+        }
+    });
+    
+    $('#country_select').change(function() {
+        window.location.href = $(this).val();
+    });
+    
+    
+});
+</script>
+
+<style>
+input {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #5d78ff !important;
+}
+.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid {
+    display: none;
+}
+.form-group {
+    width: 50px;
+}
+td {
+    display: flex;
+}
+.btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon) {
+    border: 0;
+    height: 38px;
+    width: 60px;
+    font-weight: 400;
+    padding: 0.65rem 1rem;
+    line-height: 1.5;
+    font-size: 1rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+.kt-portlet__head-label {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding-left: 0px !important;
+    margin-left: -22px;
+}
+</style>
+{% endblock %}
+

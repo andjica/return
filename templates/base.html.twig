@@ -24,14 +24,17 @@
         <div id="wrapper">
             {{ include('client/components/sidebar.html.twig') }}
              <div id="content-wrapper" class="d-flex flex-column">
+             
 
                 <!-- Main Content -->
                 <div id="content">
                 {{include('/client/components/topbar.html.twig')}}
                     {% block body %}{% endblock %}
                 </div>
+                
               </div>
         </div>
+        
           {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <!-- Bootstrap core JavaScript-->

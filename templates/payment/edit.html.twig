@@ -7,15 +7,17 @@
 
 {% block content %}
 <div class="container-xxl mt-17 pt-5">
+
+    {{include('/components/alert-message.html.twig')}}
+
 <div class="row">
   <div class="col-lg-3 col-xl-2">
         {{include('/components/vertical-sidebar.html.twig')}}
     </div>
     <div class="col-lg-7">
     <div class="card">
+   
     <div class="card-body">
-
-        {{include('/components/alert-message.html.twig')}}
 
         {{ form_start(form) }}
             <div class="row mb-6 mt-2">

@@ -2,30 +2,31 @@
 
 namespace App\Controller;
 
+use App\Form\ReturnType;
+use App\Form\ReturnEditType;
+use Psr\Log\LoggerInterface;
 use App\Entity\Common\Country;
-use App\Entity\Reseller\Shipment;
-use App\Entity\Reseller\ShipmentItem;
-use App\Entity\Returns\EmailTemplate;
-use App\Entity\Returns\ReasonSettings;
-use App\Entity\Returns\ReturnImages;
+use App\Entity\Returns\Status;
 use App\Entity\Returns\Returns;
+use App\Entity\Reseller\Shipment;
+use App\Entity\Returns\ReturnImages;
 use App\Entity\Returns\ReturnStatus;
 use App\Entity\Returns\ReturnVideos;
-use App\Entity\Returns\Status;
-use App\Form\ReturnEditType;
-use App\Form\ReturnType;
-use App\Repository\Returns\ReturnsRepository;
+use App\Entity\Reseller\ShipmentItem;
+use App\Entity\Returns\EmailTemplate;
+use App\Entity\Reseller\ShipmentLabel;
+use App\Entity\Returns\ReasonSettings;
 use Doctrine\Persistence\ManagerRegistry;
-use Egulias\EmailValidator\Result\Reason\Reason;
-use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Repository\Returns\ReturnsRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Egulias\EmailValidator\Result\Reason\Reason;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ReturnController extends AbstractController
 {
@@ -45,7 +46,10 @@ class ReturnController extends AbstractController
         $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
       
         $item = $doctrine->getRepository(ShipmentItem::class)->find($itemsId);
+        // $shipmentLabel = $doctrine->getRepository(ShipmentLabel::class)->findOneBy(['shipment' => $order->getId()]);
         
+        // $shipmenturl = $shipmentLabel->getLabelFileName();
+       
         if (!$order) {
             // throw $this->createNotFoundException('The order does not exist', 
 
@@ -255,7 +259,7 @@ class ReturnController extends AbstractController
             try {
                 $entityManager->flush();
 
-                return $this->redirectToRoute('returns');
+                return $this->redirect('/shipment/'.$orderId.'&'.$return->getId());
             } catch (\Exception $e) {
                 return new Response ("Something went wrong", 500);
             }
@@ -265,6 +269,7 @@ class ReturnController extends AbstractController
 
     }
 
+   
 
     //page
 

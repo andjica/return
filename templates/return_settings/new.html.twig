@@ -7,6 +7,9 @@
 
 {% block content %}
 <div class="container-xxl mt-17 pt-5">
+
+{{include('/components/alert-message.html.twig')}}
+
 <div class="row">
   <div class="col-lg-3 col-xl-2">
         {{include('/components/vertical-sidebar.html.twig')}}
@@ -15,7 +18,6 @@
     <div class="card">
     <div class="card-body">
 
-        {{include('/components/alert-message.html.twig')}}
 
         {{ form_start(form) }}
             <div class="row mb-6 mt-2">
@@ -61,7 +63,7 @@
                 <div class="col-lg-8">
                     {{ form_widget(form.title) }}
                     <small>{{ form_help(form.title) }}</small>
-                    <div class="form-error">
+                    <div class="form-error col-lg-7 text-danger">
                         {{ form_errors(form.title) }}
                     </div>
                 </div>
@@ -73,7 +75,7 @@
                 <div class="col-lg-8">
                     {{ form_widget(form.status) }}
                     <small>{{ form_help(form.status) }}</small>
-                    <div class="form-error">
+                    <div class="form-error col-lg-7 text-danger">
                         {{ form_errors(form.status) }}
                     </div>
                 </div>
@@ -85,8 +87,73 @@
                 <div class="col-lg-8">
                     {{ form_widget(form.return_period) }}
                     <small>{{ form_help(form.return_period) }}</small>
-                    <div class="form-error">
+                    <div class="form-error col-lg-7 text-danger">
                         {{ form_errors(form.return_period) }}
+                    </div>
+                </div>
+            </div>
+           <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                   <label class="required"> Countries</label>
+                </div>
+                <div class="col-lg-8">
+                    <select name="return_settings[countries]" class="form-control">
+                        {% for country in countries %}
+                        <option value="{{country.getId()}}">{{country.getName()}}</option>
+                        {% endfor %}
+                    </select>  
+                    {% for message in app.flashes('er-country') %}
+                         <div class="form-error col-lg-7 text-danger">
+                            {{ message }}
+                        </div>  
+                    {% endfor %} 
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.city) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.city) }}
+                    <small>{{ form_help(form.city) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.city) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.street) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.street) }}
+                    <small>{{ form_help(form.street) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.street) }}
+                    </div>
+                </div>
+            </div>
+              <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.house_nummber) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.house_nummber) }}
+                    <small>{{ form_help(form.house_nummber) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.house_nummber) }}
+                    </div>
+                </div>
+            </div>
+             <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.postcode) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.postcode) }}
+                    <small>{{ form_help(form.postcode) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.postcode) }}
                     </div>
                 </div>
             </div>

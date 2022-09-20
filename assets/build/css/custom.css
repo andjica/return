@@ -261,3 +261,18 @@
             margin-top: 150px !important;
         }
     }
+
+    .cover-back
+    {
+        background-position-x: 85%;
+        background-position-y: 83%;
+        clip-path: ellipse(58% 100% at 60% 50%);
+        left: inherit;
+        z-index: 9;
+        position: fixed;
+        width: 39%;
+        right: 0;
+        top: 0;
+        height: 100%;
+        background-size: cover;
+    }

@@ -36,6 +36,14 @@ class ShipmentLabel
      */
     private $labelNumber;
 
+
+       /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $labelFileName;
+
     
 
     public function getId(): ?int
@@ -65,5 +73,15 @@ class ShipmentLabel
         $this->labelNumber = $labelNumber;
     }
 
+
+    public function getLabelFileName(): string
+    {
+        return $this->labelFileName;
+    }
+
+    public function setLabelFileName(string $labelFileName): void
+    {
+        $this->labelFileName = $labelFileName;
+    }
 
 }

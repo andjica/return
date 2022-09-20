@@ -1,6 +1,6 @@
     <div class="card">
      {% set route = (app.request.server.get("REQUEST_URI")) %}
-         <div class="card-body p-2">
+         <div class="card-body p-2 n-p">
                  <div class="aside-menu flex-column-fluid">
                 <!--begin::Aside Menu-->
                 <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0" style="">
@@ -12,8 +12,11 @@
                                 <span class="menu-section text-muted text-uppercase fs-8 ls-1">General</span>
                             </div>
                         </div>
+                        {% set route_name = app.request.attributes.get('_route') %}
+
                         <div class="menu-item">
-                          <a class="menu-link {{asset('/settings/edit') or asset('/settings/create') in route ? 'active' }}" href="{{asset('/settings/create')}}">
+                        <a  {% if route_name == "app_return_settings_edit" %} class="menu-link new-bl active" {% elseif route_name == "app_return_settings_new" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/create')}}">
+                          {# <a class="menu-link new-bl {{ asset('/edit') or asset('/create')  in route ? 'active' }}" href="{{asset('/settings/create')}}"> #}
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -21,11 +24,11 @@
                           <span class="menu-title">General</span>
                         </a>
                       </div>
-                       
+                      
                         
                         <div data-kt-menu-trigger="click" id="email" class="menu-item menu-accordion {{  asset('/email') in route ? 'show' }}">
                 
-                            <span class="menu-link">
+                            <span class="menu-link new-bl">
                                 <span class="menu-icon">
                                   <i class="fas fa-envelope text-muted"></i>
                                 </span>
@@ -36,7 +39,7 @@
                           
                             {% for st in status %}
                              <div class="menu-item">
-                                    <a class="menu-link {{ st.getKeyName() in route ? 'active' }}" href="{{asset('/settings/email/')}}{{st.getKeyName() }}">
+                                    <a class="menu-link new-bl {{ st.getKeyName() in route ? 'active' }}" href="{{asset('/settings/email/')}}{{st.getKeyName() }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -48,7 +51,7 @@
                         </div>
                       <div data-kt-menu-trigger="click" id="payment" class="menu-item menu-accordion {{  asset('/settings/payment/') in route ? 'show' }}">
                 
-                            <span class="menu-link">
+                            <span class="menu-link new-bl">
                                 <span class="menu-icon">
                                   <i class="fas fa-envelope text-muted"></i>
                                 </span>
@@ -59,7 +62,7 @@
                           
                             {% for payment in payments %}
                              <div class="menu-item">
-                                    <a class="menu-link {{ payment.getName() | lower in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() |lower }}{{asset('/create')}}">
+                                    <a class="menu-link new-bl {{ payment.getName() | lower in route ? 'active' }}" href="{{asset('/settings/payment/')}}{{payment.getName() |lower }}{{asset('/create')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -70,7 +73,7 @@
                             </div>
                         </div>
                        <div class="menu-item">
-                          <a class="menu-link {{asset('/settings/reason/edit') or asset('/settings/reason/create')  in route ? 'active' }}" href="{{asset('/settings/reason/create')}}">
+                        <a  {% if route_name == "create_reason" %} class="menu-link new-bl active" {% elseif route_name == "edit_reason" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/reason/create')}}">
                           <span class="menu-icon">
                             <i class="fas fa-cog text-muted"></i>
                               <!--end::Svg Icon-->
@@ -79,7 +82,7 @@
                         </a>
                       </div>
                         <div class="menu-item">
-                            <a class="menu-link" href="">
+                        <a  {% if route_name == "settings_shipping" %} class="menu-link new-bl active" {% elseif route_name == "settings_shipping" %} class="menu-link new-bl active" {% else %} class="menu-link new-bl" {% endif %}  href="{{asset('/settings/shipping/')}}">
                             <span class="menu-icon">
                               <i class="fas fa-shipping-fast text-muted"></i>
                             </span>

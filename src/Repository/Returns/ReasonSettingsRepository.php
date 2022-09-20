@@ -29,5 +29,7 @@ class ReasonSettingsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+   
     
 }

@@ -10,6 +10,7 @@ parameters:
     return_videos: '%kernel.project_dir%/public/return_videos'
     common_data: '%env(url:COMMON_DATABASE_URL)%'
     reseller_data: '%env(url:RESELLER_DATABASE_URL)%'
+    aaparcel_domain: '%env(string:AAPARCEL_DOMAIN)%'
 
 services:
     # default configuration for services in *this* file
