@@ -6,30 +6,52 @@
        <div class="container">
             <div class="row text-left">
   
-                <div class="col-lg-6 pt-5 justify-content-center text-align-center">
+                <div class="col-lg-12 pt-5 justify-content-center text-align-center">
                     <div class="row">
                         <div class="col-lg-12 mx-auto text-center">
                         <img src="{{asset('/return_settings_images/')}}{{ data.imagelogo }}" width="180px" class='img-fluid mt-5 mb-15 logo-m-s'>       
-                         <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                         <div class="card-body d-flex flex-column shadow-sm">
+                        
+                        <div class="row">
+                            <div class="col-lg-4 backer">
+                             <a href="{{asset('/return')}}" class="btn btn-muted border nm4" ><i class="fa fa-chevron-left new-ri"> </i>Vorige</a>
+
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="kt-wizard-v3__nav-label">
+                                    <span class="lz1">2. </span> Kies je retour(en)
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                        </div>
+                         <div class="card flex-md-row mb-4  h-md-250">
+                            
+
+
+                         <div class="container d-flex" style="justify-content: center;">
                             {% for product in products %}
                             {% if product.getSku() == "" %}
 
                             {% else %}
-                            <div class="row mt-3 border-top pt-3">
-                                <div class="col-lg-2">
-                                <i class="fas fa-image fa-3x text-warning m-1"></i></div>
-                                <div class="col-lg-6 left-aligns text-left">
-                                <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>
-                                <h4 class="mb-0">
+                            <div class="col-lg-3 text-left mt-3 border-top pt-3" style="background: #f5f5f5;
+                                padding: 20px;
+                                border-radius: 10px;
+                                max-width: 30%;
+                                margin-right: 30px;">
+                                <div class="col-lg-12">
+                                <i class="fas fa-image fa-3x text-warning m-1" style="width:180px; height:180px;"></i></div>
+                                <div class="col-lg-12 left-aligns text-left">
+                                <!--<strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>-->
+                                <h4 class="mb-0 dn">
                                     {{product.title}}
                                 </h4>
-                                <div class="mb-1 text-muted">{{product.sku}}</div>
-                                <p class="pt-3 border-top text-black mb-0">Quantity X Price</p>
-                                <p class="">{{product.qty}} X {{product.price}}</p>
+                                <div class="mb-1 text-muted">Artikelnummer: {{product.sku}}</div>
+                                <p class="mb-1 text-muted">Artikelaantal: {{product.qty}}</p>
+                               
                                     </div>
                                     <div class="col-lg-4 text-left">
-                                        <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" data-bs-target="#itemId{{ product.id}}">Return</button>
+                                        <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" style=" float: revert;" data-bs-target="#itemId{{ product.id}}">Overzicht</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="itemId{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog md-dialog">
@@ -41,43 +63,60 @@
                                           
                                             <div class="modal-body">
                                              <div class="col-md-12 new-height">
-                                                <button type="button" class="btn btn-muted border float-righter" data-bs-dismiss="modal" aria-label="Close">X</button>
-                                            </div>
+                               <div class="kt-wizard-v3__nav-label">
+                                    <span class="lz1">3. </span> Retour overzicht
+                                </div>                                            </div>
                                           
                                                     <div class="row mt-3 border-top pt-3">
                                                     
-                                                    <div class="col-lg-5 text-left ml-2 border-right">
-                                                    <i class="fas fa-image fa-5x text-warning m-1"></i>
-                                                    <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong>
-                                                    <h4 class="mb-0">
-                                                    {{product.title}}
-                                                      
+                                                    <div class="col-lg-12 text-left ml-2 border-right">
+                                                    <i class="fas fa-image fa-5x text-warning m-1" style="width:180px; height:180px;"></i>
+                                                   <!-- <strong class="d-inline-block mb-2 text-primary">{{ loop.index }}. Product information:</strong> -->
+                                                    <h4 class="mb-0">   {{product.title}}                                             
                                                     </h4>
-                                                    <div class="mb-1 text-muted">{{product.sku}}</div>
+                                                    <div class="mb-1 text-muted">Artikelnummer: {{product.sku}}</div>
                                                         
                                                     </div>
-                                                    <div class="col-lg-6 text-left">
-                                                        <div class="form-group mt-2">
-                                                            <label for="quantity">Total items count:</label>
+                                                    <div class="col-lg-12 text-left">
+                                                        <div class="form-group mt-2 flexer">
+                                                        <div class="col-lg-6 mb-4">
+                                                            <label for="quantity">Totaal retour items:</label>
+
+                                                        </div>
+                                                        <div class="col-lg-6 mb-4">
                                                             <input type="number"  name="quantity" id="qty" class="form-control" value="1" min="1" max="{{product.qty}}">
                                                         </div>
-                                                         <div class="form-group"  id="adminreasons{{product.id}}">
-                                                         <label for="userreasons">Choose reasons why you returning item</label>
+                                                        </div>
+
+                                                         <div class="form-group "  id="adminreasons{{product.id}}">
+                                                         <div class="flexer">
+                                                         <div class="col-lg-6 mb-4">
+                                                            <label for="userreasons" >Reden van retour:</label>
+                                                         </div>
+
+                                                         <div class="col-lg-6 mb-4">
+
                                                             <select name="reasons" id="sreasons{{product.id}}" class="form-control">
                                                                 <option value="0">Find your reason</option>
                                                                 {% for reason in reasons %}
                                                                 <option value="{{reason.id}}" class="form-control">{{reason.name}}</option>
                                                                 {% endfor %}
-                                                            </select><br>
-                                                            <small class="text-danger" id="select-error{{product.id}}"></small>
+                                                            </select>
+                                                            </div>
+                                                            <br>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                               <small class="text-danger" id="select-error{{product.id}}"></small>
+                                                            </div>
                                                               <br>
-                                                            <div id="givereasons{{product.id}}" style="display:block">
-                                                            Or Give your reason 
+                                                              <div class="col-lg-12">
+                                                            <div id="givereasons{{product.id}}" style="    display: block;    padding-left: 10px;   border-radius: 4px;   text-align: center;    background: rgb(245, 245, 245) !important;">
+                                                            Andere retour redenen 
                                                             <button class="btn btn-give-reason" data-id="{{product.id}}">
-                                                                <i class="fas fa-plus-circle text-danger"></i>
+                                                                <i class="fas fa-plus-circle text-primary"></i>
                                                             </button>
                                                             </div>
-                                                            
+                                                         </div>
                                                         </div>
                                                         </div>
                                                 </div>
@@ -85,24 +124,24 @@
                                                 <div class="row border-top pt-2" id="userresons{{product.id}}" style="display:none">
                                                     <div class="col-lg-10">
                                                        
-                                                      <label for="userreasons">Your reasons</label>
+                                                      <label for="userreasons">Mijn retour reden</label>
                                                       <textarea class="form-control" id="usertext{{product.id}}" rows="3" name="userreasons"></textarea>
                                                       <small class="text-danger" id="user-reasons-empty{{product.id}}"></small>
                                                        <div class="form-group mt-5">
-                                                            <label for="uploadmedia">Choose your photos</label>
+                                                            <label for="uploadmedia">Kies foto ter bewijs</label>
                                                             <input type="file" class="form-control-file" name="photos[]" id="uploadmedia{{product.id}}"   multiple/><br>
                                                             <small class="text-danger" id="mediaerror{{product.id}}"></small>
                                                            
                                                         </div>
                                                          <div class="form-group mt-5">
-                                                            <label for="uploadmedia">Choose your Videos</label>
+                                                            <label for="uploadmedia">Kies video ter bewijs</label>
                                                             <input type="file" class="form-control-file" name="videos[]" id="uploadvideos{{product.id}}"  multiple/><br>
                                                             <small class="text-danger" id="videos-error{{product.id}}"></small>
                                                            
                                                         </div>
                                                     </div>
                                                    <div class="col-lg-6">
-                                                    <button class="btn btn-danger dont-save mt-5">Dont save</button>
+                                                    <button class="btn btn-danger dont-save mt-5">Retour afsluiten</button>
                                                    </div>
                                                   
                                                 </div>
@@ -112,10 +151,10 @@
                                             
                                             <div class="modal-footer">
                                                 <div class="col-md-6 new-class">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour afsluiten</button>
                                                 </div>
                                                 <div class="col-md-6 new-class text-right">
-                                                    <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Make return">
+                                                    <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Retour bevestigen">
                                                 </div>
                                             </div>
                                                </form>
@@ -126,10 +165,10 @@
                                 </div>
                                 {% endif %}
                                 {% endfor %}
-                                <div class="card-footer ">
+                                <!--<div class="card-footer " style="    border: none !important;">
                                     <span class="text-black">Totaal order €</span> 
                                     <span class="text-black">{{total}}</span>
-                                </div>
+                                </div>-->
                         </div>
                         
                     </div>
@@ -138,20 +177,12 @@
                     </div>
                                 </div>
                             </div>
-                       <div class="col-lg-3">
-                        <div class="cover" style="background: url('{{asset('/return_settings_images/')}}{{ data.imagebackground }}'); background-position-x: 50%; background-position-y: 35%;  background-position-y: 83%;
-    clip-path: ellipse(58% 100% at 60% 50%);
-    left: inherit;
-    z-index: 9;
-    position: fixed;
-    width: 39%;
-    right: 0;
-    top: 0;
-    height: 100%;
-    background-size: cover;"></div>
-                    </div>
+                    
+
+                    
                 </div>   
           </div>         
+
 
           
 {% endblock %}
@@ -284,12 +315,31 @@
   
 
     </script>
+
+
    
    <style>
    .row.mt-3.border-top.pt-3 {
     width: 100% !important;
     padding: 30px;
     /* border-bottom: 1px solid #f5f5f5 !important; */
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1055;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white;
+    outline: 0;
+}
+.modal-content {
+    box-shadow: none;
+    border: 1px solid #f5f5f5;
 }
 </style>
 {% endblock %}

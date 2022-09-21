@@ -1376,7 +1376,6 @@ h3.kt-subheader__title {
 .cover {
   background-position-x: 85%;
   background-position-y: 83%;
-  clip-path: ellipse(58% 100% at 60% 50%);
   left: inherit;
   z-index: 9;
   position: fixed;
@@ -1388,8 +1387,7 @@ h3.kt-subheader__title {
   position: absolute;
   top: 0;
   position: absolute;
-  -webkit-clip-path: ellipse(100% 50% at 50% 40%) !important;
-  clip-path: ellipse(100% 50% at 50% 40%) !important;
+  clip-path: none !important;
   width: 100% !important;
   height: 200px !important;
   margin-bottom: 120px !important;
@@ -1424,4 +1422,99 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
 .n-p{
     padding-left: 0px;
     padding-right: 0px !important;
+}
+
+.kt-portlet {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 4px;
+  padding-left: 20px;
+}
+
+@media screen and (min-width:1024px){
+  .new-front{
+    max-width: 24%;
+    margin-right: 18% !important;
+  }
+  .backer {
+    float: right;
+    text-align: right;
+    padding-right: 13px;
+    margin-top: -6px;
+}
+  
+}
+
+.new-ri{
+  margin-right: 9px;
+  font-size: 13px;
+}
+
+.flexer{
+  display: flex;
+    line-height: 3;
+}
+.nm4 {
+  font-size: 14px;
+  color: grey;
+  background: #f5f5f5;
+  height: 30px;
+  margin-top: 10px;
+  padding-top: 3px !important;
+  width: 108px;
+}
+.new-8 {
+  font-size: 12px !important;
+  margin-bottom: 35px;
+  background: #f5f5f5 !important;
+  border: none !important;
+}
+
+.kt-wizard-v3__nav-label {
+  border-bottom: 2px solid #2e40d4;
+  width: 80%;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 32px !important;
+  text-align: left;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.lz1{
+  color: #2e40d4 !important;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-right: 5px;
+}
+button.btn.btn-warning.btn-sm.mt-5.open-btn {
+  background: #2e40d4 !important;
+  color: white !important;
+}
+.dn{
+  font-weight: 500;
+    color: grey;
+    font-family: 'Poppins';
+    font-size: 14px;
+    margin-bottom: 4px !important;
+}
+
+.closer{
+  color: white;
+    background: #d0d0d0 !important;
+}
+
+.place-right{
+  padding-right: 0px !important;
+  margin-right: 0px !important;
+  float: right;
+  text-align: right;
+}
+.text-grey{
+  color:grey;
 }

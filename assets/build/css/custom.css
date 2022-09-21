@@ -1,5 +1,5 @@
 .cover{
-    clip-path: ellipse(58% 100% at 60% 50%);
+    clip-path: none !important;
     left: inherit;
     z-index: 9;
     position: fixed;
@@ -266,7 +266,6 @@
     {
         background-position-x: 85%;
         background-position-y: 83%;
-        clip-path: ellipse(58% 100% at 60% 50%);
         left: inherit;
         z-index: 9;
         position: fixed;

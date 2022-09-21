@@ -7,20 +7,17 @@
 
 
         <div class="row">
-            <div class="col-lg-5 mx-auto pt-5 justify-content-center text-align-center mobile-version">
+            <div class="col-lg-4 mx-auto pt-5 justify-content-center text-align-center mobile-version">
             
                 <div class="row">
                     <div class="col-lg-12 mx-auto text-center">
                         <img src="{{asset('/return_settings_images/')}}{{ imagelogo }}" width="130px" class='img-fluid mt-5 mobile-version-img mb-10'>
-                         {% for message in app.session.flashbag.get('success')%}
-                            <div class="alert alert-custom alert-success" role="alert">
-                                <div class="alert-icon"><i class="flaticon-warning"></i></div>
-                                <div class="alert-text">Success! <br>{{message}}</div>
-                            </div>
-                        {% endfor %}
+                        <div class="kt-wizard-v3__nav-label">
+                                    <span class="lz1">4. </span> Retour ingediend
+                                </div>   
                     </div>
                 </div>
-                 <div class="card">
+               <!--  <div class="card">
                     <div class="kt-portlet">
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
@@ -52,36 +49,40 @@
                     </div>
                     
                 </div>
+                -->
                    <div class="card">
-                    <div class="kt-portlet">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">Your return information
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="card-body border rounded mt-2 shadow-sm">
                         <div class="row text-left m-0 mt-5 mb-3">
-                            <div class="col-lg-5">Your return id:</div>
-                            <div class="col">{{madedReturn.getId()}}</div>
+                            <div class="col-lg-12 lz1">Retournummer: {{madedReturn.getId()}}</div>
                          </div>
-                        <div class="row text-left m-0 mb-3">
-                            <div class="col-lg-5">Order id:</div>
-                            <div class="col">{{madedReturn.getWebshopOrderId()}}</div>
+                        <div class="row text-left m-0 mb-2 text-grey">
+                            <div class="col-lg-12">Ordernummer: {{madedReturn.getWebshopOrderId()}}</div>
                          </div>
-                         <div class="row text-left m-0 mb-3">
-                            <div class="col-lg-5">Title of item for returning:</div>
-                            <div class="col">{{madedReturn.getItem().getTitle()}}</div>
+                         <div class="row text-left m-0 mb-2 text-grey">
+                            <div class="col-lg-12">Naam artikel: {{madedReturn.getItem().getTitle()}}</div>
                         </div>
-                         <div class="row text-left m-0 mb-3">
-                            <div class="col-lg-5">Reason for returning item:</div>
-                            <div class="col">{{madedReturn.getReason()}}</div>
+                         <div class="row text-left m-0 mb-2 text-grey">
+                            <div class="col-lg-12">Retour reden: {{madedReturn.getReason()}}</div>
                         </div>
-                        <div class="row text-left m-0 mb-3">
-                            <div class="col-lg-5">Quantity for returning:</div>
-                            <div class="col">{{madedReturn.getReturnQuantity()}}</div>
+                        <div class="row text-left m-0 mb-2 text-grey">
+                            <div class="col-lg-12">Totaal product(en) retour: {{madedReturn.getReturnQuantity()}}</div>
                         </div>
+
+                        <div class="row text-left m-0 mb-1 text-grey">
+                            <div class="col-lg-12 mt-4"><p> Uw retour is ingediend en per e-mail aan u bevestigd.<br>
+                            Wij nemen uw retour binnen X dagen in behandeling.<br>
+                            Aanvullende instructies worden per e-mail toegezonden.</div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-3">
+                    </div>
+                     <div class="col-lg-4">
+                    </div>
+                     <div class="col-lg-5 mb-10 place-right">
+                        <a type="submit" class="btn closer" href="{{asset('/return')}}">venster afsluiten</a>
                     </div>
                  </div>
                 {# <div class="card">
@@ -121,9 +122,7 @@
                       {{ form_end(form) }}
                 </div> #}
             </div>
-             <div class="col-lg-3">
-                <div class="cover cover-background" style="background: url('{{asset('/return_settings_images/')}}{{ imagebackground }}');"></div>
-            </div>
+            
         </div>
     </div>
 {% endblock %}
