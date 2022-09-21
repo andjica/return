@@ -134,13 +134,14 @@ class FrontController extends AbstractController
         if ($order) {
 
             $products = $doctrine->getRepository(ShipmentItem::class)->findBy(['shipment' => $order]);
-
+            // return dd($products);
             //return total price of order
             $prices = [];
 
             foreach ($products as $p) {
                 $prices[] = $p->getPrice() * $p->getQty();
             }
+            
             $total = array_sum($prices);
 
 
