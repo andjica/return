@@ -131,7 +131,7 @@ class ShippingSettingsController extends AbstractController
             }
 
             if(!isset($addedOptions[$shippingOption->getId()])) {
-                
+
                 $addedOptions[$shippingOption->getId()] = true;
 
                 $options_items[$distrib->getId()][] = [
