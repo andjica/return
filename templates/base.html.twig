@@ -46,3 +46,21 @@
         {% endblock %}
     </body>
 </html>
+{% if imagelogo is empty %}
+
+                      {% else %}
+                     
+                        {% endif %}
+                        <div name="templateuser" id="andjica">
+                           <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
+                        <h2 style="text-align: center;">There is a new message</h2>
+                        <p>Your order nummber [web_shop_order_id] is in [status] status.</p>
+
+                        Dear [name],
+                        Your order at [webshop_name] with order number [webshop_order_id] is now in [status]
+                        [name]
+                        [address]
+                        [postal_code] [city]
+                        [country]
+                        [phone]
+                        </div>

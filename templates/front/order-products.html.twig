@@ -13,11 +13,10 @@
                         
                         <div class="row">
                             <div class="col-lg-4 backer">
-                             <a href="{{asset('/return')}}" class="btn btn-muted border nm4" ><i class="fa fa-chevron-left new-ri"> </i>Vorige</a>
 
                             </div>
                             <div class="col-lg-4">
-                                <div class="kt-wizard-v3__nav-label">
+                                <div class="kt-wizard-v3__nav-label mx-auto" >
                                     <span class="lz1">2. </span> Kies je retour(en)
                                 </div>
                             </div>
@@ -34,7 +33,7 @@
                             {% if product.getSku() == "" %}
 
                             {% else %}
-                            <div class="col-lg-3 text-left mt-3 border-top pt-3" style="background: #f5f5f5;
+                            <div class="col-lg-3 text-left mt-3 border-top pt-3" style="background: #f7f7f7;
                                 padding: 20px;
                                 border-radius: 10px;
                                 max-width: 30%;
@@ -53,7 +52,7 @@
                                     <div class="col-lg-4 text-left">
                                         <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" style=" float: revert;" data-bs-target="#itemId{{ product.id}}">Overzicht</button>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="itemId{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade pt-20" id="itemId{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog md-dialog">
                                           <form id="insert{{product.id}}" method="POST" action="{{asset('/return/item=')}}{{product.id}}" enctype="multipart/form-data" medias>
                                             <input type="hidden" name="orderId" value="{{orderId}}">
@@ -163,6 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 {% endif %}
                                 {% endfor %}
                                 <!--<div class="card-footer " style="    border: none !important;">
@@ -175,6 +175,21 @@
                     
                     
                     </div>
+                           <div class="row mt-10">
+                            <div class="col-lg-3">
+
+                            </div>
+                            <div class="col-lg-3 text-left-new">
+                               <a href="{{asset('/return')}}" class="btn btn-muted border nm4" ><i class="fa fa-chevron-left new-ri"> </i>Vorige</a>
+                            </div>
+                            <div class="col-lg-3 text-right-new">
+                               <!--<a href="{{asset('/return')}}" class="btn btn-muted border nm5" >Volgende <i class="fa fa-chevron-right new-li"> </i></a> -->   
+
+                            </div>
+                            <div class="col-lg-3">
+
+                        </div>
+                 </div>
                                 </div>
                             </div>
                     
@@ -182,8 +197,7 @@
                     
                 </div>   
           </div>         
-
-
+                 
           
 {% endblock %}
 {% block javascripts %}

@@ -74,7 +74,7 @@ class EmailTemplateController extends AbstractController
     public function store(string $name, ManagerRegistry $doctrine, Request $request)
     {
        
-       
+        
         $templatecustom = $request->request->get('templatecustom');
         
         $statusId = $request->request->get('statusId');
@@ -118,7 +118,7 @@ class EmailTemplateController extends AbstractController
          
             if($background == "")
             {
-                return dd($newEmail->setBackgroundColor("#FFFFFF"));
+               $newEmail->setBackgroundColor("#FFFFFF");
             }
             $newEmail->setBackgroundColor($background);
 
@@ -168,7 +168,7 @@ class EmailTemplateController extends AbstractController
     {
 
         $token = $request->request->get('token');
-
+        // return dd($request->request->all());
         if (!$this->isCsrfTokenValid('update-email', $token))
         {
             $logger->info("CSRF failure");
@@ -177,8 +177,8 @@ class EmailTemplateController extends AbstractController
                 ['content-type' => 'text/plain']);
         }
 
-        //proveri ovaj deo 
-        $host = "https://".$request->getHost().":8000/";
+        //check for everydomen which is port
+        $host = "https://".$request->getHost().":15000/";
 
         $emailId = $request->request->get('emailId');
 
@@ -199,7 +199,7 @@ class EmailTemplateController extends AbstractController
         
         $templatecustom = $request->request->get('templatecustom');
 
-        $search = array('src="../../');
+        $search = array('src="/');
         $replace = array('src="'.$host);
         
 
@@ -215,7 +215,8 @@ class EmailTemplateController extends AbstractController
         {
             
             $templateuser = $request->request->get('templateuser');
-            $newTemplateUser = (str_ireplace($search, $replace, $templatecustom, $count));
+            
+            $newTemplateUser = (str_ireplace($search, $replace, $templateuser, $count));
             $editEmail->setBody($newTemplateUser);
 
             $background = $request->request->get('background');

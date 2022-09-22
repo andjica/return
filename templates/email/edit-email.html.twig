@@ -1,16 +1,30 @@
 {% extends 'main-metronic.html.twig' %}
 
-{% block title %}Create{% endblock %}
+{% block title %}Edit | Email template | {{findstatus.getName}}{% endblock %}
 
 {% block stylesheet %}
    <link href="{{asset('/assets/css/return.css')}}" rel="stylesheet" type="text/css">
    <link href="{{asset('/assets/css/email-editor.css')}}" rel="stylesheet" type="text/css">
-  <script src="https://cdn.tiny.cloud/1/8p3icisy40xcxkscqyb9aprzmvhopjtna0jb1j6tduiy8vld/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
+    <script src="https://cdn.tiny.cloud/1/8p3icisy40xcxkscqyb9aprzmvhopjtna0jb1j6tduiy8vld/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    {# <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/decoupled-document/ckeditor.js"></script>
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script> #}
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/super-build/ckeditor.js"></script>
     <style>
-        .tox .tox-notification--warn, .tox .tox-notification--warning
+        .tox:not(.tox-tinymce-inline) .tox-editor-header
+        {
+            display:none !important;
+        }
+        .tox-notifications-container
         {
             display: none !important;
+        }
+        .tox-statusbar
+        {
+            display: none !important;
+        }
+        .disabled-pointer
+        {
+            pointer-events: none !important;
         }
     </style>
   {% endblock %}
@@ -40,9 +54,9 @@
             </div>
         </div>
     </div>
-        <div class="row">
+        <div class="xxl">
             <div class="card-body border-top p-9">
-
+           
                 <form action="{{asset('/email-template/update/')}}" method="POST">
                  <input type="hidden" name="token" value="{{ csrf_token('update-email') }}"/>
                  <input type="hidden" name="statusId" value="{{findstatus.getId()}}">
@@ -72,14 +86,13 @@
                 {% if email.getTemplateShablon() == "custom"%}
                 <div id="shablon-custom">
                    <div class="row mt-10">
-                      <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
+                    <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
                     <div class="col-lg-10">
-     
-                   <textarea id="open-source-plugins" name="templatecustom">
+                    <div class="disabled-pointer">
+                        <textarea id="open-source-plugins"  name="templatecustom">
+                        {% if imagelogo is empty %}
 
-                       {% if imagelogo is empty %}
-
-                      {% else %}
+                        {% else %}
                         <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
                         {% endif %}
                         <h2 style="text-align: center;">There is a new message</h2>
@@ -93,6 +106,7 @@
                         [country]
                         [phone]
                         </textarea>
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -108,23 +122,37 @@
                 <div class="row mt-10">
                       <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
                     <div class="col-lg-10">
-                    
-                   <textarea id="open-source-plugins" name="templateuser">
-                    {{email.getBody()|raw}}
-                    </textarea>
+                        <textarea id="editor" name="templateuser"> 
+                            {% if imagelogo is empty %}
+
+                            {% else %}
+                            <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
+                            {% endif %}
+                            <h2 style="text-align: center;">There is a new message</h2>
+                            <p>Your order nummber [web_shop_order_id] is in [status] status.</p>
+
+                            Dear [name],
+                            Your order at [webshop_name] with order number [webshop_order_id] is now in [status]
+                            [name]
+                            [address]
+                            [postal_code] [city]
+                            [country]
+                            [phone]
+                        </textarea>
 
                     </div>
                 </div>
                 </div>
                 {% else %}
+
                 <div id="shablon-custom" style="display:none">
                    <div class="row mt-10">
                       <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
                     <div class="col-lg-10">
-     
+                    <div class="disabled-pointer">
                    <textarea id="open-source-plugins" name="templatecustom">
 
-                        {% if imagelogo is empty %}
+                    {% if imagelogo is empty %}
 
                       {% else %}
                         <p><img  src="{{asset('/return_settings_images/')}}{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
@@ -141,6 +169,7 @@
                         [phone]
                         </textarea>
                     </div>
+                    </div>
                 </div>
                 </div>
                 
@@ -156,7 +185,7 @@
                       <label class="col-lg-2 col-form-label required fw-bold fs-6  text-right">Body</label>
                     <div class="col-lg-10">
                     
-                   <textarea id="open-source-plugins" name="templateuser">
+                   <textarea id="editor" name="templateuser">
                     {{email.getBody()|raw}}
                     </textarea>
 
@@ -193,10 +222,11 @@
 
 {% endblock %}
  {% block javascripts %}
- <script>
+  <script>
 
     const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+
 
         tinymce.init({
         selector: 'textarea#open-source-plugins',
@@ -204,7 +234,7 @@
         editimage_cors_hosts: ['picsum.photos'],
         menubar: 'file edit view insert format tools table help',
         toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-        toolbar_sticky: true,
+        toolbar_sticky: false,
         toolbar_sticky_offset: isSmallScreen ? 102 : 108,
         autosave_ask_before_unload: true,
         autosave_interval: '30s',
@@ -260,9 +290,151 @@
         });
 
 
-        
+       
 
 </script>
+   <script>
+            // This sample still does not showcase all CKEditor 5 features (!)
+            // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+            CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+                // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+                
+                toolbar: {
+                    items: [
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                        'bulletedList', 'numberedList', 'todoList', '|',
+                        'outdent', 'indent', '|','undo', 'redo','fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
+                        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                        'sourceEditing'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                // Changing the language of the interface requires loading the language file using the <script> tag.
+                // language: 'es',
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+                placeholder: 'Welcome to CKEditor 5!',
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+                fontSize: {
+                    options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                    supportAllValues: true
+                },
+                // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+                // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                },
+                // Be careful with enabling previews
+                // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+                htmlEmbed: {
+                    showPreviews: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+                link: {
+                    decorators: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                        toggleDownloadable: {
+                            mode: 'manual',
+                            label: 'Downloadable',
+                            attributes: {
+                                download: 'file'
+                            }
+                        }
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+                mention: {
+                    feeds: [
+                        {
+                            marker: '@',
+                            feed: [
+                                '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                '@sugar', '@sweet', '@topping', '@wafer'
+                            ],
+                            minimumCharacters: 1
+                        }
+                    ]
+                },
+                // The "super-build" contains more premium features that require additional configuration, disable them below.
+                // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+                removePlugins: [
+                    // These two are commercial, but you can try them out without registering to a trial.
+                    // 'ExportPdf',
+                    // 'ExportWord',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+                    // Storing images as Base64 is usually a very bad idea.
+                    // Replace it on production website with other solutions:
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+                    // 'Base64UploadAdapter',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+                    // from a local file system (file://) - load this site via HTTP server if you enable MathType
+                    'MathType'
+                ]
+            });
+        </script>
+
+
             
 <script src="{{asset('/')}}build/vendor/jquery.min.js"></script>
 <script src="{{asset('/')}}build/vendor/bootstrap.bundle.min.js"></script>
@@ -287,7 +459,7 @@
         }
     });
 
-    
+
 
 </script>
 {% endblock %}
