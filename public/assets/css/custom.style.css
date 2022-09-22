@@ -1473,24 +1473,25 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
 }
 
 .kt-wizard-v3__nav-label {
-  border-bottom: 2px solid #2e40d4;
+  border-bottom: 2px solid #2c77f4;
   width: 80%;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 32px !important;
   text-align: left;
+  color: #2c77f4;
 }
 
 .text-right {
   text-align: right !important;
 }
 
-.lz1{
-  color: #2e40d4 !important;
-  font-size: 1.4rem;
+.lz1 {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  margin-right: 5px;
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  color: #2c77f4 !important;
 }
 button.btn.btn-warning.btn-sm.mt-5.open-btn {
   background: #2e40d4 !important;
