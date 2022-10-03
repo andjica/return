@@ -27,12 +27,19 @@ class ReturnVideos
     private $url;
 
 
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=Returns::class)
+    //  * @ORM\JoinColumn(onDelete="CASCADE")
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $returns;
+    
     /**
-     * @ORM\ManyToOne(targetEntity=Returns::class)
+     * @ORM\ManyToOne(targetEntity=ReturnItems::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $returns;
+    private ?ReturnItems $returnitems;
 
     /**
      * @var \DateTime
@@ -67,18 +74,28 @@ class ReturnVideos
         return $this;
     }
 
-    public function getReturns(): ?Returns
+    // public function getReturns(): ?Returns
+    // {
+    //     return $this->returns;
+    // }
+
+    // public function setReturns(?Returns $returns): self
+    // {
+    //     $this->returns = $returns;
+
+    //     return $this;
+    // }
+    public function getReturnItems(): ?ReturnItems
     {
-        return $this->returns;
+        return $this->returnitems;
     }
 
-    public function setReturns(?Returns $returns): self
+    public function setReturnItems(?ReturnItems $returnitems): self
     {
-        $this->returns = $returns;
+        $this->returns = $returnitems;
 
         return $this;
     }
-
     public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;

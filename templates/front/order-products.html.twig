@@ -1,11 +1,15 @@
 {% extends "user-template.html.twig" %}
 {% block stylesheet %}
-<link href="{{asset('/')}}build/css/custom.css" rel="stylesheet" type="text/css">
+<link href="{{asset('/assets')}}/css/custom.css" rel="stylesheet" type="text/css">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 {% block content %}
+
        <div class="container">
             <div class="row text-left">
-  
+           
                 <div class="col-lg-12 pt-0 justify-content-center text-align-center">
                     <div class="row">
                         <div class="col-lg-12 mx-auto text-center">
@@ -25,19 +29,12 @@
                             </div>
                         </div>
                          <div class="card flex-md-row mb-4  h-md-250" style=" box-shadow: none !important;">
-                            
-
-
-                         <div class="container d-flex" style="justify-content: center;">
+                          <div class="container d-flex" style="justify-content: center;">
                             {% for product in products %}
                             {% if product.getSku() == "" %}
 
                             {% else %}
-                            <div class="col-lg-3 text-left mt-3 border-top pt-3" style="background: #f7f7f7;
-                                padding: 20px;
-                                border-radius: 10px;
-                                max-width: 30%;
-                                margin-right: 30px;">
+                            <div class="col-lg-4 text-left mt-3 border-top pt-3 col-des">
                                 <div class="col-lg-12">
                                 <!-- test only-->
                                 <img src="https://www.gigameubel.nl/media/catalog/product/cache/ee4e211326b426c708669774f1aa0090/r/o/rotan_stoel_bari_6_38c5.jpg" class=" text-warning m-1" style="width:180px; height:180px;" /></div>
@@ -48,14 +45,88 @@
                                 </h4>  
                                 <div class="mb-1 text-muted">Artikelnummer: {{product.sku}}</div>
                                 <p class="mb-1 text-muted">Artikelaantal: {{product.qty}}</p>
+                                 <div class="col-lg-12 text-left flexer">
+                                  
+                                    <div class="form-group col pl-0 ml-0">
+                                            <div class=" mb-4 mt-2">
+                                                <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default btn-number" data-quantity="{{product.qty}}" data-product="{{product.id}}" data-orderId="{{orderId}}" data-email="{{email}}" disabled="disabled" data-id="{{product.id}}" data-type="minus" data-field="quant[{{product.id}}]">
+                                                                <span class="fa fa-minus bh"></span>
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" id="quantity{{product.id}}" name="quant[{{product.id}}]" class="form-control input-number" value="0" min="0" max="{{product.qty}}">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default btn-number" data-quantity="{{product.qty}}" data-product="{{product.id}}" data-orderId="{{orderId}}" data-email="{{email}}" data-type="plus" data-id="{{product.id}}" data-field="quant[{{product.id}}]">
+                                                                <span class="fa fa-plus bh"></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    </div>
+                                                 <small class="text-danger" id="er-quantity{{product.id}}"></small>
+
+                                            </div>
+                                            
+
+                                             <div class="form-group col nh0 ml-10">
+                                                 <div class="mb-4">
+                                                        <select name="reasons" id="sreasons{{product.id}}" class="form-control andjica-click" data-id="{{product.id}}" data-quantity="{{product.qty}}" data-orderId="{{orderId}}" data-email="{{email}}">
+                                                                <option value="0">Find your reason</option>
+                                                                {% for reason in reasons %}
+                                                                <option value="{{reason.id}}" class="form-control">{{reason.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                    </div>
+                                                    <br>
+                                                   
+                                                    <br>
+                                                        
+                                                </div>
+
+                                    </div>
+                                            
+                                                        {# <div class="col-lg-12">
+                                                            <div id="givereasons{{product.id}}" style="    display: block;    padding-left: 10px;   border-radius: 4px;   text-align: center;    background: rgb(245, 245, 245) !important;">
+                                                            Andere retour redenen 
+                                                            <button class="btn btn-give-reason" data-id="{{product.id}}">
+                                                                <i class="fas fa-plus-circle text-primary"></i>
+                                                            </button>
+                                                            </div>
+
+                                                             <div class="row border-top pt-2" id="userresons{{product.id}}" style="display:none">
+                                                    <div class="col-lg-10">
+                                                       
+                                                      <label for="userreasons">Mijn retour reden</label>
+                                                      <textarea class="form-control" id="usertext{{product.id}}" rows="3" name="userreasons"></textarea>
+                                                      <small class="text-danger" id="user-reasons-empty{{product.id}}"></small>
+                                                       <div class="form-group mt-5">
+                                                            <label for="uploadmedia">Kies foto ter bewijs</label>
+                                                            <input type="file" class="form-control-file" name="photos[]" id="uploadmedia{{product.id}}"   multiple/><br>
+                                                            <small class="text-danger" id="mediaerror{{product.id}}"></small>
+                                                           
+                                                        </div>
+                                                         <div class="form-group mt-5">
+                                                            <label for="uploadmedia">Kies video ter bewijs</label>
+                                                            <input type="file" class="form-control-file" name="videos[]" id="uploadvideos{{product.id}}"  multiple/><br>
+                                                            <small class="text-danger" id="videos-error{{product.id}}"></small>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                   <div class="col-lg-6">
+                                                    <button class="btn btn-danger dont-save mt-5">Retour afsluiten</button>
+                                                   </div>
+                                                  
+                                                </div>
+                                                         </div> #}
                                
                                     </div>
                                     <div class="col-lg-4 text-left">
-                                        <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" style=" float: revert;" data-bs-target="#itemId{{ product.id}}">Overzicht</button>
+                                        {# <button class="btn btn-warning btn-sm mt-5 open-btn" data-bs-toggle="modal" style=" float: revert;" data-bs-target="#itemId{{ product.id}}">Overzicht</button> #}
+
                                         <!-- Modal -->
                                         <div class="modal fade pt-20" id="itemId{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog md-dialog">
-                                          <form id="insert{{product.id}}" method="POST" action="{{asset('/return/item=')}}{{product.id}}" enctype="multipart/form-data" medias>
+                                          {# <form id="insert{{product.id}}" method="POST" action="{{asset('/return/item=')}}{{product.id}}" enctype="multipart/form-data" medias> #}
                                             <input type="hidden" name="orderId" value="{{orderId}}">
                                             <input type="hidden" name="itemsId" value="{{product.id}}">
                                             <input type="hidden" name="email" value="{{email}}">
@@ -63,10 +134,11 @@
                                           
                                             <div class="modal-body">
                                              <div class="col-md-12 new-height">
-                               <div class="kt-wizard-v3__nav-label">
-                                    <span class="lz1">3. </span> Retour overzicht
-                                </div>                                            </div>
-                                          
+                                                <div class="kt-wizard-v3__nav-label">
+                                                        <span class="lz1">3. </span> Retour overzicht
+                                                    </div>                    
+                                                                                </div>
+                                                            
                                                     <div class="row mt-3 border-top pt-3">
                                                     
                                                     <div class="col-lg-12 text-left ml-2 border-right">
@@ -96,18 +168,18 @@
 
                                                          <div class="col-lg-6 mb-4">
 
-                                                            <select name="reasons" id="sreasons{{product.id}}" class="form-control">
+                                                            {# <select name="reasons" id="sreasons{{product.id}}" class="form-control">
                                                                 <option value="0">Find your reason</option>
                                                                 {% for reason in reasons %}
                                                                 <option value="{{reason.id}}" class="form-control">{{reason.name}}</option>
                                                                 {% endfor %}
-                                                            </select>
+                                                            </select> #}
                                                             </div>
                                                             <br>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            
                                                                <small class="text-danger" id="select-error{{product.id}}"></small>
-                                                            </div>
+                                                            
                                                               <br>
                                                               <div class="col-lg-12">
                                                             <div id="givereasons{{product.id}}" style="    display: block;    padding-left: 10px;   border-radius: 4px;   text-align: center;    background: rgb(245, 245, 245) !important;">
@@ -162,10 +234,13 @@
                                         </div>
                                         </div>
                                     </div>
+                                        {# <input type="submit" class="btn btn-primary save" data-id="{{product.id}}" value="Retour bevestigen"> #}
+
                                 </div>
 
                                 {% endif %}
                                 {% endfor %}
+
                                 <!--<div class="card-footer " style="    border: none !important;">
                                     <span class="text-black">Totaal order €</span> 
                                     <span class="text-black">{{total}}</span>
@@ -184,7 +259,7 @@
                                <a href="{{asset('/return')}}" class="btn btn-muted border nm4" ><i class="fa fa-chevron-left new-ri"> </i>Vorige</a>
                             </div>
                             <div class="col-lg-3 text-right-new">
-                               <!--<a href="{{asset('/return')}}" class="btn btn-muted border nm5" >Volgende <i class="fa fa-chevron-right new-li"> </i></a> -->   
+                            <button type="submit" class="btn btn-muted border nm5" id="next-step" disabled>Next step <i class="fa fa-chevron-right new-li"> </i></button>   
 
                             </div>
                             <div class="col-lg-3">
@@ -198,7 +273,7 @@
                     
                 </div>   
           </div>         
-                 
+              </form>   
           
 {% endblock %}
 {% block javascripts %}
@@ -228,7 +303,7 @@
             
             var id = $(this).data('id');
             var form = document.getElementById('insert'+id);
-
+          
             var user = document.getElementById('userresons'+id);
             
             if(user.style.display == 'block')
@@ -301,12 +376,36 @@
                         }
                 }
 
- 
+               
+              
+
+                
             }
             else
             {
                 var adminreason = $('#sreasons'+id).val();
+               
+                e.preventDefault(); 
                 
+                $.ajax({  
+                    url:  '/return/user/reason/create',  
+                    type:  'POST',   
+                    data: {
+                        itemId : id,
+                        adminreason : adminreason
+                      
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                                 
+                       console.log(response);
+                       var nextstep = document.getElementById('next-step');
+                       nextstep.classList.add("btn-info");
+                       nextstep.removeAttribute('disabled');
+                    }
+
+               });
+               
                 if(adminreason == 0)
                 {  
                     document.getElementById('select-error'+id).innerHTML="Must choose reason";
@@ -326,12 +425,200 @@
             
         });
 
-       
+       $('.andjica-click').on('change', function(){
+            var selectValue = this.value;
+
+            
+            localStorage.setItem('selectValue', selectValue);
+             
+
+            var itemId = $(this).data('id');
+            var quantityFromDataBase = $(this).data('quantity');
+            var orderId = $(this).data('orderid');
+            var email = $(this).data('email');
+            
+            if(selectValue)
+            {
+                var quantityForReturn = $('#quantity'+itemId).val();
+
+                if(quantityForReturn == 0)
+                {
+                    document.getElementById('er-quantity'+itemId).innerHTML="Min quantity must be 1";
+                }
+                else
+                {
+                    $.ajax({  
+                            url:  '/return/user/reason/create',  
+                            type:  'POST',   
+                            data: {
+                                itemId : itemId,
+                                //which reason user choose from admin reasons in int ID
+                                adminreason : selectValue,
+                                quantityFromDataBase : quantityFromDataBase,
+                                //quatity thath user choose
+                                quantityForReturn : quantityForReturn,
+                                orderId : orderId,
+                                email : email
+                            },
+                            dataType: 'json',
+                            success: function(response){
+                                   
+                               console.log(response);
+                               var nextstep = document.getElementById('next-step');
+                               nextstep.classList.add("btn-info");
+                               nextstep.removeAttribute('disabled');
+                            }
+
+                    });
+                }
+               
+                
+            }
+       });
   
 
     </script>
 
+    <script>
+        
+//plugin bootstrap minus and plus
+//http://jsfiddle.net/laelitenetwork/puJ6G/
+        $('.btn-number').click(function(e){
+            e.preventDefault();
+            
+            fieldName = $(this).attr('data-field');
+            type = $(this).attr('data-type');
+            var itemId = $(this).data('id');
+            var quantityFromDataBase = $(this).data('quantity');
+            
+            var input = $("input[name='"+fieldName+"']");
+            var currentVal = parseInt(input.val());
+           
+    
+            var orderId = $(this).data('orderid');
+            var email = $(this).data('email');
+           
 
+            var selectValue = $('#sreasons'+itemId).val();
+            
+            var quantityForReturn = $('#quantity'+itemId).val();
+             
+            
+            if (!isNaN(currentVal)) {
+                if(type == 'minus') {
+                
+                    if(currentVal > input.attr('min')) {
+                        input.val(currentVal - 1).change();
+
+                        if(selectValue != 0)
+                        {
+                           //alert(itemId);
+                            $.ajax({  
+                                url:  '/return/user/reason/create',  
+                                type:  'POST',   
+                                data: {
+                                    itemId : itemId,
+                                    //which reason user choose from admin reasons in int ID
+                                    adminreason : localStorage.getItem('selectValue'),
+                                    quantityFromDataBase : quantityFromDataBase,
+                                    //quatity thath user choose
+                                    quantityForReturn : parseInt(currentVal) - 1,
+                                    orderId : orderId,
+                                    email : email
+                                },
+                                dataType: 'json',
+                                success: function(response){
+                                console.log(response);
+
+                                }
+
+                                });
+                        }
+                    } 
+                    if(parseInt(input.val()) == input.attr('min')) {
+                        $(this).attr('disabled', true);
+                         //nula je ovde
+                        if(selectValue != 0)
+                        {
+                            alert(5);
+                            alert("Ovde uradi ajax delete iz baze");
+                        }
+                    }
+
+                } else if(type == 'plus') {
+                    
+                    if(currentVal < input.attr('max')) {
+                        input.val(currentVal + 1).change();
+                     
+                        
+                    //check if user select some reason
+                        if(selectValue != 0)
+                        {
+                            //alert(selectValue);
+                           
+                            $.ajax({  
+                                url:  '/return/user/reason/create',  
+                                type:  'POST',   
+                                data: {
+                                    itemId : itemId,
+                                    //which reason user choose from admin reasons in int ID
+                                    adminreason : selectValue,
+                                    quantityFromDataBase : quantityFromDataBase,
+                                    //quatity thath user choose
+                                    quantityForReturn : parseInt(currentVal) + 1,
+                                    orderId : orderId,
+                                    email : email
+                                },
+                                dataType: 'json',
+                                success: function(response){
+                                console.log(response);
+
+                                }
+
+                                });
+                        }
+                        
+                    }
+                    if(parseInt(input.val()) == input.attr('max')) {
+                        $(this).attr('disabled', true);
+                    }
+                   
+                }
+            } else {
+               
+                input.val(0);
+            }
+        });
+        $('.input-number').focusin(function(){
+        $(this).data('oldValue', $(this).val());
+        });
+        $('.input-number').change(function() {
+            
+            minValue =  parseInt($(this).attr('min'));
+            maxValue =  parseInt($(this).attr('max'));
+            valueCurrent = parseInt($(this).val());
+            
+            name = $(this).attr('name');
+            if(valueCurrent >= minValue) {
+                $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+            } else {
+               
+               // alert('Sorry, the minim value was reached');
+               // document.getElementById('er-quantity'+itemId).innerHTML="Sorry but min quantity is 1";
+                $(this).val($(this).data('oldValue'));
+            }
+            if(valueCurrent <= maxValue) {
+                $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+            } else {
+                // alert('Sorry, the maximum value was reached');
+                
+                $(this).val($(this).data('oldValue'));
+            }
+            
+            
+        });
+
+    </script>
    
    <style>
    .row.mt-3.border-top.pt-3 {
@@ -339,6 +626,31 @@
     padding: 30px;
     /* border-bottom: 1px solid #f5f5f5 !important; */
 }
+button.btn.btn-danger.btn-number {
+    width: 20px !important;
+    height: 20px;
+    padding: 0px !important;
+    margin-top: 4px;
+    margin-right: 8px;
+    background: white !important;
+    color: black !important;
+    border: 2px solid #acacac !important;
+    border-radius: 0px !important;
+    font-size: 8px;
+}
+button.btn.btn-success.btn-number {
+    height: 20px !important;
+    width: 20px !important;
+    padding: 0px !important;
+    margin-top: 4px;
+    margin-left: 8px;
+     background: white !important;
+    color: black !important;
+    border: 2px solid #acacac !important;
+    border-radius: 0px !important;
+    font-size: 8px;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -355,6 +667,11 @@
 .modal-content {
     box-shadow: none;
     border: 1px solid #f5f5f5;
+}
+.form-control {
+    appearance: auto !important;
+    background: #f5f5f5;
+    border: none !important;
 }
 </style>
 {% endblock %}

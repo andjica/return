@@ -6,6 +6,7 @@ use App\Form\ReturnType;
 use App\Form\ReturnEditType;
 use Psr\Log\LoggerInterface;
 use App\Entity\Common\Country;
+use App\Entity\Reseller\Address;
 use App\Entity\Returns\Status;
 use App\Entity\Returns\Returns;
 use App\Entity\Reseller\Shipment;
@@ -16,6 +17,8 @@ use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Returns\EmailTemplate;
 use App\Entity\Reseller\ShipmentLabel;
 use App\Entity\Returns\ReasonSettings;
+use App\Entity\Returns\ReturnItems;
+use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\Repository\Returns\ReturnsRepository;
@@ -24,9 +27,12 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Egulias\EmailValidator\Result\Reason\Reason;
+use ProxyManager\Factory\RemoteObject\Adapter\JsonRpc;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Validator\Constraints\Json;
 
 class ReturnController extends AbstractController
 {
@@ -835,6 +841,164 @@ class ReturnController extends AbstractController
         return $this->redirect($currentroute);
 
 
+    }
+
+    //ajax
+    /**
+     * @Route("/return/user/reason/create", name="return_ajax_save", methods={"POST"})
+     */
+    public function createUserReason(Request $request, ManagerRegistry $doctrine): Response
+    {
+        if($request->isXmlHttpRequest())
+        {
+           
+            if ($request->isXmlHttpRequest()) {     
+
+                $orderId = $request->request->get('orderId');
+                $email = $request->request->get('email');
+                $reason = $request->request->get('adminreason');
+                $returnQuantity = $request->request->get('quantityForReturn');
+                $itemId = $request->request->get('itemId');
+                //order must be unique
+                $orderFromDb = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$orderId]);
+                
+                //check if order exist
+                if($orderFromDb)
+                {
+                    //check email - email must be unique
+                    $userfromDb = $doctrine->getRepository(Address::class)->findOneBy(['email' => $email]);
+
+                    //if email exists in db
+                    if($userfromDb)
+                    {
+                        //check if return already exist 
+                        $return = $doctrine->getRepository(Returns::class)->findOneBy(['user_email'=>$email, 'webshop_order_id'=>$orderId]);
+                        
+                        $returnSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
+                      
+                        $country = $doctrine->getRepository(Country::class)->findOneBy(['id' => $returnSetting->getCountry()->getId()]);
+                        $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => 1]);
+                        $reference = $orderFromDb->getReference();
+
+
+                        $entitym = $doctrine->getManager();
+                            //new item for returning
+                        $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id' => $itemId]);
+
+                        //check if item exist and edit it 
+                        $returnItem = $doctrine->getRepository(ReturnItems::class)->findOneBy(['item_id'=>$item, 'return_id'=>$return]);
+
+                        if($returnItem)
+                        {
+                            //if return item exist edit it
+                            $returnItem->setReason($reason);
+                            $returnItem->setReturnQuantity($returnQuantity);
+                            $returnItem->setUpdatedAt(new \DateTime());
+                            $entitym->persist($returnItem);
+                            $entitym->flush();
+                            
+                            return new JsonResponse('Success! Updated item with id '.$returnItem->getId(), 200);
+                        }
+                        else
+                        {
+                            //add new return item
+                            $newReturnItem = new ReturnItems();
+                            $newReturnItem->setReason($reason);
+                            $newReturnItem->setReturnQuantity($returnQuantity);
+                            
+
+                            //check if item exist in db
+                            if($item)
+                            {
+                                $newReturnItem->setItem($item);
+                            }
+                            else
+                            {
+                                return  new JsonResponse('Not Found item', 404);
+                            }
+
+                            $newReturnItem->setCreatedAt(new \DateTime());
+                            if(!$return)
+                            {
+                                $newReturn = new Returns();
+                                $newReturn->setCountry($country);
+                                $newReturn->setStatus($status);
+                                $newReturn->setReference($reference);
+                                $newReturn->setWebshopOrderId($orderId);
+                                $newReturn->setUserEmail($email);
+                                $newReturn->setClientName($userfromDb->getName());
+                                $newReturn->setClientEmail($userfromDb->getEmail());
+                                $newReturn->setCompanyName($userfromDb->getCompanyName());
+                                $newReturn->setStreet($userfromDb->getStreet());
+                                $newReturn->setPostCode($userfromDb->getPostalCode());
+                                $newReturn->setConfirmed(0);
+                                $newReturn->setCreatedAt(new \DateTime());
+                                
+                                $entitym->persist($newReturn);
+                                $entitym->flush();
+
+                                //get return id from new return and set it to new item for returning
+                                $newReturnItem->setReturns($newReturn);
+                                $entitym->persist($newReturnItem);
+                                $entitym->flush();
+                                return new JsonResponse('Created', 201);
+                            }
+                            else
+                            {
+                                
+                                $newReturnItem->setReturns($return);
+                                $entitym->persist($newReturnItem);
+                                $entitym->flush();
+
+                                return new JsonResponse('Created', 201);
+                            }
+                        }
+    
+                    }
+                    else
+                    {
+                        return new JsonResponse('Not found order', 404);
+                    }
+                }
+                else
+                {
+                    return new JsonResponse('Server side error', 500);
+                }
+
+                // $itemId  = $request->request->get('itemId');
+                // $userReason = $request->request->get('adminreason');
+                // $quantityForReturn = $request->request->get('quantityForReturn');
+                // $quantityFromRequestDB = $request->request->get('quantityFromDataBase');
+                
+                // $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$itemId]);
+                // return new JsonResponse($request->request->all()); 
+                // if($item instanceof ShipmentItem)
+                // {
+                //     //check quantity from db and request
+                //     $quantity = $item->getQty();
+                //     if($quantity != $quantityFromRequestDB)
+                //     {
+
+                //     }
+                //     return new JsonResponse($quantity);
+                // }
+
+                // return new JsonResponse($userReason); 
+            }
+            else
+            {
+                return new Response(null, 405);
+            }
+          
+        }
+    }
+
+    /**
+     * @Route("/return/create/many", name="RouteName")
+     */
+    public function createmanyreturnItems(Request $request)
+    {
+        return dd($request->request->all());
     }
 
 

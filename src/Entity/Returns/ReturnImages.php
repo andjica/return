@@ -3,6 +3,7 @@
 namespace App\Entity\Returns;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Returns\ReturnItems;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Returns\ReturnImagesRepository")
@@ -26,12 +27,19 @@ class ReturnImages
      */
     private string $url;
 
-     /**
-     * @ORM\ManyToOne(targetEntity=Returns::class)
+    //  /**
+    //  * @ORM\ManyToOne(targetEntity=Returns::class)
+    //  * @ORM\JoinColumn(onDelete="CASCADE")
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private ?Returns $returns;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ReturnItems::class)
      * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Returns $returns;
+    private ?ReturnItems $return_items_id;
 
      /**
      * @var \DateTime
@@ -65,17 +73,29 @@ class ReturnImages
         return $this;
     }
 
-    public function getReturns(): ?Returns
+    // public function getReturns(): ?Returns
+    // {
+    //     return $this->returns;
+    // }
+
+    // public function setReturns(?Returns $returns): self
+    // {
+    //     $this->returns = $returns;
+
+    //     return $this;
+    // }
+    public function getReturnItems(): ?ReturnItems
     {
-        return $this->returns;
+        return $this->return_items_id;
     }
 
-    public function setReturns(?Returns $returns): self
+    public function setReturnItems(?ReturnItems $return_items_id): self
     {
-        $this->returns = $returns;
+        $this->return_items_id = $return_items_id;
 
         return $this;
     }
+
 
     public function getCreatedAt(): ?\DateTime
     {

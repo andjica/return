@@ -1452,9 +1452,16 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
   font-size: 13px;
 }
 
+.nh0{
+  width: 63%;
+}
+
+.ml-0{
+  margin-left:0px !important;
+}
 .flexer{
   display: flex;
-    line-height: 3;
+  line-height: 0;
 }
 .nm4 {
   font-size: 14px;
@@ -1481,7 +1488,9 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
   text-align: left;
   color: #2c77f4;
 }
-
+.ml-10 {
+  margin-left: 10px  !important;
+}
 .text-right {
   text-align: right !important;
 }
@@ -1546,4 +1555,20 @@ button.btn.btn-warning.btn-sm.mt-5.open-btn {
 .text-right-new {
   text-align: right;
   padding-right: 28px;
+}
+
+input#qty {
+  height: 28px;
+  width: 37px !important;
+  padding: 5px;
+  border-radius: 100%;
+  text-align: center;
+  background: #f5f5f5;
+  border: none !important;
+  color: black !important;
+}
+
+.bh{
+  color: white !important;
+    background: black;
 }

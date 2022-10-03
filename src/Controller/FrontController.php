@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Returns\Returns;
 use App\Entity\Reseller\Shipment;
+use App\Entity\Returns\ReturnItems;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Reseller\ShipmentLabel;
 use App\Entity\Returns\ReasonSettings;
 use App\Entity\Returns\ReturnSettings;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FrontController extends AbstractController
 {
@@ -134,7 +136,23 @@ class FrontController extends AbstractController
         if ($order) {
 
             $products = $doctrine->getRepository(ShipmentItem::class)->findBy(['shipment' => $order]);
-            // return dd($products);
+            
+            //check if return exist and delete it
+            //check if item exist in returnitem table
+            //if exist delete it - like refresh
+            $return = $doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=>$orderId]);
+            if($return)
+            {
+                $returnId = $return->getId();
+                $returnItems = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$return]);
+               
+                foreach($returnItems as $ritem)
+                {
+                    $entitydelete = $doctrine->getManager();
+                    $entitydelete->remove($ritem);
+                    $entitydelete->flush($ritem);
+                }
+            }
             //return total price of order
             $prices = [];
 

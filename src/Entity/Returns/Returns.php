@@ -77,33 +77,19 @@ class Returns
      */
     private $action;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $created_at;
+    // /**
+    //  * @var int
+    //  *
+    //  * @ORM\Column(type="integer", nullable=true)
+    //  */
+    // private $return_quantity;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updated_at;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $return_quantity;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $reason;
+    // /**
+    //  * @var string
+    //  *
+    //  * @ORM\Column(type="string", length=255)
+    //  */
+    // private $reason;
 
     //for status table :) to get name
     /**
@@ -137,11 +123,34 @@ class Returns
     private $post_code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Reseller\ShipmentItem", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @var int
+     *
+     * @ORM\Column(type="integer")
      */
-    private $item;
+    private $confirmed;
 
+    // /**
+    //  * @ORM\ManyToOne(targetEntity="App\Entity\Reseller\ShipmentItem", cascade={"persist", "remove"})
+    //  * @ORM\JoinColumn(nullable=true)
+    //  */
+    // private $item;
+
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -267,29 +276,29 @@ class Returns
         return $this;
     }
 
-    public function getReturnQuantity(): ?int
-    {
-        return $this->return_quantity;
-    }
+    // public function getReturnQuantity(): ?int
+    // {
+    //     return $this->return_quantity;
+    // }
 
-    public function setReturnQuantity(?int $return_quantity): self
-    {
-        $this->return_quantity = $return_quantity;
+    // public function setReturnQuantity(?int $return_quantity): self
+    // {
+    //     $this->return_quantity = $return_quantity;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getReason(): ?string
-    {
-        return $this->reason;
-    }
+    // public function getReason(): ?string
+    // {
+    //     return $this->reason;
+    // }
 
-    public function setReason(string $reason): self
-    {
-        $this->reason = $reason;
+    // public function setReason(string $reason): self
+    // {
+    //     $this->reason = $reason;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getStatus(): ?Status
     {
@@ -352,14 +361,26 @@ class Returns
         return $this;
     }
 
-    public function getItem(): ?ShipmentItem
+    // public function getItem(): ?ShipmentItem
+    // {
+    //     return $this->item;
+    // }
+
+    // public function setItem(ShipmentItem $item): self
+    // {
+    //     $this->item = $item;
+
+    //     return $this;
+    // }
+
+    public function getConfirmed(): ?int
     {
-        return $this->item;
+        return $this->confirmed;
     }
 
-    public function setItem(ShipmentItem $item): self
+    public function setConfirmed(?int $confirmed): self
     {
-        $this->item = $item;
+        $this->confirmed = $confirmed;
 
         return $this;
     }
