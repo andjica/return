@@ -6,19 +6,21 @@ use App\Form\ReturnType;
 use App\Form\ReturnEditType;
 use Psr\Log\LoggerInterface;
 use App\Entity\Common\Country;
-use App\Entity\Reseller\Address;
 use App\Entity\Returns\Status;
 use App\Entity\Returns\Returns;
+use App\Entity\Reseller\Address;
 use App\Entity\Reseller\Shipment;
+use App\Entity\Returns\ReturnItems;
 use App\Entity\Returns\ReturnImages;
 use App\Entity\Returns\ReturnStatus;
 use App\Entity\Returns\ReturnVideos;
+use Symfony\Component\Mailer\Mailer;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Returns\EmailTemplate;
 use App\Entity\Reseller\ShipmentLabel;
 use App\Entity\Returns\ReasonSettings;
-use App\Entity\Returns\ReturnItems;
 use App\Entity\Returns\ReturnSettings;
+use App\Entity\Returns\ReturnShipments;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\Repository\Returns\ReturnsRepository;
@@ -27,12 +29,12 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Egulias\EmailValidator\Result\Reason\Reason;
-use ProxyManager\Factory\RemoteObject\Adapter\JsonRpc;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use ProxyManager\Factory\RemoteObject\Adapter\JsonRpc;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Validator\Constraints\Json;
 
 class ReturnController extends AbstractController
 {
@@ -856,134 +858,138 @@ class ReturnController extends AbstractController
 
                 $orderId = $request->request->get('orderId');
                 $email = $request->request->get('email');
-                $reason = $request->request->get('adminreason');
+                $adminreason = $request->request->get('adminreason');
                 $returnQuantity = $request->request->get('quantityForReturn');
                 $itemId = $request->request->get('itemId');
                 //order must be unique
                 $orderFromDb = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$orderId]);
                 
-                //check if order exist
-                if($orderFromDb)
+                $reason = $doctrine->getRepository(ReasonSettings::class)->findOneBy(['id'=>$adminreason]);
+
+                if($reason)
                 {
-                    //check email - email must be unique
-                    $userfromDb = $doctrine->getRepository(Address::class)->findOneBy(['email' => $email]);
-
-                    //if email exists in db
-                    if($userfromDb)
+                    //check if order exist
+                    if($orderFromDb)
                     {
-                        //check if return already exist 
-                        $return = $doctrine->getRepository(Returns::class)->findOneBy(['user_email'=>$email, 'webshop_order_id'=>$orderId]);
-                        
-                        $returnSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
-                      
-                        $country = $doctrine->getRepository(Country::class)->findOneBy(['id' => $returnSetting->getCountry()->getId()]);
-                        $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => 1]);
-                        $reference = $orderFromDb->getReference();
+                        //check email - email must be unique
+                        $userfromDb = $doctrine->getRepository(Address::class)->findOneBy(['email' => $email]);
 
-
-                        $entitym = $doctrine->getManager();
-                            //new item for returning
-                        $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id' => $itemId]);
-
-                        //check if item exist and edit it 
-                        $returnItem = $doctrine->getRepository(ReturnItems::class)->findOneBy(['item_id'=>$item, 'return_id'=>$return]);
-
-                        if($returnItem)
+                        //if email exists in db
+                        if($userfromDb)
                         {
-                            //if return item exist edit it
-                            $returnItem->setReason($reason);
-                            $returnItem->setReturnQuantity($returnQuantity);
-                            $returnItem->setUpdatedAt(new \DateTime());
-                            $entitym->persist($returnItem);
-                            $entitym->flush();
+                            //check if return already exist 
+                            $return = $doctrine->getRepository(Returns::class)->findOneBy(['user_email'=>$email, 'webshop_order_id'=>$orderId]);
                             
-                            return new JsonResponse('Success! Updated item with id '.$returnItem->getId(), 200);
+                            
+
+                            $returnSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
+                        
+                            $country = $doctrine->getRepository(Country::class)->findOneBy(['id' => $returnSetting->getCountry()->getId()]);
+                            $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => 1]);
+                            $reference = $orderFromDb->getReference();
+
+
+                            $entitym = $doctrine->getManager();
+                                //new item for returning
+                            $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id' => $itemId]);
+
+                            //check if item exist and edit it 
+                            $returnItem = $doctrine->getRepository(ReturnItems::class)->findOneBy(['item_id'=>$item, 'return_id'=>$return]);
+
+
+                            if($returnItem)
+                            {
+                                //if returnQuantity from request == 0 then delete item from db
+                                
+                            
+                                    //if return item exist edit it
+                                    $returnItem->setReason($reason->getName());
+                                    $returnItem->setReturnQuantity($returnQuantity);
+                                    $returnItem->setUpdatedAt(new \DateTime());
+                                    $entitym->persist($returnItem);
+                                    $entitym->flush();
+
+                                    return new JsonResponse('Success! Updated item with id '.$returnItem->getId(), 200);
+                                
+                                    
+                                
+                                
+                            }
+                            else
+                            {
+                                
+                                //add new return item
+                                $newReturnItem = new ReturnItems();
+                                $newReturnItem->setReason($reason->getName());
+                                $newReturnItem->setReturnQuantity($returnQuantity);
+                                
+
+                                //check if item exist in db
+                                if($item)
+                                {
+                                    $newReturnItem->setItem($item);
+                                }
+                                else
+                                {
+                                    return  new JsonResponse('Not Found item', 404);
+                                }
+
+                                $newReturnItem->setCreatedAt(new \DateTime());
+                                if(!$return)
+                                {
+                                    $newReturn = new Returns();
+                                    $newReturn->setCountry($country);
+                                    $newReturn->setStatus($status);
+                                    $newReturn->setReference($reference);
+                                    $newReturn->setWebshopOrderId($orderId);
+                                    $newReturn->setUserEmail($email);
+                                    $newReturn->setClientName($userfromDb->getName());
+                                    $newReturn->setClientEmail($userfromDb->getEmail());
+                                    $newReturn->setCompanyName($userfromDb->getCompanyName());
+                                    $newReturn->setStreet($userfromDb->getStreet());
+                                    $newReturn->setPostCode($userfromDb->getPostalCode());
+                                    $newReturn->setConfirmed(0);
+                                    $newReturn->setCreatedAt(new \DateTime());
+                                    
+                                    $entitym->persist($newReturn);
+                                    $entitym->flush();
+
+                                    //get return id from new return and set it to new item for returning
+                                    $newReturnItem->setReturns($newReturn);
+                                    $entitym->persist($newReturnItem);
+                                    $entitym->flush();
+                                    $statuscode = new Response('Created', 200);
+                                    return new JsonResponse(['returnId'=> $newReturn->getId(), 'statuscode'=>$statuscode]);
+                                }
+                                else
+                                {
+                                    
+                                    $newReturnItem->setReturns($return);
+                                    $entitym->persist($newReturnItem);
+                                    $entitym->flush();
+
+                                    $statuscode = new Response('Created', 201);
+                                    return new JsonResponse(['returnId'=> $return->getId(), 'statuscode'=>$statuscode]);
+                                }
+                            }
+
                         }
                         else
                         {
-                            //add new return item
-                            $newReturnItem = new ReturnItems();
-                            $newReturnItem->setReason($reason);
-                            $newReturnItem->setReturnQuantity($returnQuantity);
-                            
-
-                            //check if item exist in db
-                            if($item)
-                            {
-                                $newReturnItem->setItem($item);
-                            }
-                            else
-                            {
-                                return  new JsonResponse('Not Found item', 404);
-                            }
-
-                            $newReturnItem->setCreatedAt(new \DateTime());
-                            if(!$return)
-                            {
-                                $newReturn = new Returns();
-                                $newReturn->setCountry($country);
-                                $newReturn->setStatus($status);
-                                $newReturn->setReference($reference);
-                                $newReturn->setWebshopOrderId($orderId);
-                                $newReturn->setUserEmail($email);
-                                $newReturn->setClientName($userfromDb->getName());
-                                $newReturn->setClientEmail($userfromDb->getEmail());
-                                $newReturn->setCompanyName($userfromDb->getCompanyName());
-                                $newReturn->setStreet($userfromDb->getStreet());
-                                $newReturn->setPostCode($userfromDb->getPostalCode());
-                                $newReturn->setConfirmed(0);
-                                $newReturn->setCreatedAt(new \DateTime());
-                                
-                                $entitym->persist($newReturn);
-                                $entitym->flush();
-
-                                //get return id from new return and set it to new item for returning
-                                $newReturnItem->setReturns($newReturn);
-                                $entitym->persist($newReturnItem);
-                                $entitym->flush();
-                                return new JsonResponse('Created', 201);
-                            }
-                            else
-                            {
-                                
-                                $newReturnItem->setReturns($return);
-                                $entitym->persist($newReturnItem);
-                                $entitym->flush();
-
-                                return new JsonResponse('Created', 201);
-                            }
+                            return new JsonResponse('Not found order', 404);
                         }
-    
                     }
                     else
                     {
-                        return new JsonResponse('Not found order', 404);
+                        return new JsonResponse('Server side error', 500);
                     }
                 }
                 else
                 {
-                    return new JsonResponse('Server side error', 500);
+                    return new JsonResponse('Not found reason', 404);
                 }
 
-                // $itemId  = $request->request->get('itemId');
-                // $userReason = $request->request->get('adminreason');
-                // $quantityForReturn = $request->request->get('quantityForReturn');
-                // $quantityFromRequestDB = $request->request->get('quantityFromDataBase');
-                
-                // $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$itemId]);
-                // return new JsonResponse($request->request->all()); 
-                // if($item instanceof ShipmentItem)
-                // {
-                //     //check quantity from db and request
-                //     $quantity = $item->getQty();
-                //     if($quantity != $quantityFromRequestDB)
-                //     {
-
-                //     }
-                //     return new JsonResponse($quantity);
-                // }
-
-                // return new JsonResponse($userReason); 
+               
             }
             else
             {
@@ -994,12 +1000,117 @@ class ReturnController extends AbstractController
     }
 
     /**
-     * @Route("/return/create/many", name="RouteName")
+     * @Route("/return/delete/returnitem", name="delete_return_item")
      */
-    public function createmanyreturnItems(Request $request)
+    public function createmanyreturnItems(Request $request, ManagerRegistry $doctrine)
     {
-        return dd($request->request->all());
+        $orderId = $request->request->get('orderId');
+        $email = $request->request->get('email');
+        $reason = $request->request->get('adminreason');
+        $returnQuantity = $request->request->get('quantityForReturn');
+        $itemId = $request->request->get('itemId');
+        
+        $return = $doctrine->getRepository(Returns::class)->findOneBy(['user_email'=>$email, 'webshop_order_id'=>$orderId]);
+        $returnItem = $doctrine->getRepository(ReturnItems::class)->findOneBy(['return_id'=>$return->getId()]);
+        if($returnQuantity == 0)
+        {
+            
+            $entitydelete = $doctrine->getManager();
+            $entitydelete->remove($returnItem);
+            $entitydelete->flush($returnItem);
+
+            if($entitydelete)
+            { 
+                //count all returnitems
+                $returnItems = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$return->getId()]);
+
+                if(!$returnItems)
+                {
+                    $count = 0;
+                    return  new JsonResponse(['count'=>$count]);
+                }
+                else
+                {
+                    return new JsonResponse('There is still item for returning');
+                }
+            }
+            
+        }
+      
     }
 
+   /**
+    * @Route("/return/confirm/save", name="create_confirmed")
+    */
+   public function confirmsave(Request $request, ManagerRegistry $doctrine, MailerInterface $mailer)
+   {
+    $submittedToken = $request->request->get('token');
+
+        
+    if ($this->isCsrfTokenValid('confirm-save', $submittedToken)) {
+
+        $orderId = $request->request->get('orderId');
+        $email = $request->request->get('email');
+        $returnId = $request->request->get('returnId');
+
+        $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId, 'user_email'=>$email, 'webshop_order_id'=>$orderId, 'confirmed'=>0]);
+        $st = $doctrine->getRepository(Status::class)->findOneBy(['key_name' => 'in_progress']);
+        
+        if($return)
+        {
+            $return->setConfirmed(1);
+            $entitym = $doctrine->getManager();
+            $entitym->persist($return);
+
+            
+            $email = $doctrine->getRepository(EmailTemplate::class)->findOneBy(['status' => $st]);
+
+            $servername = $_SERVER['SERVER_NAME'];
+
+            $order = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId' => $orderId]);
+            $client = $order->getDeliveryAddress();
+
+            //clien info
+            $clientemail = $client->getEmail();
+            $clientname = $client->getName();
+            $companyname = $client->getCompanyName();
+            $street = $client->getStreet();
+            $search = array('[webshop_name]', '[webshop_order_id]', '[status]', '[name]', '[address]', '[phone]', '[postal_code]', '[country]');
+            $replace = array($servername, $return->getWebshopOrderId(), $st->getName(), $return->getClientName(), $street, '[phone]', $return->getPostCode(), $return->getCountry()->getName());
+
+            $template = $email->getBody();
+
+            $newtemplate = (str_ireplace($search, $replace, $template, $count));
+
+            $email = (new TemplatedEmail())
+                ->from('admin@example.com')
+                ->to($return->getUserEmail())
+                ->subject($email->getSubject())
+                ->htmlTemplate('email/status.html.twig')
+                ->context([
+                    'emailtemplate' => $newtemplate,
+                ]);
+
+            try {
+                $mailer->send($email);
+            } catch (\Exception $e) {
+                $contents = $this->renderView('errors/500.html.twig', []);
+
+                return new Response($contents, 500);
+            }
+
+           
+            
+            return $this->redirect('/shipment/'.$orderId. '&' .$return->getId());
+        }
+        }
+        else
+        {
+            $contents = $this->renderView('errors/500.html.twig', []);
+
+            return new Response($contents, 500);
+        }
+    
+    }
 
 }

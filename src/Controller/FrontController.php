@@ -183,5 +183,51 @@ class FrontController extends AbstractController
 
     }
 
+    /**
+     * @Route("/return/confirm", name="confirm_return")
+     */
+    public function returnConfirmed(Request $request, ManagerRegistry $doctrine)
+    {
+        $submittedToken = $request->request->get('token');
+
+        
+        if ($this->isCsrfTokenValid('confirm-return', $submittedToken)) {
+
+            $orderId = $request->request->get('orderId');
+            $email = $request->request->get('email');
+            $returnId = $request->request->get('returnId');
+
+            //chech return
+            $return = $doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId, 'user_email'=>$email, 'webshop_order_id'=>$orderId, 'confirmed'=>0]);
+            
+            if($return)
+            {
+                //return items
+                $returnItems = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$return->getId()]);
+                
+                return $this->render('front/confirm-return.html.twig', 
+                [
+                    'returnItems' => $returnItems,
+                    'data' => $this->data,
+                    'orderId' => $orderId,
+                    'email' => $email,
+                    'returnId' => $returnId
+                ]);
+            }
+            else
+            {
+                $contents = $this->renderView('errors/404.html.twig', []);
+
+                return new Response($contents, 404);
+            }
+        }
+        else
+        {
+            $contents = $this->renderView('errors/500.html.twig', []);
+
+            return new Response($contents, 500);
+        }
+    }
+
 
 }

@@ -71,7 +71,7 @@ class ShipmentLabelController extends AbstractController
 
 
         $findReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=> $webshopOrderId]);
-        $item = $this->doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$findReturn->getItem()->getId()]);
+        // $item = $this->doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$findReturn->getItem()->getId()]);
 
        
 

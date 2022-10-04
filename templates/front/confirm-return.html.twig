@@ -1,0 +1,87 @@
+{% extends "user-template.html.twig" %}
+{% block stylesheet %}
+<link href="{{asset('/assets')}}/css/custom.css" rel="stylesheet" type="text/css">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+
+  <div class="container">
+            <div class="row text-left">
+                 <div class="col-lg-12 pt-0 justify-content-center text-align-center">
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto text-center">
+                        <img src="{{asset('/return_settings_images/')}}{{ data.imagelogo }}" width="180px" class='img-fluid mt-1 mb-1 logo-m-s'>       
+                        
+                        <div class="row">
+                            <div class="col-lg-4 backer">
+
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="kt-wizard-v3__nav-label mx-auto" >
+                                    <span class="lz1">3. </span> Retour overzicht
+                                </div>
+                            </div>
+                           <div class="col-lg-4">
+
+                           </div>
+                           
+
+
+                        </div> 
+                        </div>
+                  </div>    
+             </div>
+             <div class="container">
+                <div class="row d-grid" style="    justify-content: center;">
+                    
+                     {% for product in returnItems %}
+                        <div class="col-lg-12 px-0">
+                            <div class="row mb-10">
+                                <div class="col-lg-3">
+                                      <img src="https://www.gigameubel.nl/media/catalog/product/cache/ee4e211326b426c708669774f1aa0090/r/o/rotan_stoel_bari_6_38c5.jpg" class=" text-warning m-1" style="width:100px" />
+                                </div>
+                                <div class="col-lg-8">
+                                    <ul>
+                                        <li class="no-list">Title: {{product.returnQuantity}}</li>
+                                                                         
+                                        <li class="no-list">Reden van retour: {{product.getReason()}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-1 ">
+                                    <span class="roundy"> {{product.returnQuantity}} </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                     {% endfor %}
+                     
+                </div>
+            </div>
+             <div class="row mt-10">
+                            <div class="col-lg-3">
+
+                            </div>
+                            <div class="col-lg-3 text-left-new">
+                               <a href="{{asset('/return/order-products/orderId=')}}{{orderId}}{{('&email=')}}{{email}}" class="btn btn-muted border nm4 go-back" ><i class="fa fa-chevron-left new-ri"> </i>Vorige</a>
+                            </div>
+                            <div class="col-lg-3 text-right-new">
+                            <form method="POST" action="{{asset('/return/confirm/save')}}">
+                                <input type="hidden" name="token" value="{{ csrf_token('confirm-save') }}"/>
+                                <input type="hidden" name="orderId" value="{{orderId}}">
+                                <input type="hidden" name="email" value="{{email}}">
+                                <input type="hidden" name="returnId" id="returnId" value="{{returnId}}">
+                                <button type="submit" class="btn btn-info border nm5" id="next-step">Bevestigen <i class="fa fa-chevron-right new-li"> </i></button>   
+                            </form>
+                            </div>
+                            <div class="col-lg-3">
+
+                        </div>
+                 </div>
+        
+        </div>    
+    </div>
+{% endblock %}
+

@@ -31,7 +31,7 @@ class ReturnItems
     private $return_id;
 
     /**
-     * @var ShipmentItem
+     * @var string
      *
      * @ORM\ManyToOne(targetEntity=ShipmentItem::class, inversedBy="returnItems")
      * @ORM\JoinColumn(onDelete="CASCADE")
