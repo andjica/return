@@ -8,6 +8,7 @@ use App\Entity\Reseller\Address;
 use App\Entity\Reseller\Shipment;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Reseller\ShipmentLabel;
+use App\Entity\Returns\ReturnItems;
 use App\Entity\Returns\ReturnSettings;
 use App\Entity\Returns\ReturnShipments;
 use App\Entity\Returns\ShippingOptionSettings;
@@ -71,9 +72,10 @@ class ShipmentLabelController extends AbstractController
 
 
         $findReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=> $webshopOrderId]);
-        // $item = $this->doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$findReturn->getItem()->getId()]);
+        $items = $this->doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$returnId]);
 
-       
+        
+
 
         // $form->handleRequest($request);
         // if($form->isSubmitted())
@@ -272,7 +274,8 @@ class ShipmentLabelController extends AbstractController
             'finduser' => $findUser,
             'country' => $country,
             'returninfo' => $returnInfoSetting,
-            'form' => $form
+            'form' => $form,
+            'items' => $items
         ]);
     }
 
