@@ -43,10 +43,42 @@ class ClientController extends AbstractController
         $returns = $doctrine->getRepository(Returns::class)->findBy(['action' => null], ['created_at' => 'DESC']);
         $status = $doctrine->getRepository(Status::class)->findAll();
 
+        $inProgress = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'in_progress']);
+        $returnsInProgress = $doctrine->getRepository(Returns::class)->findBy(['status'=>$inProgress]);
+        
+        $pending = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'pending']);
+        $returnsPending =  $doctrine->getRepository(Returns::class)->findBy(['status'=>$pending]);
+
+        $accept = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'accepted']);
+        $retursAccept = $doctrine->getRepository(Returns::class)->findBy(['status'=>$accept]);
+
+        $completed = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'completed']);
+        $retursCompleted = $doctrine->getRepository(Returns::class)->findBy(['status'=>$completed]);
+
+        $inDelivery =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'in_delivery']);
+        $returnsInDelivery = $doctrine->getRepository(Returns::class)->findBy(['status'=>$inDelivery]);
+
+        $delivered =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'delivered']);
+        $returnsDelivered = $doctrine->getRepository(Returns::class)->findBy(['status'=>$delivered]);
+
+        $denied =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'denied']);
+        $returnsDenied = $doctrine->getRepository(Returns::class)->findBy(['status'=>$denied]);
+
+        $refund =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'refunded']);
+        $returnsRefund = $doctrine->getRepository(Returns::class)->findBy(['status'=>$refund]);
+
         $data = [
             'controller_name' => 'Andjica',
             'returns' => $returns,
-            'status' => $status
+            'status' => $status,
+            'returnsInProgress' => $returnsInProgress,
+            'returnsPending' => $returnsPending,
+            'retursAccept' => $retursAccept,
+            'retursCompleted' => $retursCompleted,
+            'returnsInDelivery' => $returnsInDelivery,
+            'returnsDelivered' => $returnsDelivered,
+            'returnsDenied' => $returnsDenied,
+            'returnsRefund' => $returnsRefund
         ];
 
         return $this->render('client/index.html.twig', $data);
