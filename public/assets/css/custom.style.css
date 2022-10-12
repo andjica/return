@@ -1606,7 +1606,9 @@ a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.roun
   height: 100%;
   text-align: left;
   line-height: 3;
-}
+} 
+
+
 li.nav-item {
   background-color: #F5F8FA !important;
   line-height: 3 !important;
