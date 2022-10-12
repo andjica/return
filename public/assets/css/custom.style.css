@@ -1610,13 +1610,18 @@ a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.roun
 
 /*missing file fixed */
 li.nav-item {
-  background-color: #F5F8FA !important;
+    background-color: #f7f8fb !important;
   line-height: 3 !important;
   margin-right: 5px;
   width: 120px;
   text-align: left !important;
  
 
+}
+a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.rounded-bottom-0.active {
+  color: #2c77f4;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.rounded-bottom-0:hover {
   width: 100%;
