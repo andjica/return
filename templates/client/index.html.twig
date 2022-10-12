@@ -14,14 +14,14 @@
         </div>
     {% endfor %}
 
-    <div class="hover-scroll-x" style="  background: white;  margin-top: 26px !important;  padding: 5px;">
-        <div class="d-grid">
+    <div class="hover-scroll-x x-style">
+        <div class="d-grid mt-5">
             <ul class="nav nav-tabs flex-nowrap text-nowrap">
                 <li class="nav-item">
                     <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane">All</a>
                 </li>
                 {% for st in status %}
-                <li class="nav-item">
+                <li class="nav-item bg78">
                     <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0" data-bs-toggle="tab" href="#kt_tab_pane_{{st.getId()}}">{{st.getName()}}</a>
                 </li>
                 {% endfor %}
