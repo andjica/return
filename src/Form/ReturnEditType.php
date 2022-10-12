@@ -77,13 +77,13 @@ class ReturnEditType extends AbstractType
             //     'mapped' => false
             // ])
           
-            ->add('reasons', TextType::class, [
-                'required' => 'Reason is required field',
-                'attr' => ['class' => 'form-control'],
-                // 'empty_data' =>$this->return->getReason(),
-                'data' => $this->return->getReason(),
-                'mapped' => false
-            ])
+            // ->add('reasons', TextType::class, [
+            //     'required' => 'Reason is required field',
+            //     'attr' => ['class' => 'form-control'],
+            //     // 'empty_data' =>$this->return->getReason(),
+            //     // 'data' => $this->return->getReason(),
+            //     'mapped' => false
+            // ])
           
             ->add('reference', TextType::class, [
                 'required' => 'References is required field',

@@ -288,17 +288,17 @@ class Returns
     //     return $this;
     // }
 
-    // public function getReason(): ?string
-    // {
-    //     return $this->reason;
-    // }
+    //  public function getReason(): ?string
+    //  {
+    //      return $this->reason;
+    //  }
 
-    // public function setReason(string $reason): self
-    // {
-    //     $this->reason = $reason;
+    //  public function setReason(string $reason): self
+    //  {
+    //      $this->reason = $reason;
 
-    //     return $this;
-    // }
+    //      return $this;
+    //  }
 
     public function getStatus(): ?Status
     {

@@ -79,7 +79,7 @@
             </div>
              #}
          
-              <div class="row mb-6 mt-2" id="re1">
+              {# <div class="row mb-6 mt-2" id="re1">
                <div class="col-lg-4 text-right">
                     {{ form_label(form.reasons) }}
                 </div>
@@ -90,7 +90,7 @@
                         {{ form_errors(form.reasons) }}
                     </div>
                 </div>
-            </div>
+            </div> #}
              
            
             
@@ -166,6 +166,30 @@
         </div>
      </div>
     </div>
+    <div class="row">
+      <div class="col-lg-12" style="    padding: 0px;  margin-top: 10px;">
+            <div class="card">
+                <div class="kt-portlet">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon btn-back-wrapper">
+                        
+                        </span>
+                        <h3 class="kt-portlet__head-title">Date of created return: {{return.getCreatedAt() |date('d-m-Y') }}
+                        </h3>
+                    </div>
+                </div>
+                </div>
+                {% for items in returnItems %}
+                <div class="card-body mt-10 sp0">Title of item: {{items.getItemName()}}<br>
+                    Quantity of return: {{items.getReturnQuantity()}}<br>
+                    Reason of return: {{items.getReason()}}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+      
 </div>
 </div>
 {% endblock %}

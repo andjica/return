@@ -382,6 +382,8 @@ class ReturnController extends AbstractController
             return new Response($contents, 404);
         }
 
+        $returnItems = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$return->getId()]);
+       
         $form = $this->createForm(ReturnEditType::class, $return);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -392,7 +394,7 @@ class ReturnController extends AbstractController
            $reference = $requestedit['reference'];
            $orderId = $requestedit['order_id'];
            $statusId = $requestedit['status'];
-           $reason = $requestedit['reasons'];
+        //    $reason = $requestedit['reasons'];
            $status = $doctrine->getRepository(Status::class)->findOneBy(['id'=>$statusId]);
            $clientname = $requestedit['client_name'];
            $clientemail = $requestedit['client_email'];
@@ -404,7 +406,7 @@ class ReturnController extends AbstractController
            $return->setReference($reference);
            $return->setWebShopOrderId($orderId);
            $return->setStatus($status);
-           $return->setReason($reason);
+        //    $return->setReason($reason);
            $return->setClientName($clientname);
            $return->setClientEmail($clientemail);
            $return->setCompanyName($companyname);
@@ -421,7 +423,8 @@ class ReturnController extends AbstractController
         }
         return $this->renderForm('return/edit.html.twig', [
             'form' => $form,
-            'return' => $return
+            'return' => $return,
+            'returnItems' => $returnItems
         ]);
     }
 
@@ -928,6 +931,7 @@ class ReturnController extends AbstractController
                                 if($item)
                                 {
                                     $newReturnItem->setItem($item);
+                                    $newReturnItem->setItemName($item->getTitle());
                                 }
                                 else
                                 {
@@ -1061,7 +1065,7 @@ class ReturnController extends AbstractController
             $return->setConfirmed(1);
             $entitym = $doctrine->getManager();
             $entitym->persist($return);
-
+            $entitym->flush();
             
             $email = $doctrine->getRepository(EmailTemplate::class)->findOneBy(['status' => $st]);
 

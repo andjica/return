@@ -1572,3 +1572,9 @@ input#qty {
   color: white !important;
     background: black;
 }
+
+.sp0{
+  padding: 33px !important;
+    padding-left: 67px !important;
+    line-height: 2;
+}

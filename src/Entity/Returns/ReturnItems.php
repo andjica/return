@@ -39,6 +39,13 @@ class ReturnItems
      */
     private $item_id;
 
+     /**
+     * @var int
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $return_item_name;
+
     /**
      * @var int
      *
@@ -92,6 +99,17 @@ class ReturnItems
     public function setItem(?ShipmentItem  $item_id): self
     {
         $this->item_id = $item_id;
+
+        return $this;
+    }
+    public function getItemName(): ?string
+    {
+        return $this->return_item_name;
+    }
+
+    public function setItemName(string $return_item_name): self
+    {
+        $this->return_item_name = $return_item_name;
 
         return $this;
     }

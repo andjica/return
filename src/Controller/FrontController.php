@@ -135,6 +135,12 @@ class FrontController extends AbstractController
 
         if ($order) {
 
+            $return = $doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=>$orderId]);
+            if($return)
+            {
+                $this->addFlash('errors', 'Order id - ' . $orderId . ' and email - ' . $email.' are already in proccess for return');
+                return $this->redirectToRoute('app_front');
+            }
             $products = $doctrine->getRepository(ShipmentItem::class)->findBy(['shipment' => $order]);
             
             //check if return exist and delete it
