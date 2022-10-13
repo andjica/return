@@ -1610,7 +1610,7 @@ a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.roun
 
 /*missing file fixed */
 li.nav-item {
-    background-color: #f7f8fb !important;
+    background-color: #f7f8fb ;
   line-height: 3 !important;
   margin-right: 5px;
   width: 120px;
@@ -1630,6 +1630,9 @@ a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.roun
   line-height: 3;
   font-size: 1.1rem;
 }
+a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.rounded-bottom-0.active {
+  background: white !important;
+}
 a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.rounded-bottom-0 {
   line-height: 3 !important;
   text-align: left !important;
@@ -1638,4 +1641,46 @@ a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.roun
   background: inherit;
     padding: 0px;
     margin-bottom: -10px;
+}
+
+.card {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  box-shadow: none !important;
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 4px !important;
+}
+
+.kt-wizard-v4__nav-number {
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex: 0 0 2.75rem;
+  height: 2.1rem;
+  width: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(44, 119, 244, 0.08);
+  color: #2c77f4;
+  margin-right: 1.5rem;
+  border-radius: 0.5rem;
+}
+a.nav-link.btn.btn-active-light.btn-color-gray-600.btn-active-color-primary.rounded-bottom-0 {
+  padding-left: 10px !important;
+}
+.e-style {
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex: 0 0 2.75rem;
+  height: 2.1rem;
+  width: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(44, 119, 244, 0.08);
+  color: #2c77f4;
+  margin-right: .5rem;
+  border-radius: 0.5rem;
 }

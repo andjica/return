@@ -41,31 +41,41 @@ class ClientController extends AbstractController
     {
 
         $returns = $doctrine->getRepository(Returns::class)->findBy(['action' => null], ['created_at' => 'DESC']);
+        $countReturns = count($returns);
+       
         $status = $doctrine->getRepository(Status::class)->findAll();
-
+        
         $inProgress = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'in_progress']);
         $returnsInProgress = $doctrine->getRepository(Returns::class)->findBy(['status'=>$inProgress]);
-        
+        $countInProgress = count($returnsInProgress);
+
         $pending = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'pending']);
         $returnsPending =  $doctrine->getRepository(Returns::class)->findBy(['status'=>$pending]);
+        $countPending = count($returnsPending);
 
         $accept = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'accepted']);
         $retursAccept = $doctrine->getRepository(Returns::class)->findBy(['status'=>$accept]);
+        $countAccept = count($retursAccept);
 
         $completed = $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'completed']);
         $retursCompleted = $doctrine->getRepository(Returns::class)->findBy(['status'=>$completed]);
+        $countCompleted = count($retursCompleted);
 
         $inDelivery =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'in_delivery']);
         $returnsInDelivery = $doctrine->getRepository(Returns::class)->findBy(['status'=>$inDelivery]);
+        $countInDelivery = count($returnsInDelivery);
 
         $delivered =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'delivered']);
         $returnsDelivered = $doctrine->getRepository(Returns::class)->findBy(['status'=>$delivered]);
+        $countInDelivered = count($returnsDelivered);
 
         $denied =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'denied']);
         $returnsDenied = $doctrine->getRepository(Returns::class)->findBy(['status'=>$denied]);
+        $countDenied = count($returnsDenied);
 
         $refund =  $doctrine->getRepository(Status::class)->findOneBy(['key_name'=>'refunded']);
         $returnsRefund = $doctrine->getRepository(Returns::class)->findBy(['status'=>$refund]);
+        $countRefund = count($returnsRefund);
 
         $data = [
             'controller_name' => 'Andjica',
@@ -78,7 +88,16 @@ class ClientController extends AbstractController
             'returnsInDelivery' => $returnsInDelivery,
             'returnsDelivered' => $returnsDelivered,
             'returnsDenied' => $returnsDenied,
-            'returnsRefund' => $returnsRefund
+            'returnsRefund' => $returnsRefund,
+            'countReturns' => $countReturns,
+            'countInProgress' => $countInProgress,
+            'countPending' => $countPending,
+            'countAccept' => $countAccept,
+            'countCompleted' => $countCompleted,
+            'countInDelivery' => $countInDelivery,
+            'countInDelivered' => $countInDelivered,
+            'countDenied' => $countDenied,
+            'countRefund' => $countRefund
         ];
 
         return $this->render('client/index.html.twig', $data);
