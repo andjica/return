@@ -11,6 +11,7 @@ use Symfony\Component\Mime\Email;
 use App\Entity\Returns\ReturnStatus;
 use App\Entity\Reseller\ShipmentItem;
 use App\Entity\Returns\EmailTemplate;
+use App\Entity\Returns\ReturnItems;
 use App\Entity\Returns\ReturnSettings;
 use App\Entity\Returns\ReturnShipments;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,14 +32,25 @@ class ReturnStatusController extends AbstractController
     {
 
         $return = $doctrine->getRepository(Returns::class)->findOneBy(['id' => $returnId]);
+        
         $status = $doctrine->getRepository(Status::class)->findOneBy(['id' => $statusId]);
         $email = $doctrine->getRepository(EmailTemplate::class)->findOneBy(['status' => $status]);
         $returnInfoSetting = $doctrine->getRepository(ReturnSettings::class)->findOneBy([]);
         $country = $doctrine->getRepository(Country::class)->findOneBy(['id' => 147]);
 
         $findUser = $doctrine->getRepository(Address::class)->findOneBy(['email'=>$return->getUserEmail()]);
-        $item = $doctrine->getRepository(ShipmentItem::class)->findOneBy(['id'=>$return->getItem()->getId()]);
-
+       
+        
+        $itemsForReturn = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id' => $return->getId()]);
+        foreach($itemsForReturn as $id)
+        // {
+        //     $ids[] = $id->getItem();
+              
+        // }
+        
+        
+        // 
+        
         if (!$return || (!$status)) {
             $response = new Response();
             $response->setStatusCode(404);
@@ -64,6 +76,31 @@ class ReturnStatusController extends AbstractController
             
             if($status->getName() == "Accept")
             {
+                  //make data for api shablon for itemsreturning
+                foreach($itemsForReturn as $f)
+                {
+                    $items[] = [
+                        [
+                            'sku' => $f->getItem()->getSku(),
+                            'qty' => $f->getReturnQuantity(),
+                            'title' => $f->getItemName(),
+                            'location' => '',
+                        ],
+                        [
+                            'sku' => $f->getItem()->getSku(),
+                            'qty' => $f->getItem()->getQty(),
+                            'title' => $f->getItem()->getTitle(),
+                            'location' => $f->getItem()->getLocation(),
+                            'weight' => $f->getItem()->getWeight(),
+                            'length' => $f->getItem()->getLength(),
+                            'width' => $f->getItem()->getWidth(),
+                            'height' => $f->getItem()->getHeight(),
+                            'price' => $f->getItem()->getPrice(),
+                        ]
+                    ];
+                }
+
+                // return dd($items);
 
                 $shippingOption = $doctrine->getRepository(ShippingOptionSettings::class)->findOneBy([]);
                 
@@ -108,24 +145,25 @@ class ReturnStatusController extends AbstractController
                     'weight' => 1,
                     'labels_num' => 1,
                     'webshop_order_id' => $return->getWebshopOrderId(),
-                    'items' => [
-                        [
-                            'sku' => $item->getSku(),
-                            'qty' => $return->getReturnQuantity(),
-                            'title' => $item->getTitle(),
-                            'location' => '',
-                        ], [
-                            'sku' => $item->getSku(),
-                            'qty' => $item->getQty(),
-                            'title' => $item->getTitle(),
-                            'location' => $item->getLocation(),
-                            'weight' => $item->getWeight(),
-                            'length' => $item->getLength(),
-                            'width' => $item->getWidth(),
-                            'height' => $item->getHeight(),
-                            'price' => $item->getPrice(),
-                        ]
-                    ],
+                    // 'items' => [
+                    //     [
+                    //         'sku' => $item->getSku(),
+                    //         'qty' => $return->getReturnQuantity(),
+                    //         'title' => $item->getTitle(),
+                    //         'location' => '',
+                    //     ], [
+                    //         'sku' => $item->getSku(),
+                    //         'qty' => $item->getQty(),
+                    //         'title' => $item->getTitle(),
+                    //         'location' => $item->getLocation(),
+                    //         'weight' => $item->getWeight(),
+                    //         'length' => $item->getLength(),
+                    //         'width' => $item->getWidth(),
+                    //         'height' => $item->getHeight(),
+                    //         'price' => $item->getPrice(),
+                    //     ]
+                    // ],
+                    'items' => $items
                 ];
 
                 $post_data = json_encode($data);
@@ -196,11 +234,13 @@ class ReturnStatusController extends AbstractController
                      $responsedecode = json_decode($response2, TRUE);
      
      
-                     // return dd($response2);
-                     // if($responsedecode == null)
-                     // {
-                         
-                     // }
+                    //  return dd($responsedecode);
+                     if($responsedecode == null)
+                     {
+                        $contents = $this->renderView('errors/500.html.twig', []);
+    
+                        return new Response($contents, 500);
+                     }
                      $labelUrl = $responsedecode['success']['labels_url'];
                      
                      $newReturnShipment = new ReturnShipments();
