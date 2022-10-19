@@ -115,21 +115,21 @@ class ReturnStatusController extends AbstractController
                 date_default_timezone_set('UTC'); 
                 $time_stamp = date('c');
                 $uri = '/nl/api/shipment/create';
-            
+               
                 $data = [
                     'shipping_option' => $shippingOption->getShippingOptionKeyName(),
                     'sender_address' => false,
                     'return_address' => [
                         'country' => $returnInfoSetting->getCountry()->getIsoCode(),
-                        'name' => 'Jane Doe',
-                        'company_name' => 'Some company, BV',
+                        'name' => $returnInfoSetting->getClientName(),
+                        'company_name' => $returnInfoSetting->getCompanyName(),
                         'postal_code' => $returnInfoSetting->getPostCode(),
                         'house_number' => $returnInfoSetting->getHouseNumber(),
                         'house_number_addition' => '',
                         'street' => $returnInfoSetting->getStreet(),
                         'city' => $returnInfoSetting->getCityName(),
-                        'phone' => '088-1234567',
-                        'email' => 'jd@example.com',
+                        'phone' => $returnInfoSetting->getPhone(),
+                        'email' => $returnInfoSetting->getEmail(),
                     ],
                     'country' => $country->getIsoCode(),
                     'customer_id' =>  '',
@@ -165,7 +165,7 @@ class ReturnStatusController extends AbstractController
                     // ],
                     'items' => $items
                 ];
-
+                
                 $post_data = json_encode($data);
                 $resselerShipment = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$return->getWebShopOrderId()]);
                 if($resselerShipment instanceof Shipment) {

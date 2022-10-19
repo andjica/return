@@ -7,12 +7,14 @@ use App\Entity\Returns\ReturnSettings;
 use Symfony\Component\Form\AbstractType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ReturnSettingsType extends AbstractType
 {
@@ -83,6 +85,22 @@ class ReturnSettingsType extends AbstractType
                         'mimeTypesMessage' => 'Please upload Image, image must be in jpg, jpeg, png format',
                     ])
                 ],
+            ])
+            ->add('company_name', TextType::class, [
+                'required' => 'Company name is required field',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('client_name', TextType::class, [
+                'required' => 'Client name is required field',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('phone', TextType::class, [
+                'required' => 'Phone is required field',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('email', TextType::class, [
+                'required' => 'Email is required field',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('title', TextType::class, [
                 'required' => 'Title is required field',

@@ -20,7 +20,41 @@ class ReturnSettings
      */
     private $id;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $company_name;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $client_name;
+
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
@@ -33,13 +67,6 @@ class ReturnSettings
      * @ORM\Column(type="string", length=255)
      */
     private $image_background;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
 
     /**
      * @var int
@@ -120,6 +147,56 @@ class ReturnSettings
 
         return $this;
     }
+
+   
+    public function getCompanyName(): ?string
+    {
+        return $this->company_name;
+    }
+
+    public function setCompanyName(string $company_name): self
+    {
+        $this->company_name = $company_name;
+
+        return $this;
+    }
+
+    public function getClientName(): ?string
+    {
+        return $this->client_name;
+    }
+
+    public function setClientName(string $client_name): self
+    {
+        $this->client_name = $client_name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
 
     public function getTitle(): ?string
     {

@@ -70,10 +70,25 @@ class ReturnSettingsController extends AbstractController
         if ($form->isSubmitted()) {
 
             $requestis = $request->request->all();
+            $email = $requestis['return_settings']['email'];
+            $phone = $requestis['return_settings']['phone'];
             $countryId = $requestis['return_settings']['countries'];
             
             $currentroute = $request->headers->get('referer');
 
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+            {
+                $this->addFlash('er-email', 'Email is not in good format');
+                return $this->redirect($currentroute);       
+            } 
+
+            if(!preg_match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/", $phone))
+            {
+                $this->addFlash('er-phone', 'Phone must be in format: +xxxxxxxxxxxx or'.'   xxxxxxxxxx or'.
+                '  +xxxxxxxxxxx or '.'  xxx-xxx-xxxx');
+                return $this->redirect($currentroute);     
+            }
+            
             if($countryId == 0)
             {
                
@@ -174,7 +189,7 @@ class ReturnSettingsController extends AbstractController
         $currentCountryId = $returnSetting->getCountry()->getId();
         $countries = $doctrine->getRepository(Country::class)->findAll();
 
-
+        
         // $cities = $doctrine->getRepository(NlCity::class)->findAll();
        
         // if($returnSetting->getCountry()->getName() == "Netherlands")
@@ -205,7 +220,7 @@ class ReturnSettingsController extends AbstractController
         
         if ($form->isSubmitted()) {
            
-          
+            
             $images = $request->files->all();
            
             $logoimage = $images['return_settings']['image_logo'];
@@ -276,9 +291,26 @@ class ReturnSettingsController extends AbstractController
                 $returnSetting->setImageBackground($returnSetting->getImageBackground());
             }
             $requestis = $request->request->all();
+            
+            $email = $requestis['return_settings']['email'];
+            $phone = $requestis['return_settings']['phone'];
             $countryId = $requestis['return_settings']['countries'];
             $currentroute = $request->headers->get('referer');
 
+            
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+            {
+                $this->addFlash('er-email', 'Email is not in good format');
+                return $this->redirect($currentroute);       
+            } 
+
+            if(!preg_match("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/", $phone))
+            {
+                $this->addFlash('er-phone', 'Phone must be in format: +xxxxxxxxxxxx or'.'   xxxxxxxxxx or'.
+                '  +xxxxxxxxxxx or '.'  xxx-xxx-xxxx');
+                return $this->redirect($currentroute);     
+            }
+            
             if($countryId == 0)
             {
                 $this->addFlash('er-country', 'Country is required field');

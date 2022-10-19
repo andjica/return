@@ -25,6 +25,64 @@
         
 
         {{ form_start(form, { 'attr': {'enctype': 'multipart/form-data'} }) }}
+         <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.company_name) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.company_name) }}
+                    <small>{{ form_help(form.company_name) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.company_name) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.client_name) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.client_name) }}
+                    <small>{{ form_help(form.client_name) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.client_name) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.phone) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.phone) }}
+                    <small>{{ form_help(form.phone) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.phone) }}
+                    </div>
+                    {% for message in app.flashes('er-phone') %}
+                         <div class="form-error col-lg-7 text-danger">
+                            {{ message }}
+                        </div>  
+                    {% endfor %} 
+                </div>
+            </div>
+            <div class="row mb-6 mt-2">
+               <div class="col-lg-4 text-right">
+                    {{ form_label(form.email) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(form.email) }}
+                    <small>{{ form_help(form.email) }}</small>
+                    <div class="form-error col-lg-7 text-danger">
+                        {{ form_errors(form.email) }}
+                    </div>
+                     {% for message in app.flashes('er-email') %}
+                         <div class="form-error col-lg-7 text-danger">
+                            {{ message }}
+                        </div>  
+                    {% endfor %} 
+                </div>
+            </div>
             <div class="row mb-6 mt-10">
                 <div class="col-lg-4 text-right">
                 {{ form_label(form.image_logo) }} 
@@ -62,6 +120,7 @@
                     </div>
                 </div>
             </div>
+           
              <div class="row mb-6 mt-2">
                <div class="col-lg-4 text-right">
                     {{ form_label(form.title) }}
