@@ -113,7 +113,7 @@ var KTCustomersList = function () {
             // Delete button on click
             d.addEventListener('click', function (e) {
                 e.preventDefault();
-
+                
                 // Select parent row
                 const parent = e.target.closest('tr');
 
@@ -203,7 +203,7 @@ var KTCustomersList = function () {
 
         // Select elements
         const deleteSelected = document.querySelector('[data-kt-customer-table-select="delete_selected"]');
-
+       
         // Toggle delete selected toolbar
         checkboxes.forEach(c => {
             // Checkbox on click event
@@ -216,6 +216,7 @@ var KTCustomersList = function () {
 
         // Deleted selected rows
         deleteSelected.addEventListener('click', function () {
+            
             // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
             Swal.fire({
                 text: "Are you sure you want to delete selected customers?",
@@ -240,12 +241,32 @@ var KTCustomersList = function () {
                     }
                     }).then(function () {
                         // Remove all selected customers
+                        var newArray = [];
+                        
                         checkboxes.forEach(c => {
                             if (c.checked) {
+                                //alert(c.value);
+                                newArray.push(c.value);
+                                
                                 datatable.row($(c.closest('tbody tr'))).remove().draw();
                             }
                         });
-
+                        //alert(newArray);
+                        $.ajax({  
+                            url:  '/return/delete',  
+                            type:  'POST',   
+                            data: {
+                                array : newArray,
+                              
+                            },
+                            dataType: 'json',
+                            success: function(response){
+                                         
+                               console.log(response);
+                               
+                            }
+        
+                       });
                         // Remove header checked box
                         const headerCheckbox = table.querySelectorAll('[type="checkbox"]')[0];
                         headerCheckbox.checked = false;

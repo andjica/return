@@ -1117,4 +1117,53 @@ class ReturnController extends AbstractController
     
     }
 
+    /**
+     * @Route("/return/delete", name="return_delete")
+     */
+    public function delete(Request $request, ManagerRegistry $doctrine): Response
+    {
+         $requestis = $request->request->all();
+         $array = $requestis['array'];
+         
+         //delete Returns
+         $deleteReturns = $doctrine->getRepository(Returns::class)->findBy(['id'=>$array]);
+         
+         $returnIds = [];
+
+         foreach($deleteReturns as $ids)
+         {
+            $returnIds[] = $ids->getId();
+         }
+        
+         $deleteReturnItems = $doctrine->getRepository(ReturnItems::class)->findBy(['return_id'=>$returnIds]);
+       
+         //delete ReturnItems with id from return which is deleted
+         $em = $doctrine->getManager();
+
+         foreach($deleteReturnItems as $dReturnItem)
+         {
+            $em->remove($dReturnItem);
+         }
+        
+         foreach($deleteReturns as $dReturns)
+         {
+            $em->remove($dReturns);
+           
+         }
+
+         try
+         {
+            //delete all
+            $em->flush();
+            return new JsonResponse('Success! You delete all successfully ', 200);
+         }
+         catch (\Exception $e) {
+
+            $res = [];
+
+            return $this->render('errors/500.html.twig', $res, new Response('Something went wrong', 500));
+        }
+        
+    }
+
 }
