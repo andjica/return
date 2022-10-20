@@ -43,7 +43,6 @@ class ShipmentLabelController extends AbstractController
         $this->doctrine = $doctrine;
 
     }
-    /* added line because of merge conflict*/
     /**
      * @Route("/shipment/{webshopOrderId}&{returnId}", methods={"GET", "POST"}, name="shipment")
      */
