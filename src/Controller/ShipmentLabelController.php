@@ -49,9 +49,9 @@ class ShipmentLabelController extends AbstractController
     public function getshipment(Request $request, string $webshopOrderId, int $returnId): Response
     {
         
-    
-        $activeShippingOption = $this->doctrine->getRepository(ShippingOptionSettings::class)->findBy(['enabled'=>1]);
         
+        $activeShippingOption = $this->doctrine->getRepository(ShippingOptionSettings::class)->findBy(['enabled'=>1]);
+       
         $madedReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['webshop_order_id'=>$webshopOrderId]);
         
         $returnShipment = $this->doctrine->getRepository(ReturnShipments::class)->findOneBy(['return_id' => $returnId]);
@@ -284,7 +284,9 @@ class ShipmentLabelController extends AbstractController
      */
     public function shipmentSuccess(string $webshopOrderId, int $returnId, int $returnShipment)
     {
+        
         $madedReturn = $this->doctrine->getRepository(Returns::class)->findOneBy(['id'=>$returnId]);
+        //return dd($madedReturn);
         $returnShipment = $this->doctrine->getRepository(ReturnShipments::class)->findOneBy(['id'=>$returnShipment]);
         
         $findUser = $this->doctrine->getRepository(Address::class)->findOneBy(['email'=>$madedReturn->getUserEmail()]);
