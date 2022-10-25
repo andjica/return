@@ -39,7 +39,7 @@ class ClientController extends AbstractController
      */
     public function index(ManagerRegistry $doctrine): Response
     {
-
+        
         $returns = $doctrine->getRepository(Returns::class)->findBy(['action' => null], ['created_at' => 'DESC']);
         $countReturns = count($returns);
        

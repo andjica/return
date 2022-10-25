@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
 <div class="container-xxl mt-10">
     {% for message in app.flashes('success')%}
             <div class="alert alert-success mb-2" role="alert">
@@ -122,5 +123,29 @@
             }
         }
     }
+    </script>
+        <script>
+        $('.send-to-trengo').on('click', function(e){
+            e.preventDefault();
+
+            const settings = {
+            async: true,
+            crossDomain: true,
+            url: 'https://app.trengo.com/api/v2/tickets/5/custom_fields',
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'Access-Control-Allow-Origin':'*',
+                'content-type': 'application/json',
+                Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiM2RiOWY3ZGZiNTZjOGFmNWYyNTExYzU1NmRkZThhNmU5ZmEzZTFhNGY3MDAzOTQ3MTU3NGQ4OGUxY2Y4MDdiYzA0MDNiZjQxMjI5MTA0Y2EiLCJpYXQiOjE2NjYzNTk4MjguODkyNjk1LCJuYmYiOjE2NjYzNTk4MjguODkyNjk3LCJleHAiOjQ3OTA0OTc0MjguODc3MDc3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.NhEcqjMM7mk8nfgMZ-qfly6zSPGukemYONe4rNZmpRKt3ASk1tCcaMYMRxYO7HLQk6eBebZ4p-tMsJjdI2j9Qg'
+            },
+            processData: false,
+            data: '{"customer_id":5,"value":"TEst"}'
+            };
+
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            });
+      });
     </script>
 {% endblock %}

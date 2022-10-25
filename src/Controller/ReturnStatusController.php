@@ -115,7 +115,7 @@ class ReturnStatusController extends AbstractController
                 date_default_timezone_set('UTC'); 
                 $time_stamp = date('c');
                 $uri = '/nl/api/shipment/create';
-               
+                // return dd($returnInfoSetting);
                 $data = [
                     'shipping_option' => $shippingOption->getShippingOptionKeyName(),
                     'sender_address' => false,
@@ -165,7 +165,7 @@ class ReturnStatusController extends AbstractController
                     // ],
                     'items' => $items
                 ];
-                
+
                 $post_data = json_encode($data);
                 $resselerShipment = $doctrine->getRepository(Shipment::class)->findOneBy(['webshopOrderId'=>$return->getWebShopOrderId()]);
                 if($resselerShipment instanceof Shipment) {
@@ -322,15 +322,6 @@ class ReturnStatusController extends AbstractController
 
             try {
 
-                $email = (new TemplatedEmail())
-                    ->from('admin@example.com')
-                    ->to($return->getUserEmail())
-                    ->subject($email->getSubject())
-                    ->htmlTemplate('email/status.html.twig')
-                    ->context([
-                        'emailtemplate' => $sendtemplateCustom,
-                    ]);
-
                 
                 if($status->getName() == "Accept")
                 {
@@ -341,12 +332,26 @@ class ReturnStatusController extends AbstractController
                     ->subject("Your label printed")
                     ->htmlTemplate('email/label-printed.html.twig')
                     ->context([
+                        'emailtemplate' => $sendtemplateCustom,
                         'labelprinted' => $labelprinted->getLabelsUrl(),
                     ]);
                     $mailer->send($emailLabel);
                 }
+                else
+                {
+                    $email = (new TemplatedEmail())
+                    ->from('admin@example.com')
+                    ->to($return->getUserEmail())
+                    ->subject($email->getSubject())
+                    ->htmlTemplate('email/status.html.twig')
+                    ->context([
+                        'emailtemplate' => $sendtemplateCustom,
+                    
+                    ]);
+                    $mailer->send($email);
+                }
 
-                $mailer->send($email);
+               
 
                 $this->addFlash('success', 'You made changes successfully :)');
                 return $this->redirectToRoute('returns');
