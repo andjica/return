@@ -27,18 +27,26 @@ class ApiOrderController extends AbstractController
     
     $client = new Client();
 
-    $data = [
-        "id"=> $return->getId(),
-        "title"=> "return_".$return->getId(),
-        "sort_order"=> -1,
-        "type"=> "PROFILE",
-        "identifier"=> "return_2",
-        "field_type"=> "NUMBER",
-        "placeholder"=> null,
-        "items"=> [],
-        "channels"=> [],
-        "is_required"=> true
-    ];
+        $data = [
+                 
+
+                "id"=> $return->getId(),
+                "order_id" => []
+                
+              
+        ];
+    // $data = [
+    //     "id"=> $return->getId(),
+    //     "title"=> "return_".$return->getId(),
+    //     "sort_order"=> -1,
+    //     "type"=> "PROFILE",
+    //     "identifier"=> "return_2",
+    //     "field_type"=> "NUMBER",
+    //     "placeholder"=> null,
+    //     "items"=> [],
+    //     "channels"=> [],
+    //     "is_required"=> true
+    // ];
 
     $data2 = [
         "title" => "return_id_".$return->getId(),
@@ -57,14 +65,15 @@ class ApiOrderController extends AbstractController
     //return dd($data2);
     $post_data = json_encode($data2);
    
-    $response2 = $client->request('POST', 'https://app.trengo.com/api/v2/custom_fields',
-    [
-    'body' => $post_data,
-    'headers' => [
-        'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjI0NzIyOTYzNjcwZjdkYzUxODVhOWQ5MWQ2NGFjMGNiY2Y4ZjY2ZjIzNjllZDdiMWU2MjQ3MzUxNmVjNTRjNDg0MTE2YTMyNzQ1ZGIyOWYiLCJpYXQiOjE2NjY2MjIyMzguMzg0ODgxLCJuYmYiOjE2NjY2MjIyMzguMzg0ODgzLCJleHAiOjQ3OTA3NTk4MzguMzcxOTg3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.jpjFPShb06YLQdNFPktISzqMSuLpERX2FtzbOYp6JlaAP3YPv2vINkMsqcQpfoaTmqDDNkY2oe8BBjaxqUmyQA',
-        'accept' => 'application/json',
-        'content-type' => 'application/json',
-    ],
+    
+        $response2 = $client->request('POST', 'https://app.trengo.com/api/v2/ticket_results', [
+            'body' => '{"name":"id","sort_order":0}',
+            'headers' => [
+              'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjI0NzIyOTYzNjcwZjdkYzUxODVhOWQ5MWQ2NGFjMGNiY2Y4ZjY2ZjIzNjllZDdiMWU2MjQ3MzUxNmVjNTRjNDg0MTE2YTMyNzQ1ZGIyOWYiLCJpYXQiOjE2NjY2MjIyMzguMzg0ODgxLCJuYmYiOjE2NjY2MjIyMzguMzg0ODgzLCJleHAiOjQ3OTA3NTk4MzguMzcxOTg3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.jpjFPShb06YLQdNFPktISzqMSuLpERX2FtzbOYp6JlaAP3YPv2vINkMsqcQpfoaTmqDDNkY2oe8BBjaxqUmyQA',
+              'accept' => 'application/json',
+              'content-type' => 'application/json',
+            ],
+          
     ]);
     // return dd("andjica");
     return  dd($response2);
