@@ -26,15 +26,7 @@ class ApiOrderController extends AbstractController
     
     
     $client = new Client();
-    
-        $data = [
-                 
 
-                "id"=> $return->getId(),
-                "order_id" => []
-                
-              
-        ];
     // $data = [
     //     "id"=> $return->getId(),
     //     "title"=> "return_".$return->getId(),
@@ -49,25 +41,26 @@ class ApiOrderController extends AbstractController
     // ];
 
     $data2 = [
-        "title" => "return_id_".$return->getId(),
-        "type"=> "PROFILE",
-        "field_type"=> "NUMBER",
-        "identifier"=> "andjaaa95@gmail.com",
-        "email" => "andjaaa95@gmail.com",
-        "name" => "Andjela Stojanovic Milosevic",
+        "subject" => null,
+        "contact_id" => 481126419,
+        "channel_id" => 1038449,
         "custom_fields" => [
-            "id" => 5,
-            "title" => "return_id_1",
-            "type"=> "PROFILE",
-            "identifier"=> "return_id_1",
+            "order_id" => 5,
+            "title" => "order_id",
+            "type"=> "TICKET",
+            "identifier"=> "order_id",
+            "customer" =>
+            [
+                'email' => "andjica@gmail.com"
+            ]
         ]
     ];
-    //return dd($data2);
+    // return dd($data2);
     $post_data = json_encode($data2);
    
-    
-        $response2 = $client->request('POST', 'https://app.trengo.com/api/v2/ticket_results', [
-            'body' => '{"name":"id","sort_order":0}',
+    //return dd($post_data);
+        $response2 = $client->request('POST', 'https://app.trengo.com/api/v2/tickets', [
+            'body' => $post_data,
             'headers' => [
               'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjI0NzIyOTYzNjcwZjdkYzUxODVhOWQ5MWQ2NGFjMGNiY2Y4ZjY2ZjIzNjllZDdiMWU2MjQ3MzUxNmVjNTRjNDg0MTE2YTMyNzQ1ZGIyOWYiLCJpYXQiOjE2NjY2MjIyMzguMzg0ODgxLCJuYmYiOjE2NjY2MjIyMzguMzg0ODgzLCJleHAiOjQ3OTA3NTk4MzguMzcxOTg3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.jpjFPShb06YLQdNFPktISzqMSuLpERX2FtzbOYp6JlaAP3YPv2vINkMsqcQpfoaTmqDDNkY2oe8BBjaxqUmyQA',
               'accept' => 'application/json',

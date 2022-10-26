@@ -1,7 +1,151 @@
  {% if imagelogo is empty %}
 
 {% else %}
- <p><img  src="https://127.0.0.1:8000/return_settings_images/{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128"></p>
-{% endif %}<h2 style="text-align: center;">There is a new message from system return</h2>
-<h3>Dear, {{name}}</h3>
+
+<figure class="table">
+    <table style="margin:0 auto;max-width:600px;width:100%;" align="center" border="0" cellpadding="0" cellspacing="0">
+        <colgroup><col style="width:100%;"></colgroup>
+        <tbody>
+            <tr>
+                <td style="height:16px;" height="16">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#fff;padding:16px;text-align:left;" align="left">
+                    <img  src="https://127.0.0.1:8000/return_settings_images/{{ imagelogo }}" style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="" alt="TinyMCE Logo" width="128" height="128">
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#fff;height:16px;" height="16">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#fff;padding-left:16px;padding-right:16px;">
+                    <figure class="table">
+                        <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+                            <colgroup><col style="width:100%;"></colgroup>
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:26px;line-height:24px;padding-bottom:16px;padding-top:16px;text-align:left;" align="left">
+                                        There is a new message from system return
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        Beste {{name}},
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
 <p>Your order nummber {{webshop_order_id}} with return id: {{return_id}} is in {{status}} status.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        <figure class="table">
+                                            <table border="0" cellpadding="0" cellspacing="0">
+                                                <colgroup><col style="width:100%;"></colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [name]
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [address]
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [postal_code] [city]
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [country]
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [phone]
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </figure>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        <strong>Uw zending volgen</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        U kunt uw zending volgen via onderstaande track &amp; trace link van de vervoerder [distributor]
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        [tracking_link]
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        <strong>Contact opnemen</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        Voor vragen over de zending kunt u contact opnemen met [distributor] via de website [distributor_website] of telefonisch [distributor_phone].
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#fff;color:#000;font-family:Arial;font-size:16px;line-height:24px;padding-bottom:8px;padding-top:8px;text-align:left;" align="left">
+                                        <figure class="table">
+                                            <table border="0" cellpadding="0" cellspacing="0">
+                                                <colgroup><col style="width:100%;"></colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            Regards,
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            Team [platform_name]
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color:#000;font-family:Arial;font-size:16px;">
+                                                            [platform_domain]
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </figure>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </figure>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#fff;height:16px;" height="16">
+                    &nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</figure>
+<div style="height:16px;">
+    &nbsp;
+</div>
+
+{% endif %}
+
+
