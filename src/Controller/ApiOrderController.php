@@ -22,14 +22,14 @@ class ApiOrderController extends AbstractController
     
     $response = new Response();
 
-    $response->headers->set('Access-Control-Allow-Origin', '*');
+    // $response->headers->set('Access-Control-Allow-Origin', '*');
     
     
     $client = new Client();
 
     $response = new Response();
 
-    $response = $this->client->request('GET', 'https://app.trengo.com/api/v2/tickets/5', [
+    $response = $client->request('GET', 'https://app.trengo.com/api/v2/tickets/5', [
         'headers' => [
           'Authorization' => 'hwXdLExmwgEmlTxkTWsftVCa1',
           'accept' => 'application/json',
@@ -39,7 +39,7 @@ class ApiOrderController extends AbstractController
   ]);
   if($response->getStatusCode() == 200)
   {
-      return dd($response->toArray());
+      return dd($response);
   }
   else
   {
