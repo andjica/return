@@ -27,77 +27,47 @@ class ApiOrderController extends AbstractController
     
     $client = new Client();
 
-    // $data = [
-    //     "id"=> $return->getId(),
-    //     "title"=> "return_".$return->getId(),
-    //     "sort_order"=> -1,
-    //     "type"=> "PROFILE",
-    //     "identifier"=> "return_2",
-    //     "field_type"=> "NUMBER",
-    //     "placeholder"=> null,
-    //     "items"=> [],
-    //     "channels"=> [],
-    //     "is_required"=> true
-    // ];
-
-    $data2 = [
-        "subject" => null,
-        "contact_id" => 481126419,
-        "channel_id" => 1038449,
-        "custom_fields" => [
-            "order_id" => 5,
-            "title" => "order_id",
-            "type"=> "TICKET",
-            "identifier"=> "order_id",
-            "customer" =>
-            [
-                'email' => "andjica@gmail.com"
-            ]
-        ]
-    ];
-    // return dd($data2);
-    $post_data = json_encode($data2);
+    
    
-    //return dd($post_data);
-        $response2 = $client->request('POST', 'https://app.trengo.com/api/v2/tickets', [
-            'body' => $post_data,
-            'headers' => [
-              'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjI0NzIyOTYzNjcwZjdkYzUxODVhOWQ5MWQ2NGFjMGNiY2Y4ZjY2ZjIzNjllZDdiMWU2MjQ3MzUxNmVjNTRjNDg0MTE2YTMyNzQ1ZGIyOWYiLCJpYXQiOjE2NjY2MjIyMzguMzg0ODgxLCJuYmYiOjE2NjY2MjIyMzguMzg0ODgzLCJleHAiOjQ3OTA3NTk4MzguMzcxOTg3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.jpjFPShb06YLQdNFPktISzqMSuLpERX2FtzbOYp6JlaAP3YPv2vINkMsqcQpfoaTmqDDNkY2oe8BBjaxqUmyQA',
-              'accept' => 'application/json',
-              'content-type' => 'application/json',
-            ],
-          
+    /**
+     * Make sure the request is authorized by matching the auth_token from the URL to the secret. This secret can be found in your custom app configuration.
+     */
+    if ($_GET['auth_token'] !== 'hwXdLExmwgEmlTxkTWsftVCa1') {
+        exit('Unauthorized');
+    }
+    
+    /**
+     * Grab the ticket ID from the URL. Trengo automatically appends this ID to the URL.
+     */
+    $ticket_id = $_GET['ticket_id'];
+    
+    /**
+     * Fetch the complete ticket using the Rest API. 
+     */
+    $ch = curl_init("https://app.trengo.com/api/v2/tickets/".$ticket_id);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDEzZTZjMDE3MTQ3ZjRhZjcxZGY1NjExYjhhMjViZjNiYTg5M2Y4M2U1MmQ1YmJhMTIwMjc0MTNmMjdmZTdmZGExNmUyN2FhODNiMGM1M2YiLCJpYXQiOjE2Njc4MTYwNzEuMDM5MjQ5LCJuYmYiOjE2Njc4MTYwNzEuMDM5MjUxLCJleHAiOjQ3OTE5NTM2NzEuMDM0Mzg1LCJzdWIiOiIyOTUyMTMiLCJzY29wZXMiOltdfQ.hPyd6kvR4kPxMLiUfrOAeDx_290qYr9MUwGcF53aIqoiuF0_WcQQuMIwp6y-vmXORKhcM3f-kJ0DbiwPkNQSbQ',
+        'Content-Type: application/json',
+        'Accept: application/json',
     ]);
-    // return dd("andjica");
-    return  dd($response2);
-    // $public_key = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiM2RiOWY3ZGZiNTZjOGFmNWYyNTExYzU1NmRkZThhNmU5ZmEzZTFhNGY3MDAzOTQ3MTU3NGQ4OGUxY2Y4MDdiYzA0MDNiZjQxMjI5MTA0Y2EiLCJpYXQiOjE2NjYzNTk4MjguODkyNjk1LCJuYmYiOjE2NjYzNTk4MjguODkyNjk3LCJleHAiOjQ3OTA0OTc0MjguODc3MDc3LCJzdWIiOiI1NTIwNjkiLCJzY29wZXMiOltdfQ.NhEcqjMM7mk8nfgMZ-qfly6zSPGukemYONe4rNZmpRKt3ASk1tCcaMYMRxYO7HLQk6eBebZ4p-tMsJjdI2j9Qg";
-    // $data = [
-    //     "customer_id" => "Andjica"
-    // ];
-    // $post_data = json_encode($data);
-    // $curl = curl_init();
-    // // return dd($this->getParameter('aaparcel_domain'));
-    // // $this->getParameter('aaparcel_domain')
-    // curl_setopt($curl, CURLOPT_URL,"https://app.trengo.com/api/v2/tickets/5/custom_fields");
-
-    // curl_setopt($curl, CURLOPT_POST, true);
-    // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-    //     'Content-Type: application/json',
-    //     'charset: utf-8',
-    //     'Authorization:'. $public_key,
-    // ));
-    // curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-    // curl_setopt($curl, CURLOPT_HEADER, false);
-    // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    // curl_setopt($curl, CURLOPT_FAILONERROR, true);
-    // $response = curl_exec($curl);
-    // // return dd($response);
-    // // print_r($response);
-    // return dd($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE));
+    $ticket = json_decode(curl_exec($ch), true);
+    
+    /**
+     * Do whatever you want with $ticket 
+     */
+    print_r($ticket);
+    
    
-    // if (curl_errno($curl)) {
-    //     echo 'Error curl: ' . curl_error($curl);
-    // }
-     
+    
+   
+    
+  /**
+   * Grab the ticket ID from the URL. Trengo automatically appends this ID to the URL.
+   */
+  // $ticket_id = $_GET['ticket_id'];
+  
   }
 }
