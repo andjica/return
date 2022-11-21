@@ -8,6 +8,8 @@ use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiOrderController extends AbstractController
 {
@@ -72,5 +74,23 @@ class ApiOrderController extends AbstractController
    */
   // $ticket_id = $_GET['ticket_id'];
   
+  }
+
+  /**
+   * @Route("/api/get/find-order", name="api_get_find_order")
+   */
+  public function findOrder(HttpClientInterface $client): Response
+  {
+      
+    $response = new Response();
+    $response = $client->request('GET', 'https://ship.aaparcel.nl/nl/apps/trengo/find-orders?email=johndoe2@example.com', [
+            'headers' => [
+              'Authorization' => 'Bearer 591ffe0b531a3cc9295db40f731cb620',
+              'accept' => 'application/json',
+              'content-type' => 'application/json',
+            ],   
+    ]);
+
+    return dd($response->getContent());
   }
 }
